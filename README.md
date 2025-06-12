@@ -1,8 +1,13 @@
 @autor: [Bruno Kauan Rodrigues Silva, Ellen Cristina De Sousa Castro, Manoel Lucas Pacheco Junior, Paulo Eduardo Lime Rabelo, Mateus Dutra Vale]
+
 @contato: [mateus.dutra.vale.dv@gmail.com]
+
 @data última versão: [Data de Hoje]
+
 @versão: 1.0
+
 @outros repositórios: [; https://github.com/Mateus-dutravale]
+
 @Agradecimentos: Universidade Federal do Maranhão (UFMA), Professor Doutor Thales Levi Azevedo Valente, e colegas de curso.
  
 Copyright/License
