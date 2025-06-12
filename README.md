@@ -6,7 +6,7 @@
 
 @versão: 1.0
 
-@outros repositórios: [; https://github.com/Mateus-dutravale]
+@outros repositórios: [; https://github.com/Mateus-dutravale][
 
 @Agradecimentos: Universidade Federal do Maranhão (UFMA), Professor Doutor Thales Levi Azevedo Valente, e colegas de curso.
  
