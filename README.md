@@ -1,8 +1,8 @@
-@autor: [Bruno Kauan Rodrigues Silva, Ellen Cristina De Sousa Castro, Manoel Lucas Pacheco Junior, Paulo Eduardo Lime Rabelo, Mateus Dutra Vale]
+@autor: [Bruno Kauan Rodrigues Silva, Ellen Cristina De Sousa Castro, Manoel Lucas Pacheco Junior, Mateus Dutra Vale, Paulo Eduardo Lime Rabelo]
 
-@contato: [mateus.dutra.vale.dv@gmail.com]
+@contato: [bruno.kauan@discente.ufma.br, ellen.castro@discente.ufma.br, manoel.lucas@discente.ufma.br, rabelo.paulo@discente.ufma.br, mateus.dv@discente.ufma.br]
 
-@data última versão: [Data de Hoje]
+@data última versão: [12/06/2025]
 
 @versão: 1.0
 
