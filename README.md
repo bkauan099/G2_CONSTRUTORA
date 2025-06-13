@@ -2,7 +2,7 @@
 
 @contato: [bruno.kauan@discente.ufma.br, ellen.castro@discente.ufma.br, manoel.lucas@discente.ufma.br, rabelo.paulo@discente.ufma.br, mateus.dv@discente.ufma.br]
 
-@data última versão: [12/06/2025]
+@data última versão: [13/06/2025]
 
 @versão: 1.0
 
