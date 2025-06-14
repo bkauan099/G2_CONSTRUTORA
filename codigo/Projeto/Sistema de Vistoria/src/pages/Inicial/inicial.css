@@ -1,0 +1,18 @@
+.inicial-body {
+  margin: 0;
+  background: linear-gradient(
+    110deg,
+    #3E3480,  /* Roxo-azulado */
+    #0075ff,  /* Azul vibrante */
+    #1a1a4f,  /* Azul escuro  */
+    #3E3480   /* Volta ao início */
+  );
+  background-size: 400% 100%; 
+  animation: gradientFlow 15s linear infinite;
+  min-height: 100vh;
+}
+
+@keyframes gradientFlow {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
