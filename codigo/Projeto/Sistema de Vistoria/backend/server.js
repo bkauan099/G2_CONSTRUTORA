@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-console.log(typeof(process.env.PG_PASSWORD));
+console.log(typeof(process.env.PG_PASSWORD)); // Teste do tipo de senha, por que estava vindo com uma variavel diferente de string as vezes
 
 const funcionariosRoutes = require('./routes/funcionarios');
 const administradoresRoutes = require('./routes/administrador');
