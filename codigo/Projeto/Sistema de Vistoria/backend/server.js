@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+console.log(typeof(process.env.PG_PASSWORD));
 
 const funcionariosRoutes = require('./routes/funcionarios');
 const administradoresRoutes = require('./routes/administrador');
