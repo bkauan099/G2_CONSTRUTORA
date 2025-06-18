@@ -1,15 +1,15 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Inicial from "./pages/Inicial";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
+import Inicial from "./pages/Inicial/Inicial";
+import Login from "./pages/Login/login";
+import Home from "./pages/HomeAdm/Home";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Inicial />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Inicial />} />
       </Routes>
     </BrowserRouter>
   );
