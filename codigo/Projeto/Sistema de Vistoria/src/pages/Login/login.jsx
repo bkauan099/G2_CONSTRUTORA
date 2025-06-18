@@ -1,17 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import "./login.css"
-function Login (){
+import { Link, useNavigate } from "react-router-dom";
 
-    const navigate = useNavigate();
-    return (
-        <div>
-            <h1>Login</h1>
-            <p>Para voltar a aba inicial, clique no botão abaixo:</p>
-            <button onClick={() => navigate("/")}>
-          Página Inicial
-        </button>
-        </div>
-    );
+function Login() {
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    // Simula login
+    navigate("/home");
+  };
+
+  return (
+    <div>
+      <h1>Login</h1>
+      <button onClick={handleLogin}>Entrar</button>
+      <br />
+      <Link to="/">Voltar para Inicial</Link>
+    </div>
+  );
 }
 
-export default Login
+export default Login;

@@ -1,27 +1,11 @@
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import "./inicial.css";
+import { Link } from "react-router-dom";
 
 function Inicial() {
-
- useEffect(() => {
-    document.body.classList.add("inicial-body");
-    return () => {
-      document.body.classList.remove("inicial-body");
-    };
-  }, []);
-  
-  const navigate = useNavigate();
-
   return (
     <div>
-      <h1>Bem-vindo ao CIVIS</h1>
-      <div >
-        <p>Para realizar o login, clique no botão abaixo:</p>
-        <button onClick={() => navigate("/login")}>
-          Realizar login
-        </button>
-      </div>
+      <h1>Página Inicial</h1>
+      <p>Bem-vindo ao Sistema de Vistoria.</p>
+      <Link to="/login">Ir para Login</Link>
     </div>
   );
 }
