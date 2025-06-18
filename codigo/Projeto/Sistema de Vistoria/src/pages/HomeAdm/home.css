@@ -1,6 +1,7 @@
+/* Reset */
 body {
   margin: 0;
-  font-family: "Segoe UI", sans-serif;
+  font-family: Arial, sans-serif;
   background-color: #f8f9fa;
 }
 
@@ -11,17 +12,17 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 15px 30px;
 }
 
 .logo {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: bold;
 }
 
 .nav-links {
   display: flex;
-  gap: 25px;
+  gap: 20px;
 }
 
 .nav-links a {
@@ -52,18 +53,13 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 50px;
   flex-wrap: wrap;
-  padding: 60px;
-}
-
-.texto {
-  max-width: 600px;
 }
 
 .texto h1 {
-  font-size: 3rem;
+  font-size: 2.8rem;
   color: #001f3f;
-  margin: 0;
 }
 
 .texto h1 span {
@@ -71,96 +67,54 @@ body {
 }
 
 .texto p {
-  color: #333;
   margin: 20px 0;
+  color: #333;
   font-size: 1.1rem;
 }
 
-.botoes {
-  display: flex;
-  gap: 20px;
-  margin: 20px 0;
-}
-
-.botao-principal {
-  background-color: #004080;
-  color: white;
-  border: none;
-  padding: 10px 22px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.botao-principal:hover {
-  background-color: #003366;
-}
-
-.botao-secundario {
-  background-color: transparent;
-  color: #004080;
-  border: 2px solid #004080;
-  padding: 10px 22px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.botao-secundario:hover {
-  background-color: #004080;
-  color: white;
-}
-
-.contato {
-  margin-top: 20px;
-  color: #555;
-}
-
-/* Imagem */
 .imagem img {
-  width: 380px;
+  width: 350px;
   max-width: 100%;
 }
 
-/* Segunda Parte - Atalhos */
+/* Atalhos */
 .atalhos {
   background-color: #e6f0fa;
-  padding: 50px 40px;
+  padding: 40px;
   text-align: center;
 }
 
 .atalhos h2 {
   color: #004080;
-  font-size: 2rem;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .atalhos-cards {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   gap: 30px;
+  flex-wrap: wrap;
 }
 
 .card {
   background-color: white;
   border-radius: 16px;
+  padding: 20px;
+  width: 160px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  padding: 18px;
-  width: 180px;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s;
 }
 
 .card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
 }
 
 .card img {
-  width: 60px;
+  width: 50px;
   margin-bottom: 10px;
 }
 
 .card h3 {
-  font-size: 1rem;
   color: #004080;
+  font-size: 1rem;
 }

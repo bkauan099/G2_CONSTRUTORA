@@ -1,43 +1,99 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f2f5;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Centraliza toda a página */
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Caixa de login */
 .login-container {
-  max-width: 400px;
-  margin: 100px auto;
-  padding: 40px;
+  position: relative;
+  width: 350px;
+  padding: 40px 30px;
   background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Setinha no canto superior esquerdo */
+.back-arrow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+}
+
+/* Título */
+.login-title {
   text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  color: #003060;
 }
 
-.login-container h1 {
-  color: #004080;
-  margin-bottom: 20px;
-}
-
-.login-container label {
+/* Labels e Inputs */
+.login-form label {
   display: block;
-  text-align: left;
+  margin-top: 15px;
   margin-bottom: 5px;
   font-weight: 500;
 }
 
-.login-container input {
+.login-form input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 8px;
   border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.login-container button {
-  background-color: #004080;
+/* Botão Entrar */
+.login-button {
+  width: 100%;
+  margin-top: 25px;
+  padding: 10px;
+  background-color: #003060;
   color: white;
+  font-weight: 600;
   border: none;
-  padding: 10px 22px;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
-  font-size: 1rem;
 }
 
-.login-container button:hover {
-  background-color: #003366;
+.login-button:hover {
+  background-color: #001f40;
 }
+
+/* Link de cadastro */
+.no-account {
+  margin-top: 20px;
+  text-align: center;
+  color: #003060;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.no-account:hover {
+  color: #001f40;
+}
+
+
