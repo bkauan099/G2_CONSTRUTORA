@@ -1,14 +1,39 @@
 import { useNavigate } from "react-router-dom";
-import "./login.css";
+import "./login.css"; // Certifique-se de que o caminho para o CSS está correto
 
 function Login({ onLogin }) {
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault();
-    alert("Login realizado com sucesso!");
-    onLogin();
-    navigate("/home");
+    e.preventDefault(); // Impede o recarregamento da página
+
+    // Acessa os valores dos campos de input pelo formulário
+    const email = e.target.elements[0].value; // Primeiro input do formulário (email)
+    const password = e.target.elements[1].value; // Segundo input do formulário (senha)
+
+    let determinedUserType = null; // Variável para armazenar o tipo de usuário
+
+    // --- Lógica de Autenticação Simples para Teste (SUBSTITUIR POR BACKEND REAL) ---
+    // Esta é uma simulação. Em um ambiente real, você enviaria 'email' e 'password'
+    // para um backend, que validaria as credenciais e retornaria o tipo de usuário.
+
+    if (email === "admin@civis.com" && password === "admin123") {
+      determinedUserType = "admin";
+    } else if (email === "cliente@civis.com" && password === "cliente123") {
+      determinedUserType = "cliente";
+    } else {
+      // Credenciais inválidas
+      alert("Email ou senha incorretos! Tente 'admin@civis.com'/'admin123' ou 'cliente@civis.com'/'cliente123'");
+      return; // Interrompe a execução da função se o login falhar
+    }
+    // --- Fim da Lógica de Autenticação Simples ---
+
+    // Se o login for bem-sucedido e o tipo de usuário for determinado
+    if (determinedUserType) {
+      alert(`Login de ${determinedUserType} realizado com sucesso!`);
+      onLogin(determinedUserType); // Chama a função onLogin passada via props, enviando o tipo de usuário
+      navigate("/home"); // Redireciona para a rota /home. O App.jsx decidirá qual "Home" mostrar.
+    }
   };
 
   return (
