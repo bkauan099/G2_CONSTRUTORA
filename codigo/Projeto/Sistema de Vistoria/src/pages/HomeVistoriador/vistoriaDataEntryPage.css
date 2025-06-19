@@ -1,0 +1,135 @@
+.vistoria-data-entry-container {
+  padding: 30px;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  color: #333;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.vistoria-data-entry-container h1 {
+  text-align: center;
+  color: #004d40;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.vistoria-form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
+  font-size: 16px;
+}
+
+.vistoria-form input[type="text"],
+.vistoria-form textarea {
+  width: calc(100% - 20px); /* Account for padding */
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box; /* Include padding in element's total width and height */
+}
+
+.vistoria-form textarea {
+  resize: vertical; /* Allow vertical resizing */
+  min-height: 100px;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: center;
+  gap: 15px; /* Space between buttons */
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+.action-button {
+  background-color: #007bff; /* Default blue */
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  min-width: 150px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+}
+
+.action-button.save-button {
+  background-color: #28a745; /* Green for save */
+}
+.action-button.save-button:hover {
+  background-color: #218838;
+}
+
+.action-button.reschedule-button {
+  background-color: #ffc107; /* Yellow for reschedule */
+  color: #333; /* Dark text for yellow background */
+}
+.action-button.reschedule-button:hover {
+  background-color: #e0a800;
+}
+
+.action-button.finalize-button {
+  background-color: #dc3545; /* Red for finalize */
+}
+.action-button.finalize-button:hover {
+  background-color: #c82333;
+}
+
+.action-button.report-button {
+  background-color: #6c757d; /* Grey for report */
+}
+.action-button.report-button:hover {
+  background-color: #5a6268;
+}
+
+.back-to-list-button {
+  display: block;
+  width: fit-content;
+  margin: 30px auto 0;
+  background-color: #004d40; /* Dark teal for back button */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.back-to-list-button:hover {
+  background-color: #00332c;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .vistoria-data-entry-container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+  .vistoria-data-entry-container h1 {
+    font-size: 28px;
+  }
+  .form-actions {
+    flex-direction: column; /* Stack buttons vertically on small screens */
+    align-items: center;
+  }
+  .action-button {
+    width: 80%; /* Make buttons wider */
+    min-width: unset; /* Remove min-width constraint */
+  }
+}
