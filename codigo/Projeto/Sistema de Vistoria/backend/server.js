@@ -3,8 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 console.log(typeof(process.env.PG_PASSWORD)); // Teste do tipo de senha, por que estava vindo com uma variavel diferente de string as vezes
 
-const funcionariosRoutes = require('./routes/funcionarios');
-const administradoresRoutes = require('./routes/administrador');
+const funcionariosRoutes = require('./models/Funcionario');
+const administradoresRoutes = require('./models/Administrador');
 
 const app = express();
 app.use(cors());
