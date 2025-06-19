@@ -10,10 +10,10 @@ function Home({ onLogout }) {
       <header className="navbar">
         <div className="logo">CIVIS</div>
         <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/Home")}>Home</a>
-          <a href="#" onClick={() => navigate("./pages/HomeCliente/AgendarVistoria")}>Agendar Vistoria</a> 
-          <a href="#" onClick={() => navigate("./pages/HomeCliente/MinhasVistorias")}>Minhas Vistorias</a> 
-          <a href="#" onClick={() => navigate("./pages/HomeCliente/MeuImovel")}>Meu Imóvel</a> 
+          <a href="#" onClick={() => navigate("/home")}>Home</a>
+          <a href="#" onClick={() => navigate("/agendar-vistoria")}>Agendar Vistoria</a> 
+          <a href="#" onClick={() => navigate("/minhas-vistorias")}>Minhas Vistorias</a> 
+          <a href="#" onClick={() => navigate("/meus-imoveis")}>Meus Imóveis</a> 
         </nav>
         <button className="logout-button" onClick={onLogout}>
           Sair
@@ -37,7 +37,7 @@ function Home({ onLogout }) {
         </div>
       </main>
 
-     
+     {/*atalhos rapidos, talvez tire*/}
       <section className="atalhos">
         <h2>Acesso Rápido</h2>
         <div className="atalhos-cards">

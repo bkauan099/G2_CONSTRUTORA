@@ -6,9 +6,14 @@ import Login from "./pages/Login/login";
 import HomeAdm from "./pages/HomeAdm/Home"; // pagina de inicio do administrador
 import HomeCliente from "./pages/HomeCliente/Home"; // pagina de inicio do cliente
 
+//Componentes específicos do administrador:
+import Funcionarios from "./pages/HomeAdm/Funcionarios/Funcionarios";
+import CadastrarFuncionario from "./pages/HomeAdm/Funcionarios/CadastrarFuncionario";
+import EditarFuncionario from "./pages/HomeAdm/Funcionarios/EditarFuncionario";
+
 //Componentes específicos do cliente:
 import MeusImoveis from "./pages/HomeCliente/MeuImovel";
-import ImovelDetalhes from "./pages/HomeCliente/ImovelDetalhado";
+import ImovelDetalhado from "./pages/HomeCliente/ImovelDetalhado";
 import MinhasVistorias from "./pages/HomeCliente/MinhasVistorias";
 import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
 
@@ -73,23 +78,24 @@ function App() {
               }
             />
 
-            {/* Rotas específicas do cliente (protegidas e só acessíveis se userType for 'cliente') */}
-            {userType === "cliente" && (
-              <>
-                <Route path="/meus-imoveis" element={<MeusImoveis />} />
-                <Route path="/imovel-detalhes/:id" element={<ImovelDetalhes />} />
-                <Route path="/minhas-vistorias" element={<MinhasVistorias />} />
-                <Route path="/agendar-vistoria" element={<AgendarVistoria />} />
-              </>
-            )}
-
             {/* Rotas específicas do administrador*/}
             {userType === "admin" && (
               <>
-               
+                <Route path="/funcionarios" element={<Funcionarios />} />
+                <Route path="/cadastrar-funcionario" element={<CadastrarFuncionario />} />
+                <Route path="/editar-funcionario/:id" element={<EditarFuncionario />} />
               </>
             )}
 
+            {/* Rotas específicas do cliente (protegidas e só acessíveis se userType for 'cliente') */}
+                        {userType === "cliente" && (
+                          <>
+                            <Route path="/meus-imoveis" element={<MeusImoveis />} />
+                            <Route path="/imovel-detalhado/:id" element={<ImovelDetalhado />} />
+                            <Route path="/minhas-vistorias" element={<MinhasVistorias />} />
+                            <Route path="/agendar-vistoria" element={<AgendarVistoria />} />
+                          </>
+                        )}
             {/* Rota padrão para usuários autenticados que acessam um caminho inválido, redireciona para /home */}
             <Route path="*" element={<Navigate to="/home" />} />
           </>

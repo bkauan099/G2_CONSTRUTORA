@@ -1,18 +1,21 @@
 import "./Home.css";
+import { useNavigate } from "react-router-dom"; // <-- ADICIONE ESTA LINHA
 
 function Home({ onLogout }) {
+  const navigate = useNavigate(); // <-- ADICIONE ESTA LINHA PARA INICIALIZAR
+
   return (
     <div className="home-container">
       {/* Navbar */}
       <header className="navbar">
         <div className="logo">CIVIS</div>
         <nav className="nav-links">
-          <a href="#">Home</a>
-          <a href="#">Nova Vistoria</a>
-          <a href="#">Agendadas</a>
-          <a href="#">Clientes</a>
-          <a href="#">Empreendimentos</a>
-          <a href="#">Funcionário</a>
+          <a href="#" onClick={() => navigate("/home")}>Home</a>
+          <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a>
+          <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
+          <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
+          <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
+          <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
         </nav>
         <button className="logout-button" onClick={onLogout}>
           Sair
@@ -30,8 +33,6 @@ function Home({ onLogout }) {
             eficiente com o <strong>CIVIS</strong>.
           </p>
 
-          
-         
         </div>
 
         <div className="imagem">
@@ -42,28 +43,24 @@ function Home({ onLogout }) {
       {/* Seção de Atalhos */}
       <section className="atalhos">
         <h2>Gerenciamento Rápido</h2>
-        <div className="atalhos-cards">
-          <div className="card">
+        <div className="atalhos-cards" >
+          <div className="card" onClick={() => navigate("/nova-vistoria")}>
             <img src="/imagens/nova-vistoria.png" alt="Nova Vistoria" />
             <h3>Nova Vistoria</h3>
           </div>
-          <div className="card">
+          <div className="card" onClick={() => navigate("/vistorias-agendadas")}>
             <img src="/imagens/agendadas.png" alt="Agendadas" />
             <h3>Vistorias Agendadas</h3>
           </div>
-          <div className="card">
-            <img src="/imagens/imoveis.png" alt="Imóveis" />
-            <h3>Imóveis</h3>
-          </div>
-          <div className="card">
+            <div className="card" onClick={() => navigate("/clientes")}>
             <img src="/imagens/clientes.png" alt="Clientes" />
             <h3>Clientes</h3>
           </div>
-          <div className="card">
+          <div className="card" onClick={() => navigate("/empreendimentos")}>
             <img src="/imagens/empreendimentos.png" alt="Empreendimentos" />
             <h3>Empreendimentos</h3>
           </div>
-          <div className="card">
+          <div className="card" onClick={() => navigate("/funcionarios")}>
             <img src="/imagens/funcionário.png" alt="Funcionário" />
             <h3>Funcionário</h3>
           </div>
@@ -73,4 +70,4 @@ function Home({ onLogout }) {
   );
 }
 
-export default Home;
+export default Home;  
