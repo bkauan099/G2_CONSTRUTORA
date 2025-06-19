@@ -27,15 +27,13 @@ function MeusImoveis() {
       </header>
 
       <main className="main-content" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-        <button className="back-arrow" onClick={() => navigate("/home")} style={{ marginBottom: '20px', marginLeft: '20px' }}>
-          &#8592; Voltar
-        </button>
         <h1 style={{ color: '#001f3f', marginBottom: '30px', marginLeft: '20px' }}>Meus Imóveis</h1>
 
-        <div className="imoveis-list" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
+        {/*Seção dos cards de seleção*/}
+        <div className="imoveis-list"  >
           {imoveis.map(imovel => (
-            <div key={imovel.id} className="card" style={{ width: '250px', padding: '25px' }}>
-              <h3 style={{ marginBottom: '10px' }}>{imovel.nome}</h3>
+            <div className ="card">
+              <h3 >{imovel.nome}</h3>
               <p><strong>Endereço:</strong> {imovel.endereco}</p>
               <p><strong>Tipo:</strong> {imovel.tipo}</p>
               <button
