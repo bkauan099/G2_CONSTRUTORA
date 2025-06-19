@@ -5,38 +5,32 @@ import Inicial from "./pages/Inicial/Inicial";
 import Login from "./pages/Login/login";
 import HomeAdm from "./pages/HomeAdm/Home";
 import HomeCliente from "./pages/HomeCliente/Home";
-import HomeVistoriador from "./pages/HomeVistoriador/Home"; // <--- Correct import for HomeVistoriador
+import HomeVistoriador from "./pages/HomeVistoriador/Home"; // Your Vistoriador Home page
 
-// Componentes específicos do administrador:
+// Admin-specific Components
 import Funcionarios from "./pages/HomeAdm/Funcionarios/Funcionarios";
 import CadastrarFuncionario from "./pages/HomeAdm/Funcionarios/CadastrarFuncionario";
 import EditarFuncionario from "./pages/HomeAdm/Funcionarios/EditarFuncionario";
 
-// Componentes específicos do cliente:
+// Client-specific Components
 import MeusImoveis from "./pages/HomeCliente/MeuImovel";
 import ImovelDetalhado from "./pages/HomeCliente/ImovelDetalhado";
 import MinhasVistorias from "./pages/HomeCliente/MinhasVistorias";
 import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
 
-// ⚠️ IMPORTANT: You need to create these components in your project!
-// For now, I'm providing simple placeholder components.
-const RealizarVistoriaPage = () => (
-  <div>
-    <h2>Página de Realizar Vistoria</h2>
-    <p>Aqui você iniciará uma nova vistoria.</p>
-  </div>
-);
-const CriarRelatorioPage = () => (
-  <div>
-    <h2>Página de Criar Relatório</h2>
-    <p>Aqui você gerará relatórios de vistorias concluídas.</p>
-  </div>
-);
+// Vistoriador-specific Components (New/Updated)
+import RealizarVistoriaListPage from "./pages/HomeVistoriador/RealizarVistoriaListPage"; // New component for the list
+import VistoriaDataEntryPage from "./pages/HomeVistoriador/VistoriaDataEntryPage";   // New component for data entry
+
+// Placeholder components for general pages (you'll create real ones)
+const CriarRelatorioPage = () => <div><h1>Página de Gerenciamento de Relatórios</h1><p>Lista de relatórios para visualização/impressão.</p></div>;
+const NotificarClientePage = () => <div><h1>Página de Notificação de Clientes</h1><p>Envie mensagens ou alertas para clientes.</p></div>;
+const ReagendarVistoriaPage = () => <div><h1>Página de Reagendamento de Vistoria</h1><p>Formulário para alterar a data de uma vistoria.</p></div>;
 
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userType, setUserType] = useState(null); // 'admin', 'cliente', or 'vistoriador'
+  const [userType, setUserType] = useState(null); // 'admin', 'cliente' ou 'vistoriador'
 
   useEffect(() => {
     const storedUser = localStorage.getItem("usuario");
@@ -54,7 +48,7 @@ function App() {
     }
   }, []);
 
-  const login = (type) => { // 'type' can be 'admin', 'cliente', or 'vistoriador'
+  const login = (type) => { // 'type' pode ser 'admin', 'cliente' ou 'vistoriador'
     setIsAuthenticated(true);
     setUserType(type);
     localStorage.setItem("usuario", JSON.stringify({ type: type }));
@@ -69,16 +63,16 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Initial Page */}
+        {/* Página Inicial */}
         <Route path="/" element={<Inicial />} />
 
-        {/* Login Page */}
+        {/* Login */}
         <Route path="/login" element={<Login onLogin={login} />} />
 
-        {/* Protected Routes after login */}
+        {/* Rotas protegidas após login */}
         {isAuthenticated ? (
           <>
-            {/* Main Home Route: Renders the correct Home based on user type */}
+            {/* Rota Home principal, renderiza a Home correta com base no tipo de usuário */}
             <Route
               path="/home"
               element={
@@ -86,15 +80,15 @@ function App() {
                   <HomeAdm onLogout={logout} />
                 ) : userType === "cliente" ? (
                   <HomeCliente onLogout={logout} />
-                ) : userType === "vistoriador" ? ( // <--- Add this condition for vistoriador
+                ) : userType === "vistoriador" ? (
                   <HomeVistoriador onLogout={logout} />
                 ) : (
-                  <Navigate to="/login" /> // Redirects if user type is unknown
+                  <Navigate to="/login" /> // Redireciona se o tipo de usuário for desconhecido
                 )
               }
             />
 
-            {/* Admin-specific Routes */}
+            {/* Rotas específicas do administrador */}
             {userType === "admin" && (
               <>
                 <Route path="/funcionarios" element={<Funcionarios />} />
@@ -103,7 +97,7 @@ function App() {
               </>
             )}
 
-            {/* Client-specific Routes */}
+            {/* Rotas específicas do cliente */}
             {userType === "cliente" && (
               <>
                 <Route path="/meus-imoveis" element={<MeusImoveis />} />
@@ -113,19 +107,25 @@ function App() {
               </>
             )}
 
-            {/* Vistoriador-specific Routes */}
-            {userType === "vistoriador" && ( // <--- Add this block for vistoriador routes
+            {/* Rotas específicas do Vistoriador */}
+            {userType === "vistoriador" && (
               <>
-                <Route path="/realizar-vistoria" element={<RealizarVistoriaPage />} />
-                <Route path="/criar-relatorio" element={<CriarRelatorioPage />} /> {/* <--- Use the consistent path */}
+                {/* Entry point for survey process: shows list of properties */}
+                <Route path="/vistoriador/realizar-vistoria" element={<RealizarVistoriaListPage />} />
+                {/* Detailed page for data entry for a specific survey */}
+                <Route path="/vistoriador/vistoria/:id" element={<VistoriaDataEntryPage />} />
+                {/* Pages for general actions / specific flows */}
+                <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
+                <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
+                <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} /> {/* Route for specific rescheduling */}
               </>
             )}
 
-            {/* Default route for authenticated users accessing an invalid path, redirects to /home */}
+            {/* Rota padrão para usuários autenticados que acessam um caminho inválido, redireciona para /home */}
             <Route path="*" element={<Navigate to="/home" />} />
           </>
         ) : (
-          // If not authenticated, any protected or invalid route redirects to login
+          // Se não estiver autenticado, qualquer rota protegida ou inválida redireciona para o login
           <Route path="*" element={<Navigate to="/login" />} />
         )}
       </Routes>
