@@ -94,6 +94,7 @@ body {
   justify-content: center;
   gap: 30px;
   flex-wrap: wrap;
+  
 }
 
 .card {
@@ -105,16 +106,22 @@ body {
   transition: transform 0.3s;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-}
-
 .card img {
   width: 50px;
   margin-bottom: 10px;
 }
 
 .card h3 {
-  color: #004080;
+  color: black;
   font-size: 1rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.imoveis-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  color: #004080;
 }

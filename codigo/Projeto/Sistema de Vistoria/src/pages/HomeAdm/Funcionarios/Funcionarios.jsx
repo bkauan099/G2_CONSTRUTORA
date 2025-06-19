@@ -11,7 +11,7 @@ function Funcionarios() { // O nome da função é Funcionarios
     return savedFuncionarios ? JSON.parse(savedFuncionarios) : [
       { id: 1, nome: 'Bruno Kauan', cargo: 'Administrador', email: 'bruno.k@civis.com', telefone: '11987654321', dataContratacao: '2020-01-15' },
       { id: 2, nome: 'Ellen Cristina', cargo: 'Engenheira', email: 'ellen.c@civis.com', telefone: '11998765432', dataContratacao: '2021-03-01' },
-      { id: 3, nome: 'Pedro Lime', cargo: 'Vistoriador Senior', email: 'paulo.l@civis.com', telefone: '11976543210', dataContratacao: '2022-06-20' },
+      { id: 3, nome: 'Paulo Lime', cargo: 'Vistoriador Senior', email: 'paulo.l@civis.com', telefone: '11976543210', dataContratacao: '2022-06-20' },
     ];
   });
 

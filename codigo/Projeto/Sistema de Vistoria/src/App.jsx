@@ -7,9 +7,19 @@ import HomeAdm from "./pages/HomeAdm/Home"; // pagina de inicio do administrador
 import HomeCliente from "./pages/HomeCliente/Home"; // pagina de inicio do cliente
 
 //Componentes específicos do administrador:
+//Funcionarios
 import Funcionarios from "./pages/HomeAdm/Funcionarios/Funcionarios";
 import CadastrarFuncionario from "./pages/HomeAdm/Funcionarios/CadastrarFuncionario";
 import EditarFuncionario from "./pages/HomeAdm/Funcionarios/EditarFuncionario";
+//Empreendimentos
+import ListagemEmpreendimentos from "./pages/HomeAdm/Empreendimentos/ListagemEmpreendimentos";
+import CadastrarEmpreendimento from "./pages/HomeAdm/Empreendimentos/CadastrarEmpreendimento";
+import EditarEmpreendimento from "./pages/HomeAdm/Empreendimentos/EditarEmpreendimento";
+
+//Imoveis
+import ListagemImoveis from "./pages/HomeAdm/Imoveis/ListagemImoveis";
+import CadastrarImovel from "./pages/HomeAdm/Imoveis/CadastrarImovel";
+import EditarImovel from "./pages/HomeAdm/Imoveis/EditarImovel";
 
 //Componentes específicos do cliente:
 import MeusImoveis from "./pages/HomeCliente/MeuImovel";
@@ -81,9 +91,20 @@ function App() {
             {/* Rotas específicas do administrador*/}
             {userType === "admin" && (
               <>
+              {/*Funcionarios */}
                 <Route path="/funcionarios" element={<Funcionarios />} />
                 <Route path="/cadastrar-funcionario" element={<CadastrarFuncionario />} />
                 <Route path="/editar-funcionario/:id" element={<EditarFuncionario />} />
+
+              {/* Empreendimentos */}
+                <Route path="/empreendimentos" element={<ListagemEmpreendimentos />} />
+                <Route path="/cadastrar-empreendimento" element={<CadastrarEmpreendimento />} />
+                <Route path="/editar-empreendimento/:id" element={<EditarEmpreendimento />} />
+
+              {/** Imóveis */}
+                <Route path="/imoveis" element={<ListagemImoveis />} />
+                <Route path="/cadastrar-imoveis" element={<CadastrarImovel />} />
+                <Route path="/editar-imoveis/:id" element={<EditarImovel />} />
               </>
             )}
 
