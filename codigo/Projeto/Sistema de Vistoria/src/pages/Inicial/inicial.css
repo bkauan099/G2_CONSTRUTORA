@@ -1,69 +1,283 @@
-.inicial-body {
+/* Ensure body has no default margins/paddings and uses dark background */
+body.inicial-body {
   margin: 0;
-  background: linear-gradient(110deg, #3E3480, #0075ff, #1a1a4f, #3E3480);
-  background-size: 400% 100%;
-  animation: gradientFlow 15s linear infinite;
+  padding: 0;
+  background-color: #1a2a41; 
+  overflow-x: hidden;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Page container for overall layout */
+.inicial-page-container {
+  display: flex;
+  flex-direction: column;
   min-height: 100vh;
+  color: white;
+  background: 
+    linear-gradient(rgba(26, 42, 65, 0.7), rgba(26, 42, 65, 0.7)), 
+    url('/imagens/vistoria.png') no-repeat center center fixed; 
+  background-size: cover; 
+}
+
+/* Header styles */
+.inicial-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 25px;
+  position: relative;
+  z-index: 10;
+}
+
+.inicial-header .logo-section {
   display: flex;
   align-items: center;
-  justify-content: center;
+  align-items: flex-start;
 }
 
-@keyframes gradientFlow {
-  0% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.inicial-header .header-logo {
+  height: 250px; 
+  width: auto;
+  margin-bottom: 0;
 }
 
-.container-inicial {
-  background-color: rgba(255, 255, 255, 0.95);
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 0 20px rgba(0,0,0,0.3);
-  max-width: 600px;
+/* Hamburger menu (will be visible on both mobile and desktop now) */
+.hamburger-menu {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 20;
+  display: block; 
+}
+
+
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(26, 42, 65, 0.95);
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 50px;
+}
+
+.mobile-menu-overlay .close-menu {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
   text-align: center;
+  width: 80%;
+  margin-top: 50px;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: 2.8rem;
-  color: #3E3480;
+.mobile-nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  transition: color 0.3s ease;
 }
 
-.header p {
-  color: #333;
+.mobile-nav-links a:last-child {
+  border-bottom: none;
+}
+
+.mobile-nav-links a:hover {
+  color: #87CEEB;
+}
+
+/* Hero Section Styles */
+.hero-section {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 25px;
+  padding-bottom: 150px;
+  text-align: left;
+}
+
+.hero-section .hero-title {
+  font-size: 48px;
+  font-weight: bold;
+  line-height: 1.1;
   margin-bottom: 20px;
+  color: #fff;
 }
 
-.conteudo p {
-  color: #555;
-  font-size: 1.1rem;
+.hero-section .hero-title span {
+  color: #87CEEB;
 }
 
-.botoes {
-  margin-top: 30px;
+/* Estilo para o subtítulo principal */
+.hero-section .hero-subtitle {
+  font-size: 22px;
+  color: #87CEEB; 
+  margin-top: -10px; 
+  margin-bottom: 25px; 
+  font-weight: 500; 
+  max-width: 500px;
 }
 
-.botoes button {
-  background-color: #3E3480;
+.hero-section .hero-description {
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  max-width: 500px;
+  color: #e0e0e0;
+}
+
+.hero-section .agendar-button {
+  background-color: #1a73e8;
   color: white;
   border: none;
-  padding: 10px 25px;
-  margin: 0 10px;
+  padding: 15px 30px;
   border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.botoes button:hover {
-  background-color: #2a245e;
+.hero-section .agendar-button:hover {
+  background-color: #155cb8;
+  transform: translateY(-2px);
 }
 
-.footer {
-  margin-top: 30px;
-  font-size: 0.9rem;
-  color: #666;
+/* Bottom Info Section */
+.bottom-info-section {
+  background-color: #1a2a41; 
+  padding: 40px 25px;
+  text-align: center; 
+  color: white;
+  position: relative;
+  z-index: 5;
 }
-.logo {
-  width: 250px;
-  margin-bottom: 3px;
+
+.bottom-info-section .bottom-info-title {
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1.3;
+  margin-bottom: 40px; 
+}
+
+/* Container for info cards */
+.info-cards-container {
+  display: grid; 
+  grid-template-columns: 1fr; 
+  gap: 25px; 
+  max-width: 1200px; 
+  margin: 0 auto; 
+  padding: 0 15px; 
+}
+
+/* Individual info cards */
+.info-card {
+  background-color: #304A66; 
+  padding: 30px;
+  border-radius: 10px; 
+  text-align: center; 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  transition: transform 0.3s ease, background-color 0.3s ease; 
+}
+
+.info-card:hover {
+  transform: translateY(-5px); 
+  background-color: #405A75; 
+}
+
+/* Estilos para os ícones das caixinhas */
+.info-card .card-icon {
+    width: 60px; 
+    height: auto;
+    margin-bottom: 15px; 
+}
+
+.info-card h3 {
+  font-size: 24px;
+  color: #a7ffeb; 
+  margin-bottom: 15px;
+}
+
+/* Estilo para o "sub-subtítulo" dentro das caixinhas (Quem Somos) */
+.info-card h4 {
+    font-size: 18px; 
+    color: #a7ffeb; 
+    margin-bottom: 10px; 
+    font-weight: 600;
+}
+
+.info-card p {
+  font-size: 16px;
+  color: #e0e0e0; 
+  line-height: 1.6;
+}
+
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .inicial-header {
+    justify-content: space-between;
+  }
+
+  .hero-section {
+    padding: 80px 50px;
+    padding-bottom: 150px;
+    align-items: flex-start;
+  }
+
+  .hero-section .hero-title {
+    font-size: 64px;
+  }
+
+  .hero-section .hero-description {
+    font-size: 20px;
+  }
+
+  .bottom-info-section {
+    padding: 60px 50px;
+  }
+
+  .bottom-info-section .bottom-info-title {
+    font-size: 36px;
+  }
+
+  
+  .info-cards-container {
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 30px; 
+  }
+
+  
+  .hero-section .hero-subtitle {
+    font-size: 28px; 
+    margin-top: -15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  
+  .info-cards-container {
+    grid-template-columns: repeat(4, 1fr); 
+  }
 }
