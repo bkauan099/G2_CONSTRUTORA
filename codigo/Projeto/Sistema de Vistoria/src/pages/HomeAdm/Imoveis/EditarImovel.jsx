@@ -1,6 +1,9 @@
+import React, { useState, useEffect } from 'react'; // <-- Corrigido aqui
 import { useParams, useNavigate } from 'react-router-dom';
 import '../home.css'; 
 import './imoveis.css';
+
+// ... o restante do seu componente EditarImovel
 
 function EditarImovel() {
   const { id } = useParams(); // Pega o ID do imóvel da URL
