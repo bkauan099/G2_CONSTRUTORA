@@ -3,23 +3,23 @@ import { useEffect, useState } from "react";
 import "./inicial.css";
 
 function Inicial() {
-  const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false); 
+    const navigate = useNavigate();
+    const [isMenuOpen, setIsMenuOpen] = useState(false); 
   
 
-  useEffect(() => {
-    document.body.classList.add("inicial-body");
-    return () => {
-      document.body.classList.remove("inicial-body");
-    };
-  }, []);
+    useEffect(() => {
+        document.body.classList.add("inicial-body");
+            return () => {
+            document.body.classList.remove("inicial-body");
+    };
+    }, []);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
-  const handleMenuItemClick = (path) => {
-    setIsMenuOpen(false); 
+    const handleMenuItemClick = (path) => {
+        setIsMenuOpen(false); 
 
     if (path === "/login") {
         navigate(path); // Navega para a página de login
@@ -41,56 +41,56 @@ function Inicial() {
             }
         }
     }
-  };
+    };
 
-  return (
-    <div className="inicial-page-container">
-      <header className="inicial-header">
-        <div className="logo-section">
-          <img src="/assets/logo-civis.png" alt="CIVIS Logo" className="header-logo" />
-        </div>
+    return (
+        <div className="inicial-page-container">
+            <header className="inicial-header">
+                <div className="logo-section">
+                    <img src="/assets/logo-civis.png" alt="CIVIS Logo" className="header-logo" />
+                </div>
 
-        <button className="hamburger-menu" onClick={toggleMenu} aria-label="Abrir Menu">
-          &#9776;
-        </button>
-      </header>
+                <button className="hamburger-menu" onClick={toggleMenu} aria-label="Abrir Menu">
+                    &#9776;
+                </button>
+            </header>
 
-      {isMenuOpen && (
-        <div className="mobile-menu-overlay">
-          <button className="close-menu" onClick={toggleMenu} aria-label="Fechar Menu">
-            &times;
-          </button>
-          <nav className="mobile-nav-links">
-                <a onClick={() => handleMenuItemClick("/login")}>Login</a>
-            <a onClick={() => handleMenuItemClick("/quem-somos")}>Quem somos</a>
-            <a onClick={() => handleMenuItemClick("/servicos")}>Serviços</a>
-            <a onClick={() => handleMenuItemClick("/localizacao")}>Localização</a>
-            <a onClick={() => handleMenuItemClick("/contatos")}>Contatos</a>
-          </nav>
-        </div>
-      )}
+            {isMenuOpen && (
+                <div className="mobile-menu-overlay">
+                    <button className="close-menu" onClick={toggleMenu} aria-label="Fechar Menu">
+                        &times;
+                    </button>
+                <nav className="mobile-nav-links">
+                    <a onClick={() => handleMenuItemClick("/login")}>Login</a>
+                    <a onClick={() => handleMenuItemClick("/quem-somos")}>Quem somos</a>
+                    <a onClick={() => handleMenuItemClick("/servicos")}>Serviços</a>
+                    <a onClick={() => handleMenuItemClick("/localizacao")}>Localização</a>
+                    <a onClick={() => handleMenuItemClick("/contatos")}>Contatos</a>
+                </nav>
+                </div>
+          )}
 
-      <main className="hero-section">
-        <h1 className="hero-title">
-          CIVIS <br /> <span>VISTORIAS</span>
-        </h1>
-        <p className="hero-subtitle">
+            <main className="hero-section">
+                <h1 className="hero-title">
+                    CIVIS <br /> <span>VISTORIAS</span>
+                </h1>
+                <p className="hero-subtitle">
             Garanta a segurança e o valor do seu imóvel com vistorias precisas e confiáveis.
         </p>
-        <p className="hero-description">
-          Somos uma empresa especializada em vistorias de imóveis, credenciada e com uma
-          equipe capacitada e com mais de 20 anos de experiência.
-        </p>
-        <button
-          className="agendar-button"
-          onClick={() => navigate("/login")}
-        >
-          REALIZAR LOGIN
-        </button>
-      </main>
+                <p className="hero-description">
+                    Somos uma empresa especializada em vistorias de imóveis, credenciada e com uma
+                    equipe capacitada e com mais de 20 anos de experiência.
+                </p>
+                <button
+                    className="agendar-button"
+                    onClick={() => navigate("/login")}
+                >
+                    REALIZAR LOGIN
+                </button>
+            </main>
 
-      <section className="bottom-info-section">
-        <h2 className="bottom-info-title">O que você encontra <br /> na Civis Vistorias</h2>
+            <section className="bottom-info-section">
+                <h2 className="bottom-info-title">O que você encontra <br /> na Civis Vistorias</h2>
         <div className="info-cards-container">
             <div id="quem-somos-section" className="info-card">
                 <img src="/imagens/icon-quemsomos.png" alt="Ícone Quem Somos" className="card-icon" />
@@ -114,9 +114,9 @@ function Inicial() {
                 <p>Telefone: (98) 4578-5647 <br/> Email: contato@civisvistorias.com.br <br/> Converse conosco pelo WhatsApp: (98) 9XXXX-XXXX.</p>
             </div>
         </div>
-      </section>
-    </div>
-  );
+            </section>
+        </div>
+    );
 }
 
 export default Inicial;

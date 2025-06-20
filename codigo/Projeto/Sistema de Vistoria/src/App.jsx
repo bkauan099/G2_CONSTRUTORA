@@ -5,24 +5,36 @@ import Inicial from "./pages/Inicial/Inicial";
 import Login from "./pages/Login/login";
 import HomeAdm from "./pages/HomeAdm/Home";
 import HomeCliente from "./pages/HomeCliente/Home";
-import HomeVistoriador from "./pages/HomeVistoriador/Home"; // Your Vistoriador Home page
+import HomeVistoriador from "./pages/HomeVistoriador/Home"; 
 
-// Admin-specific Components
+//Componentes específicos do administrador
+//Funcionarios
 import Funcionarios from "./pages/HomeAdm/Funcionarios/Funcionarios";
 import CadastrarFuncionario from "./pages/HomeAdm/Funcionarios/CadastrarFuncionario";
 import EditarFuncionario from "./pages/HomeAdm/Funcionarios/EditarFuncionario";
+//Empreendimentos
+import Empreendimentos from "./pages/HomeAdm/Empreendimentos/Empreendimentos";
+import CadastrarEmpreendimento from "./pages/HomeAdm/Empreendimentos/CadastrarEmpreendimento";
+import EditarEmpreendimento from "./pages/HomeAdm/Empreendimentos/EditarEmpreendimento";
+//Clientes/
 
-// Client-specific Components
+// Imóveis
+import Imoveis from "./pages/HomeAdm/Imoveis/Imoveis";
+import CadastrarImovel from "./pages/HomeAdm/Imoveis/CadastrarImovel"; 
+// Vistorias
+
+
+// Componentes específicos do cliente
 import MeusImoveis from "./pages/HomeCliente/MeuImovel";
 import ImovelDetalhado from "./pages/HomeCliente/ImovelDetalhado";
 import MinhasVistorias from "./pages/HomeCliente/MinhasVistorias";
 import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
 
-// Vistoriador-specific Components (New/Updated)
+//Componentes específicos do Vistoriador
 import RealizarVistoriaListPage from "./pages/HomeVistoriador/RealizarVistoriaListPage"; // New component for the list
 import VistoriaDataEntryPage from "./pages/HomeVistoriador/VistoriaDataEntryPage";   // New component for data entry
 
-// Placeholder components for general pages (you'll create real ones)
+//Funcionalidades do Vistoriador
 const CriarRelatorioPage = () => <div><h1>Página de Gerenciamento de Relatórios</h1><p>Lista de relatórios para visualização/impressão.</p></div>;
 const NotificarClientePage = () => <div><h1>Página de Notificação de Clientes</h1><p>Envie mensagens ou alertas para clientes.</p></div>;
 const ReagendarVistoriaPage = () => <div><h1>Página de Reagendamento de Vistoria</h1><p>Formulário para alterar a data de uma vistoria.</p></div>;
@@ -48,7 +60,7 @@ function App() {
     }
   }, []);
 
-  const login = (type) => { // 'type' pode ser 'admin', 'cliente' ou 'vistoriador'
+  const login = (type) => { //'admin', 'cliente' ou 'vistoriador'
     setIsAuthenticated(true);
     setUserType(type);
     localStorage.setItem("usuario", JSON.stringify({ type: type }));
@@ -94,6 +106,17 @@ function App() {
                 <Route path="/funcionarios" element={<Funcionarios />} />
                 <Route path="/cadastrar-funcionario" element={<CadastrarFuncionario />} />
                 <Route path="/editar-funcionario/:id" element={<EditarFuncionario />} />
+                {/* Empreendimentos */}
+                <Route path="/empreendimentos" element={<Empreendimentos />} />
+                <Route path="/cadastrar-empreendimento" element={<CadastrarEmpreendimento />} />
+                <Route path="/editar-empreendimento/:id" element={<EditarEmpreendimento />} />
+                {/* Clientes */}
+                
+                {/* Imóveis */}
+                <Route path="/imoveis" element={<Imoveis />} />
+                <Route path="/cadastrar-imovel" element={<CadastrarImovel />} />
+                {/* Vistorias */}
+               
               </>
             )}
 
@@ -110,14 +133,11 @@ function App() {
             {/* Rotas específicas do Vistoriador */}
             {userType === "vistoriador" && (
               <>
-                {/* Entry point for survey process: shows list of properties */}
                 <Route path="/vistoriador/realizar-vistoria" element={<RealizarVistoriaListPage />} />
-                {/* Detailed page for data entry for a specific survey */}
                 <Route path="/vistoriador/vistoria/:id" element={<VistoriaDataEntryPage />} />
-                {/* Pages for general actions / specific flows */}
                 <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
-                <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} /> {/* Route for specific rescheduling */}
+                <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} />
               </>
             )}
 

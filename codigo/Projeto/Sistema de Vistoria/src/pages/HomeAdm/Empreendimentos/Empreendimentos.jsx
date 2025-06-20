@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../home.css'; 
 import './empreendimentos.css'; 
 
-function ListagemEmpreendimentos() {
+function Empreendimentos() {
   const navigate = useNavigate();
 
   const [empreendimentos, setEmpreendimentos] = useState(() => {
@@ -47,8 +47,8 @@ function ListagemEmpreendimentos() {
       <main className="admin-page-container">
         <div className="admin-header">
           <h1>Gestão de Empreendimentos</h1>
-          <button className="admin-action-button" onClick={() => navigate('/empreendimentos/cadastrar')}>
-            + Adicionar Empreendimento
+          <button className="admin-action-button" onClick={() => navigate('/cadastrar-empreendimento')}>
+            Adicionar Empreendimento
           </button>
         </div>
 
@@ -73,7 +73,7 @@ function ListagemEmpreendimentos() {
                   <td>{emp.endereco}</td>
                   <td>{emp.descricao}</td>
                   <td className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento${emp.id}`)}>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.id}`)}>
                       Editar
                     </button>
                     <button className="btn-excluir" onClick={() => handleExcluir(emp.id, emp.nome)}>
@@ -93,4 +93,4 @@ function ListagemEmpreendimentos() {
   );
 }
 
-export default ListagemEmpreendimentos;
+export default Empreendimentos;
