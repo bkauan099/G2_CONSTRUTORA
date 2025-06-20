@@ -77,7 +77,7 @@ function ListagemImoveis() {
                   <td>{imovel.idEmpreendimento}</td>
                   <td>{imovel.numeroUnidade}</td>
                   <td className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-imoveis/${imovel.id}`)}>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-imovel/${imovel.id}`)}>
                       Editar
                     </button>
                     <button className="btn-excluir" onClick={() => handleExcluir(imovel.id, imovel.descricao)}>
