@@ -1,8 +1,8 @@
+import { useNavigate } from "react-router-dom"; 
 import "./Home.css";
-import { useNavigate } from "react-router-dom"; // <-- ADICIONE ESTA LINHA
 
 function Home({ onLogout }) {
-  const navigate = useNavigate(); // <-- ADICIONE ESTA LINHA PARA INICIALIZAR
+  const navigate = useNavigate(); 
 
   return (
     <div className="home-container">
