@@ -4,9 +4,8 @@
   "version": "0.0.0",
   "type": "commonjs",
   "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
-  "main": "backend/index.js",
   "scripts": {
-    "start": "node backend/index.js",
+    "start": "node backend/server.js",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -16,7 +15,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "path-to-regexp": "^6.3.0",
     "pg": "^8.16.0",
     "pg-protocol": "^1.10.1",
     "react": "^19.1.0",
