@@ -37,9 +37,10 @@ import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
 //Componentes específicos do Vistoriador
 import RealizarVistoriaListPage from "./pages/HomeVistoriador/RealizarVistoriaListPage"; // New component for the list
 import VistoriaDataEntryPage from "./pages/HomeVistoriador/VistoriaDataEntryPage";   // New component for data entry
+import CriarRelatorio from "./pages/HomeVistoriador/CriarRelatorioPage"; // New component for creating reports
 
 //Funcionalidades do Vistoriador
-const CriarRelatorioPage = () => <div><h1>Página de Gerenciamento de Relatórios</h1><p>Lista de relatórios para visualização/impressão.</p></div>;
+
 const NotificarClientePage = () => <div><h1>Página de Notificação de Clientes</h1><p>Envie mensagens ou alertas para clientes.</p></div>;
 const ReagendarVistoriaPage = () => <div><h1>Página de Reagendamento de Vistoria</h1><p>Formulário para alterar a data de uma vistoria.</p></div>;
 
@@ -144,7 +145,7 @@ function App() {
               <>
                 <Route path="/vistoriador/realizar-vistoria" element={<RealizarVistoriaListPage />} />
                 <Route path="/vistoriador/vistoria/:id" element={<VistoriaDataEntryPage />} />
-                <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
+                <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorio />} />
                 <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
                 <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} />
               </>
