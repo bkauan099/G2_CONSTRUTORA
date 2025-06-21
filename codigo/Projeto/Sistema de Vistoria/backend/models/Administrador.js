@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../Db'); // usando postgres
+const db = require('../db'); // usando postgres
 
 // GET: Lista todos os administradores
 router.get('/', async (req, res) => {

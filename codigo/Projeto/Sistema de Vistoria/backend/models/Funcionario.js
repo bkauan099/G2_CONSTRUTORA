@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../Db'); // usando postgres
+const db = require('../db'); // usando postgres
 
 // GET: Lista todos os funcionários
 router.get('/', async (req, res) => {
@@ -20,7 +20,7 @@ router.post('/', async (req, res) => {
       INSERT INTO Funcionario (cpf, email, nome, senha, telefone)
       VALUES (${cpf}, ${email}, ${nome}, ${senha}, ${telefone})
       RETURNING *`;
-      
+
     res.status(201).json(funcionario);
   } catch (err) {
     res.status(500).json({ error: err.message });
