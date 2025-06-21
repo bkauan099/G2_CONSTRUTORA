@@ -3,15 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import '../home.css';
 import './empreendimentos.css';
 
-
-//função de cadastro
 function CadastrarEmpreendimento() {
   const navigate = useNavigate();
 
-  //variaveis 
   const [formData, setFormData] = useState({
     nome: '',
-    endereco: '',
+    rua: '', // agora corresponde ao campo do banco
     descricao: '',
   });
 
@@ -20,20 +17,38 @@ function CadastrarEmpreendimento() {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const storedEmpreendimentos = localStorage.getItem('empreendimentosMock');
-    const empreendimentos = storedEmpreendimentos ? JSON.parse(storedEmpreendimentos) : [];
+    try {
+      const response = await fetch('http://localhost:3001/api/empreendimentos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome: formData.nome,
+          descricao: formData.descricao,
+          rua: formData.rua,
+          construtora: null,
+          dataentrega: null,
+          observacoes: null,
+          cidade: null,
+          estado: null,
+          cep: null,
+        }),
+      });
 
-    const newId = empreendimentos.length > 0 ? Math.max(...empreendimentos.map(emp => emp.id)) + 1 : 1;
-    const novoEmpreendimento = { ...formData, id: newId };
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar empreendimento');
+      }
 
-    const updatedEmpreendimentos = [...empreendimentos, novoEmpreendimento];
-    localStorage.setItem('empreendimentosMock', JSON.stringify(updatedEmpreendimentos));
-
-    alert('Empreendimento cadastrado com sucesso!');
-    navigate('/empreendimentos');
+      alert('Empreendimento cadastrado com sucesso!');
+      navigate('/empreendimentos');
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error);
+      alert('Erro ao cadastrar empreendimento. Verifique o console.');
+    }
   };
 
   return (
@@ -44,7 +59,7 @@ function CadastrarEmpreendimento() {
           <a href="#" onClick={() => navigate("/home")}>Home</a>
           <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
         </nav>
-        <button className="logout-button" onClick={() => {navigate("/login"); }}>
+        <button className="logout-button" onClick={() => navigate("/login")}>
           Sair
         </button>
       </header>
@@ -58,15 +73,38 @@ function CadastrarEmpreendimento() {
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">
             <label htmlFor="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
+            <input
+              type="text"
+              id="nome"
+              name="nome"
+              value={formData.nome}
+              onChange={handleChange}
+              required
+            />
           </div>
+
           <div className="form-group">
-            <label htmlFor="endereco">Endereço:</label>
-            <input type="text" id="endereco" name="endereco" value={formData.endereco} onChange={handleChange} required />
+            <label htmlFor="rua">Rua (Endereço):</label>
+            <input
+              type="text"
+              id="rua"
+              name="rua"
+              value={formData.rua}
+              onChange={handleChange}
+              required
+            />
           </div>
+
           <div className="form-group">
             <label htmlFor="descricao">Descrição:</label>
-            <textarea id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} rows="4"></textarea>
+            <textarea
+              id="descricao"
+              name="descricao"
+              value={formData.descricao}
+              onChange={handleChange}
+              rows="4"
+              required
+            ></textarea>
           </div>
 
           <div className="form-actions">
