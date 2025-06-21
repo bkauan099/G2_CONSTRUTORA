@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const { createClient } = require('@supabase/supabase-js');
 
-// POST: Cria um novo Empreendimento (com endereço)
+// Cria o cliente Supabase — espera que as variáveis estejam no .env carregadas antes
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+
+// POST: cria um novo empreendimento com endereço
 router.post('/', async (req, res) => {
   const {
     nome = '',
     descricao = '',
     construtora = '',
-    dataEntrega = null,
+    dataentrega = null,
     observacoes = '',
     cidade = '',
     estado = '',
@@ -17,30 +20,66 @@ router.post('/', async (req, res) => {
   } = req.body;
 
   try {
-    // 1. Insere o endereço (mesmo que vazio)
-    const [endereco] = await db`
-      INSERT INTO Endereco (cidade, estado, cep, rua)
-      VALUES (${cidade}, ${estado}, ${cep}, ${rua})
-      RETURNING idEndereco
-    `;
+    // 1. Insere o endereço (tabela e colunas em minúsculo)
+    const { data: enderecoData, error: enderecoError } = await supabase
+      .from('endereco')
+      .insert([{ condominio: null, bloco: null, numero: null }]) // campos mínimos exigidos
+      .select('idendereco')
+      .single();
 
-    const idEndereco = endereco.idendereco || endereco.idEndereco;
+    if (enderecoError) {
+      console.error('Erro ao inserir endereço:', enderecoError);
+      return res.status(500).json({ error: 'Erro ao inserir endereço.' });
+    }
 
-    // 2. Insere o empreendimento
-    const [empreendimento] = await db`
-      INSERT INTO Empreendimento (
-        idEndereco, nome, descricao, construtora, dataEntrega, observacoes
-      )
-      VALUES (
-        ${idEndereco}, ${nome}, ${descricao}, ${construtora}, ${dataEntrega}, ${observacoes}
-      )
-      RETURNING *
-    `;
+    const idendereco = enderecoData.idendereco;
 
-    res.status(201).json(empreendimento);
+    // 2. Insere o empreendimento com o idEndereco obtido
+    const { data: empreendimentoData, error: empreendimentoError } = await supabase
+      .from('empreendimento')
+      .insert([{
+        idendereco,
+        nome,
+        descricao,
+        construtora,
+        dataentrega,
+        observacoes,
+        cidade,
+        estado,
+        cep,
+        rua
+      }])
+      .single();
+
+    if (empreendimentoError) {
+      console.error('Erro ao inserir empreendimento:', empreendimentoError);
+      return res.status(500).json({ error: 'Erro ao inserir empreendimento.' });
+    }
+
+    res.status(201).json(empreendimentoData);
+
   } catch (err) {
-    console.error('Erro ao criar empreendimento:', err);
-    res.status(500).json({ error: 'Erro ao criar empreendimento.' });
+    console.error('Erro inesperado ao criar empreendimento:', err);
+    res.status(500).json({ error: 'Erro inesperado ao criar empreendimento.' });
+  }
+});
+
+// GET: Lista todos os empreendimentos com o endereço
+router.get('/', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('empreendimento')
+      .select('*, endereco(*)');
+
+    if (error) {
+      console.error('Erro ao buscar empreendimentos:', error);
+      return res.status(500).json({ error: 'Erro ao buscar empreendimentos.' });
+    }
+
+    res.status(200).json(data);
+  } catch (err) {
+    console.error('Erro inesperado ao listar empreendimentos:', err);
+    res.status(500).json({ error: 'Erro inesperado.' });
   }
 });
 

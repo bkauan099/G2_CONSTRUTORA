@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-router.post("/login", async (req, res) => {
+// Corrigido: remove o "/login" aqui
+router.post("/", async (req, res) => {
   const { email, senha } = req.body;
 
   try {

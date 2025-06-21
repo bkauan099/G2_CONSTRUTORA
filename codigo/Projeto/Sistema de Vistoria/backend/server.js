@@ -1,25 +1,19 @@
+require('dotenv').config(); // Carrega variáveis do .env antes de qualquer coisa
+
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Importa rotas
-const funcionariosRoutes = require('./models/Funcionario');
-const administradoresRoutes = require('./models/Administrador');
-const loginRoutes = require('./routes/login');
-const empreendimentosRoutes = require('./models/Empreendimento'); // <-- ADICIONADO
+// Rotas
+const empreendimentosRoutes = require('./models/Empreendimento'); // tudo minúsculo se nome do arquivo for minúsculo
+const loginRoutes = require('./routes/login'); // rota de login
 
-// Usa rotas da API
-app.use('/api/funcionarios', funcionariosRoutes);
-app.use('/api/administradores', administradoresRoutes);
-app.use('/api', loginRoutes);
-app.use('/api/empreendimentos', empreendimentosRoutes); // <-- ADICIONADO
-
-// Teste de ambiente
-console.log(typeof process.env.DATABASE_URL); // Deve ser string
+// Usa as rotas
+app.use('/api/empreendimentos', empreendimentosRoutes);
+app.use('/api/login', loginRoutes); // <-- adicionada aqui
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
