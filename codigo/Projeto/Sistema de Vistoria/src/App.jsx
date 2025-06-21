@@ -24,6 +24,9 @@ import EditarImovel from "./pages/HomeAdm/Imoveis/EditarImovel";
 import VistoriasAgendadas from "./pages/HomeAdm/Vistorias/VistoriasAgendadas";
 import NovaVistoria from "./pages/HomeAdm/Vistorias/NovaVistoria";
 //Clientes
+import Clientes from "./pages/HomeAdm/Clientes/Clientes";
+import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastarCliente";
+import EditarCliente from "./pages/HomeAdm/Clientes/EditarCliente";
 
 // Componentes específicos do cliente
 import MeusImoveis from "./pages/HomeCliente/MeuImovel";
@@ -112,7 +115,9 @@ function App() {
                 <Route path="/cadastrar-empreendimento" element={<CadastrarEmpreendimento />} />
                 <Route path="/editar-empreendimento/:id" element={<EditarEmpreendimento />} />
                 {/* Clientes */}
-                
+                <Route path="/clientes" element={<Clientes />} />
+                <Route path="/cadastrar-cliente" element={<CadastrarCliente />} />
+                <Route path="/editar-cliente/:id" element={<EditarCliente />} />
                 {/* Imóveis */}
                 <Route path="/imoveis" element={<Imoveis />} />
                 <Route path="/cadastrar-imovel" element={<CadastrarImovel />} />
