@@ -9,12 +9,14 @@ app.use(express.json());
 // Importa rotas
 const funcionariosRoutes = require('./models/Funcionario');
 const administradoresRoutes = require('./models/Administrador');
-const loginRoutes = require('./routes/login'); // <-- nova rota de login
+const loginRoutes = require('./routes/login');
+const empreendimentosRoutes = require('./models/Empreendimento'); // <-- ADICIONADO
 
 // Usa rotas da API
 app.use('/api/funcionarios', funcionariosRoutes);
 app.use('/api/administradores', administradoresRoutes);
-app.use('/api', loginRoutes); // <-- adiciona rota de login em /api/login
+app.use('/api', loginRoutes);
+app.use('/api/empreendimentos', empreendimentosRoutes); // <-- ADICIONADO
 
 // Teste de ambiente
 console.log(typeof process.env.DATABASE_URL); // Deve ser string

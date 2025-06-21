@@ -2,7 +2,9 @@ require('dotenv').config();
 const postgres = require('postgres');
 
 const sql = postgres(process.env.DATABASE_URL, {
-  ssl: 'require',
+  ssl: {
+    rejectUnauthorized: false, // <- ESSA linha é essencial para evitar o erro do certificado
+  },
 });
 
 module.exports = sql;

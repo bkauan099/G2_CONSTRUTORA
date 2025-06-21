@@ -1,22 +1,47 @@
-class Empreendimento {
-  constructor(id, idEndereco, nome, descricao, construtora, dataEntrega, observacoes, cidade, estado, cep, rua) {
-    this.id = id;
-    this.idEndereco = idEndereco;
-    this.nome = nome;
-    this.descricao = descricao;
-    this.construtora = construtora;
-    this.dataEntrega = dataEntrega;
-    this.observacoes = observacoes;
-    this.cidade = cidade;
-    this.estado = estado;
-    this.cep = cep;
-    this.rua = rua;
-    this.imoveis = []; // array de Imoveis (já estava correto)
-  }
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
 
-  adicionarImovel(imovel) {
-    this.imoveis.push(imovel);
-  }
-}
+// POST: Cria um novo Empreendimento (com endereço)
+router.post('/', async (req, res) => {
+  const {
+    nome = '',
+    descricao = '',
+    construtora = '',
+    dataEntrega = null,
+    observacoes = '',
+    cidade = '',
+    estado = '',
+    cep = '',
+    rua = ''
+  } = req.body;
 
-module.exports = Empreendimento;
+  try {
+    // 1. Insere o endereço (mesmo que vazio)
+    const [endereco] = await db`
+      INSERT INTO Endereco (cidade, estado, cep, rua)
+      VALUES (${cidade}, ${estado}, ${cep}, ${rua})
+      RETURNING idEndereco
+    `;
+
+    const idEndereco = endereco.idendereco || endereco.idEndereco;
+
+    // 2. Insere o empreendimento
+    const [empreendimento] = await db`
+      INSERT INTO Empreendimento (
+        idEndereco, nome, descricao, construtora, dataEntrega, observacoes
+      )
+      VALUES (
+        ${idEndereco}, ${nome}, ${descricao}, ${construtora}, ${dataEntrega}, ${observacoes}
+      )
+      RETURNING *
+    `;
+
+    res.status(201).json(empreendimento);
+  } catch (err) {
+    console.error('Erro ao criar empreendimento:', err);
+    res.status(500).json({ error: 'Erro ao criar empreendimento.' });
+  }
+});
+
+module.exports = router;
