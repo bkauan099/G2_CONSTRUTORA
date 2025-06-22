@@ -7,7 +7,7 @@ const administradoresRoutes = require('./models/Administrador');
 const loginRoutes = require('./routes/login');
 const relatorioRoutes = require('./routes/relatorio.routes');
 const empreendimentosRoutes = require('./models/Empreendimento');
-const imoveisRoutes = require('./models/Endereco'); // 
+const imoveisRoutes = require('./models/Imovel'); 
 
 const app = express();
 app.use(cors());
@@ -19,7 +19,7 @@ app.use('/api/administradores', administradoresRoutes);
 app.use('/api/login', loginRoutes);
 app.use('/api/relatorio', relatorioRoutes);
 app.use('/api/empreendimentos', empreendimentosRoutes);
-app.use('/api/imoveis', imoveisRoutes); // 
+app.use('/api/imoveis', imoveisRoutes); 
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

@@ -1,17 +1,17 @@
-// Endereco.js
+// Imovel.js
 const express = require('express');
 const router = express.Router();
 const db = require('../db');  // Importando o cliente do db.js
 
 // GET /api/imoveis/por-empreendimento/:idEmpreendimento
-router.get('/por-empreendimento/:idEmpreendimento', async (req, res) => {
-  const { idEmpreendimento } = req.params;
+router.get('/por-empreendimento/:idempreendimento', async (req, res) => {
+  const { idempreendimento } = req.params;
 
   try {
     const { data, error } = await db
-      .from('endereco')
-      .select('idendereco, bloco, numero, empreendimento(nome, descricao)')
-      .eq('idempreendimento', idEmpreendimento);
+      .from('imovel')  // Tabela 'imovel' com nome em minúsculo
+      .select('idimovel, bloco, numero, empreendimento(nome, descricao)') // Ajustado para minúsculo
+      .eq('idempreendimento', idempreendimento);
 
     if (error) {
       console.error('Erro ao buscar imóveis:', error);
@@ -25,18 +25,18 @@ router.get('/por-empreendimento/:idEmpreendimento', async (req, res) => {
   }
 });
 
-// POST /api/imoveis - Adiciona novo imóvel (endereço) ao empreendimento
+// POST /api/imoveis - Adiciona novo imóvel ao empreendimento
 router.post('/', async (req, res) => {
-  const { bloco, numero, idempreendimento } = req.body;
+  const { descricao, status, vistoriasrealizadas, observacao, bloco, numero, idempreendimento } = req.body;
 
-  if (!bloco || !numero || !idempreendimento) {
+  if (!descricao || !status || !vistoriasrealizadas || !bloco || !numero || !idempreendimento) {
     return res.status(400).json({ error: 'Campos obrigatórios ausentes.' });
   }
 
   try {
     const { data, error } = await db
-      .from('endereco')
-      .insert([{ bloco, numero, idempreendimento }])
+      .from('imovel')  // Tabela 'imovel' com nome em minúsculo
+      .insert([{ descricao, status, vistoriasrealizadas, observacao, bloco, numero, idempreendimento }])
       .single();
 
     if (error) {
@@ -51,19 +51,23 @@ router.post('/', async (req, res) => {
   }
 });
 
-// DELETE /api/imoveis/:idEndereco
-router.delete('/:idEndereco', async (req, res) => {
-  const { idEndereco } = req.params;
+// DELETE /api/imoveis/:idimovel
+router.delete('/:idimovel', async (req, res) => {
+  const { idimovel } = req.params; // Obtém o ID do imóvel da URL
 
   try {
-    const { error } = await db
-      .from('endereco')
+    const { data, error } = await db
+      .from('imovel')  // A tabela imovel
       .delete()
-      .eq('idendereco', idEndereco); // Excluir o imóvel com o idEndereco correspondente
+      .eq('idimovel', idimovel);  // Confirma a exclusão do imóvel com o ID
 
     if (error) {
       console.error('Erro ao excluir imóvel:', error);
       return res.status(500).json({ error: 'Erro ao excluir imóvel.' });
+    }
+
+    if (data.length === 0) {  // Verifica se o imóvel foi encontrado
+      return res.status(404).json({ error: 'ID do imóvel não encontrado' });
     }
 
     res.status(200).json({ message: 'Imóvel excluído com sucesso.' });
