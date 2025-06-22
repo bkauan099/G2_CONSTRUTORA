@@ -14,6 +14,30 @@ function Login({ onLogin }) {
     setLoading(true);
 
     try {
+      // 🔒 ---- LOGIN LOCAL PARA TESTE ---- (Comentado)
+      /*
+      let determinedUserType = null;
+
+      if (email === "admin@civis.com" && senha === "admin123") {
+        determinedUserType = "admin";
+      } else if (email === "vistoriador@civis.com" && senha === "vistoria123") {
+        determinedUserType = "vistoriador";
+      } else if (email === "cliente@civis.com" && senha === "cliente123") {
+        determinedUserType = "cliente";
+      } else {
+        alert("Email ou senha incorretos! Verifique suas credenciais.");
+        return;
+      }
+
+      if (determinedUserType) {
+        alert(`Login de ${determinedUserType} realizado com sucesso!`);
+        onLogin(determinedUserType);
+        navigate("/home");
+      }
+      */
+      // 🔒 ---- FIM DO LOGIN LOCAL ----
+
+      
       const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
         headers: {
