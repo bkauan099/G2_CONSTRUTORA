@@ -1,8 +1,7 @@
+// Empreendimento.js
 const express = require('express');
 const router = express.Router();
-const { createClient } = require('@supabase/supabase-js');
-
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const db = require('../db');  // Importando o cliente do db.js
 
 // POST: Cria um novo empreendimento
 router.post('/', async (req, res) => {
@@ -19,7 +18,7 @@ router.post('/', async (req, res) => {
   } = req.body;
 
   try {
-    const { data: empreendimentoData, error: empreendimentoError } = await supabase
+    const { data: empreendimentoData, error: empreendimentoError } = await db
       .from('empreendimento')
       .insert([{
         nome,
@@ -40,7 +39,6 @@ router.post('/', async (req, res) => {
     }
 
     res.status(201).json(empreendimentoData);
-
   } catch (err) {
     console.error('Erro inesperado ao criar empreendimento:', err);
     res.status(500).json({ error: 'Erro inesperado ao criar empreendimento.' });
@@ -50,7 +48,7 @@ router.post('/', async (req, res) => {
 // GET: Lista todos os empreendimentos
 router.get('/', async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('empreendimento')
       .select('*');
 
@@ -71,10 +69,10 @@ router.delete('/:id', async (req, res) => {
   const { id } = req.params;
 
   try {
-    const { error } = await supabase
+    const { error } = await db
       .from('empreendimento')
       .delete()
-      .eq('idempreendimento', id); // certifique-se que o nome da coluna está tudo minúsculo
+      .eq('idempreendimento', id);
 
     if (error) {
       console.error('Erro ao excluir empreendimento:', error);

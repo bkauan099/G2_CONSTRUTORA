@@ -1,8 +1,11 @@
+// db.js
 require('dotenv').config();
-const postgres = require('postgres');
+const { createClient } = require('@supabase/supabase-js');
 
-const sql = postgres(process.env.DATABASE_URL, {
-  ssl: 'require',
-});
+// Criar o cliente do Supabase
+const supabase = createClient(
+  process.env.SUPABASE_URL, // A URL do seu Supabase
+  process.env.SUPABASE_ANON_KEY // A chave Anônima do seu Supabase
+);
 
-module.exports = sql;
+module.exports = supabase;

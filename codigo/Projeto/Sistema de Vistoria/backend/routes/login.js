@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../db');
+const db = require('../db'); // Aqui estamos importando o cliente do Supabase
 
 // Corrigido: remove o "/login" aqui
 router.post("/", async (req, res) => {
@@ -8,28 +8,32 @@ router.post("/", async (req, res) => {
 
   try {
     // 1. Verifica se é funcionário
-    const funcResult = await db`
-      SELECT * FROM funcionario WHERE email = ${email} AND senha = ${senha}
-    `;
+    const funcResult = await db
+      .from('funcionario')  // Usando o método correto para interagir com o banco
+      .select('*')
+      .eq('email', email)
+      .eq('senha', senha);
 
-    if (funcResult.length > 0) {
-      const funcionario = funcResult[0];
+    if (funcResult.data.length > 0) {
+      const funcionario = funcResult.data[0];
 
       // Verifica se é administrador
-      const admResult = await db`
-        SELECT * FROM administrador WHERE idadministrador = ${funcionario.id}
-      `;
+      const admResult = await db
+        .from('administrador')
+        .select('*')
+        .eq('idadministrador', funcionario.id);
 
-      if (admResult.length > 0) {
+      if (admResult.data.length > 0) {
         return res.json({ tipo: "admin", id: funcionario.id });
       }
 
       // Verifica se é vistoriador
-      const vistResult = await db`
-        SELECT * FROM vistoriador WHERE idvistoriador = ${funcionario.id}
-      `;
+      const vistResult = await db
+        .from('vistoriador')
+        .select('*')
+        .eq('idvistoriador', funcionario.id);
 
-      if (vistResult.length > 0) {
+      if (vistResult.data.length > 0) {
         return res.json({ tipo: "vistoriador", id: funcionario.id });
       }
 
@@ -37,12 +41,14 @@ router.post("/", async (req, res) => {
     }
 
     // 2. Verifica se é cliente
-    const clienteResult = await db`
-      SELECT * FROM cliente WHERE email = ${email} AND cpf = ${senha}
-    `;
+    const clienteResult = await db
+      .from('cliente')
+      .select('*')
+      .eq('email', email)
+      .eq('cpf', senha);
 
-    if (clienteResult.length > 0) {
-      const cliente = clienteResult[0];
+    if (clienteResult.data.length > 0) {
+      const cliente = clienteResult.data[0];
       return res.json({ tipo: "cliente", id: cliente.idcliente });
     }
 
