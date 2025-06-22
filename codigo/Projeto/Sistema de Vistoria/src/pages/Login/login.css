@@ -12,7 +12,8 @@ html, body, #root {
   font-family: "Segoe UI", sans-serif;
 }
 
-/* Centraliza toda a página */
+/* --- Estilos para a Página de Login --- */
+/* Centraliza toda a página de login */
 .login-page {
   display: flex;
   justify-content: center;
@@ -20,7 +21,7 @@ html, body, #root {
   height: 100vh;
 }
 
-/* Caixa de login */
+/* Estilos para a caixa (container) do formulário de login */
 .login-container {
   position: relative;
   width: 350px;
@@ -30,7 +31,7 @@ html, body, #root {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-/* Setinha no canto superior esquerdo */
+/* Estilo para a setinha de voltar */
 .back-arrow {
   position: absolute;
   top: 15px;
@@ -42,7 +43,7 @@ html, body, #root {
   cursor: pointer;
 }
 
-/* Título */
+/* Estilo para o título da página de login */
 .login-title {
   text-align: center;
   font-size: 28px;
@@ -51,12 +52,13 @@ html, body, #root {
   color: #003060;
 }
 
-/* Labels e Inputs */
+/* Estilos para os labels e inputs do formulário de login */
 .login-form label {
   display: block;
   margin-top: 15px;
   margin-bottom: 5px;
   font-weight: 500;
+  color: #333; /* Cor padrão do texto do label no login */
 }
 
 .login-form input {
@@ -66,7 +68,7 @@ html, body, #root {
   border-radius: 5px;
 }
 
-/* Botão Entrar */
+/* Estilo para o botão "Entrar" do login */
 .login-button {
   width: 100%;
   margin-top: 25px;
@@ -83,7 +85,7 @@ html, body, #root {
   background-color: #001f40;
 }
 
-/* Link de cadastro */
+/* Estilo para o link "Não possui cadastro?" */
 .no-account {
   margin-top: 20px;
   text-align: center;
@@ -96,4 +98,138 @@ html, body, #root {
   color: #001f40;
 }
 
+/* --- Estilos para a Página de Cadastro (Aprimorados e Consolidando) --- */
+/* Centraliza toda a página de cadastro */
+.cadastro-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', sans-serif;
+  padding: 20px;
+}
 
+/* Estilos para a caixa (container) do formulário de cadastro */
+.cadastro-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  padding: 30px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para o título da página de cadastro */
+.cadastro-title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Estilos para grupos de formulário (envolvem label e input/select) */
+.cadastro-form .form-group {
+  margin-bottom: 30px;
+}
+
+/* Estilos para os labels do formulário de cadastro */
+.cadastro-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e; /* Cor padrão do label no cadastro */
+  font-size: 0.95rem;
+}
+
+/* Estilo específico para o label do Tipo de Usuário */
+.cadastro-form label[for="userType"] { /* Alvo específico o label do Tipo de Usuário */
+  color: #333; 
+}
+
+/* Estilos para inputs e selects do formulário de cadastro */
+.cadastro-form input,
+.cadastro-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  font-size: 1rem;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Estilo para o texto dentro do select e das options (e fundo) */
+.cadastro-form select {
+  color: white; /* Texto do select em branco */
+}
+
+/* Estilo para as opções dentro do select (quando o dropdown é aberto) */
+.cadastro-form select option {
+  color: white; /* Texto das opções em branco */
+}
+
+/* Estilos de foco para inputs e selects */
+.cadastro-form input:focus,
+.cadastro-form select:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Estilo para o botão "Cadastrar" */
+.cadastro-button {
+  width: 100%;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #3498db;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.cadastro-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para o link "Já possui cadastro? Faça login" */
+.login-link {
+  margin-top: 25px;
+  text-align: center;
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.login-link:hover {
+  color: #2980b9;
+  text-decoration: underline;
+}
+
+/* Estilo para a setinha de voltar (compartilhado com o login) */
+.back-arrow {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #7f8c8d;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.back-arrow:hover {
+  color: #34495e;
+}

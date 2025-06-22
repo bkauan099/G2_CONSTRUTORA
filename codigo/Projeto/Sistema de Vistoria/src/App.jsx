@@ -27,6 +27,7 @@ import VistoriasAgendadas from "./pages/HomeAdm/Vistorias/VistoriasAgendadas";
 import NovaVistoria from "./pages/HomeAdm/Vistorias/NovaVistoria";
 //Clientes
 import Clientes from "./pages/HomeAdm/Clientes/Clientes";
+import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastrarCliente";
 //import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastrarCliente";
 import EditarCliente from "./pages/HomeAdm/Clientes/EditarCliente";
 
@@ -128,7 +129,7 @@ userType === "admin" ? (
 <Route path="/imoveis" element={<Imoveis />} />
 <Route path="/cadastrar-imovel" element={<CadastrarImovel />} />
 <Route path="/editar-imovel/:id" element={<EditarImovel />} /> 
-<Route path="/visualizar-imovel/:id" element={<VisualizarImovel />} />
+{/*<Route path="/visualizar-imovel/:id" element={<VisualizarImovel />} />*\}
 {/* Vistorias */}
 <Route path="/vistorias-agendadas" element={<VistoriasAgendadas />} />
 <Route path="/nova-vistoria" element={<NovaVistoria />} />
