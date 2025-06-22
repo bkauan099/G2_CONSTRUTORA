@@ -42,12 +42,14 @@ function Cadastro() {
   };
 
   return (
+    // Página de Cadastro
     <div className="cadastro-page">
       <div className="cadastro-container">
+        {/* botao de voltar para a página de login */}
         <button
           type="button"
           className="back-arrow"
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/login')}
           aria-label="Voltar"
         >
           &#8592;
@@ -55,6 +57,7 @@ function Cadastro() {
 
         <h1 className="cadastro-title">Cadastro</h1>
 
+        { /* formulario de cadastro */}
         <form onSubmit={handleRegister} className="cadastro-form">
           <div className="form-group"> 
             <label htmlFor="email">Email</label>
@@ -67,7 +70,7 @@ function Cadastro() {
               required
             />
           </div>
-
+          { /* campo de senha */}
           <div className="form-group"> 
             <label htmlFor="password">Senha</label>
             <input
@@ -80,6 +83,7 @@ function Cadastro() {
             />
           </div>
 
+          { /* campo de confirmação de senha */}
           <div className="form-group">
             <label htmlFor="confirmPassword">Confirme a Senha</label>
             <input
@@ -92,7 +96,8 @@ function Cadastro() {
             />
           </div>
 
-          <div className="form-group"> 
+        { /* campo de seleção de tipo de usuário */}
+          <div className="form"> 
             <label htmlFor="userType">Tipo de Usuário:</label>
             <select
               id="userType"
@@ -101,8 +106,8 @@ function Cadastro() {
               required
             >
               <option value="cliente">Cliente</option>
-              <option value="cliente">Funcionário</option>
-              <option value="cliente">Vistoriador</option>
+              <option value="vistoriador">Vistoriador</option>
+              <option value="outro">Outro</option>
             </select>
           </div>
 
