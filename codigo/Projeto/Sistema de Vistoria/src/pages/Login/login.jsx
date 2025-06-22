@@ -14,6 +14,30 @@ function Login({ onLogin }) {
     setLoading(true);
 
     try {
+      // 🔒 ---- LOGIN LOCAL PARA TESTE ---- (Comentado)
+      /*
+      let determinedUserType = null;
+
+      if (email === "admin@civis.com" && senha === "admin123") {
+        determinedUserType = "admin";
+      } else if (email === "vistoriador@civis.com" && senha === "vistoria123") {
+        determinedUserType = "vistoriador";
+      } else if (email === "cliente@civis.com" && senha === "cliente123") {
+        determinedUserType = "cliente";
+      } else {
+        alert("Email ou senha incorretos! Verifique suas credenciais.");
+        return;
+      }
+
+      if (determinedUserType) {
+        alert(`Login de ${determinedUserType} realizado com sucesso!`);
+        onLogin(determinedUserType);
+        navigate("/home");
+      }
+      */
+      // 🔒 ---- FIM DO LOGIN LOCAL ----
+
+      
       const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
         headers: {
@@ -22,18 +46,30 @@ function Login({ onLogin }) {
         body: JSON.stringify({ email, senha }),
       });
 
+      const contentType = response.headers.get("content-type");
+
       if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.erro || "Erro desconhecido.");
+        if (contentType && contentType.includes("application/json")) {
+          const erro = await response.json();
+          throw new Error(erro.erro || "Erro desconhecido.");
+        } else {
+          const texto = await response.text();
+          throw new Error("Erro inesperado: " + texto);
+        }
       }
 
-      const data = await response.json();
-      const tipo = data.tipo;
+      if (contentType && contentType.includes("application/json")) {
+        const data = await response.json();
+        const tipo = data.tipo;
 
-      alert(`Login de ${tipo} realizado com sucesso!`);
-      onLogin(tipo);
-      navigate(`/home/${tipo}`);
+        alert(`Login de ${tipo} realizado com sucesso!`);
+        onLogin(tipo);
+        navigate(`/home/${tipo}`);
+      } else {
+        throw new Error("Resposta inesperada do servidor.");
+      }
     } catch (err) {
+      console.error("Erro no login:", err);
       alert(err.message);
     } finally {
       setLoading(false);
