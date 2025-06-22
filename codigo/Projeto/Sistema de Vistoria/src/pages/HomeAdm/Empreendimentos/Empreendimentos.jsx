@@ -1,32 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../home.css'; 
-import './empreendimentos.css'; 
+import '../home.css';
+import './empreendimentos.css';
 
 function Empreendimentos() {
   const navigate = useNavigate();
+  const [empreendimentos, setEmpreendimentos] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const [empreendimentos, setEmpreendimentos] = useState(() => {
-    const savedEmpreendimentos = localStorage.getItem('empreendimentosMock');
-    return savedEmpreendimentos ? JSON.parse(savedEmpreendimentos) : [
-      { id: 101, nome: 'Residencial Atlântico', endereco: 'Av. Beira Mar, 123', descricao: 'Apartamentos de luxo com vista para o mar' },
-      { id: 102, nome: 'Condomínio das Flores', endereco: 'Rua das Rosas, 456', descricao: 'Casas em condomínio fechado com área de lazer completa' },
-      { id: 103, nome: 'Centro Empresarial Norte', endereco: 'Av. Norte, 789', descricao: 'Salas comerciais modernas e bem localizadas' },
-    ];
-  });
-
-  //salvar empreendimentos se tiver alteração
+  // Buscar empreendimentos no backend
   useEffect(() => {
-    localStorage.setItem('empreendimentosMock', JSON.stringify(empreendimentos));
-  }, [empreendimentos]);
+    const fetchEmpreendimentos = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/empreendimentos');
+        if (!response.ok) {
+          throw new Error('Erro ao buscar empreendimentos');
+        }
+        const data = await response.json();
+        setEmpreendimentos(data);
+      } catch (err) {
+        console.error('Erro ao buscar empreendimentos:', err);
+        alert('Erro ao buscar empreendimentos. Verifique o console.');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //função para excluir 
-  const handleExcluir = (id, nome) => {
-    if (window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?  Todos os imóveis associados também serão afetados.`)) {
-      const novosEmpreendimentos = empreendimentos.filter(emp => emp.id !== id);
-      setEmpreendimentos(novosEmpreendimentos);
+    fetchEmpreendimentos();
+  }, []);
+
+  // Exclusão (opcional, precisa de rota DELETE no backend)
+  const handleExcluir = async (id, nome) => {
+    if (!window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?`)) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/empreendimentos/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Erro ao excluir empreendimento');
+
+      setEmpreendimentos((prev) => prev.filter((e) => e.idEmpreendimento !== id));
       alert(`Empreendimento "${nome}" excluído com sucesso!`);
-      
+    } catch (err) {
+      console.error('Erro ao excluir:', err);
+      alert('Erro ao excluir empreendimento.');
     }
   };
 
@@ -37,11 +54,9 @@ function Empreendimentos() {
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home")}>Home</a>
           <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
-          <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a> 
+          <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
         </nav>
-        <button className="logout-button" onClick={() => {navigate("/login"); }}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
       </header>
 
       <main className="admin-page-container">
@@ -52,7 +67,9 @@ function Empreendimentos() {
           </button>
         </div>
 
-        {empreendimentos.length === 0 ? (
+        {loading ? (
+          <p>Carregando empreendimentos...</p>
+        ) : empreendimentos.length === 0 ? (
           <p style={{ textAlign: 'center', marginTop: '50px', color: '#555' }}>Nenhum empreendimento cadastrado.</p>
         ) : (
           <table className="lista-tabela">
@@ -60,28 +77,20 @@ function Empreendimentos() {
               <tr>
                 <th>ID</th>
                 <th>Nome</th>
-                <th>Endereço</th>
                 <th>Descrição</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {empreendimentos.map(emp => (
-                <tr key={emp.id}>
-                  <td>{emp.id}</td>
+                <tr key={emp.idEmpreendimento}>
+                  <td>{emp.idEmpreendimento}</td>
                   <td>{emp.nome}</td>
-                  <td>{emp.endereco}</td>
                   <td>{emp.descricao}</td>
                   <td className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.id}`)}>
-                      Editar
-                    </button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(emp.id, emp.nome)}>
-                      Excluir
-                    </button>
-                    <button className="btn-editar" onClick={() => navigate(`/imoveis?empreendimentoId=${emp.id}`)}>
-                      Exibir Imóveis
-                    </button>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.idEmpreendimento}`)}>Editar</button>
+                    <button className="btn-excluir" onClick={() => handleExcluir(emp.idEmpreendimento, emp.nome)}>Excluir</button>
+                    <button className="btn-editar" onClick={() => navigate(`/imoveis?empreendimentoId=${emp.idEmpreendimento}`)}>Exibir Imóveis</button>
                   </td>
                 </tr>
               ))}

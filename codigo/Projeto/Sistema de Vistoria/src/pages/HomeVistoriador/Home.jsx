@@ -1,20 +1,53 @@
-import "./home.css"; // Ensure this CSS path is correct
-import { useNavigate } from "react-router-dom"; 
+import "./home.css";
+import { useNavigate } from "react-router-dom";
 
 function HomeVistoriador({ onLogout }) {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  // Placeholder data for "Vistorias Disponíveis"
+  // Em uma aplicação real, esses dados viriam de uma API
+  const possibleSurveys = [
+    {
+      id: 1,
+      image: "/assets/imagensEmpreendimentos/VillageGarden.jpg",
+      title: "Vistoria Casa - Turu",
+      description: "Agendada para 25/06/2025",
+      status: "AGENDADA" // Adicionado para refletir um possível status
+    },
+    {
+      id: 2,
+      image: "/assets/imagensEmpreendimentos/JardimDeEvora.jpg",
+      title: "Vistoria Apartamento - Cidade Operária",
+      description: "Agendada para 26/06/2025",
+      status: "AGENDADA"
+    },
+    {
+      id: 3,
+      image: "/assets/imagensEmpreendimentos/VillageAlvorada.jpg",
+      title: "Vistoria Apartamento - São Cristóvão",
+      description: "Agendada para 27/06/2025",
+      status: "AGENDADA"
+    },
+    {
+      id: 4,
+      image: "/assets/imagensEmpreendimentos/RanchoDasFlores.jpg", // Exemplo de vistoria em andamento
+      title: "Vistoria Loja - Centro",
+      description: "Em Andamento - Iniciada em 20/06/2025",
+      status: "EM_ANDAMENTO"
+    }
+    // Você pode adicionar mais conforme necessário
+  ];
 
   return (
     <div className="home-container">
       <header className="navbar">
-        <div className="logo">CIVIS</div>
+        <div className="logo">CIVIS</div> {/* Logo permanece CIVIS */}
         <nav className="nav-links">
+          {/* Change color of these links via CSS */}
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          {/* Main entry point for the survey process */}
-          <a href="#" onClick={() => navigate("/vistoriador/realizar-vistoria")}>Realizar Vistoria</a> 
-          <a href="#" onClick={() => navigate("/vistoriador/criar-relatorio")}>Criar Relatório</a>
-          {/* General actions for Vistoriador, if not directly part of a survey flow */}
-          <a href="#" onClick={() => navigate("/vistoriador/notificar-cliente")}>Notificar Cliente</a>
+          {/* Este link leva à mesma lista de vistorias, conforme "Acessar Lista de Imóveis" */}
+          <a href="#" onClick={() => navigate("/vistoriador/realizar-vistoria")}>Realizar Vistoria</a>
+
         </nav>
         <button className="logout-button" onClick={onLogout}>
           Sair
@@ -37,28 +70,44 @@ function HomeVistoriador({ onLogout }) {
         </div>
       </main>
 
-      {/* Atalhos rápidos */}
-      <section className="atalhos">
-        <h2>Acesso Rápido</h2>
-        <div className="atalhos-cards">
-          {/* Quick access for the main survey process */}
-          <div className="card" onClick={() => navigate("/vistoriador/realizar-vistoria")}>
-            <img src="/imagens/realizar.png" alt="Realizar Vistoria" />
-            <h3>Realizar Vistoria</h3>
+      <section className="possible-surveys-section">
+        <div className="menu-header-surveys">
+          <h2>Vistorias Disponíveis</h2>
+          <div className="search-bar-and-add-surveys">
+            <div className="search-input-wrapper">
+              <input type="text" placeholder="Pesquisar Vistoria..." className="search-input" />
+              <span className="search-icon">🔍</span>
+            </div>
+            {/* O diagrama não mostra um botão de "Agendar Nova Vistoria" a partir desta tela para o vistoriador,
+                focando em acessar e proceder com as vistorias existentes. */}
           </div>
-          <div className="card" onClick={() => navigate("/vistoriador/criar-relatorio")}>
-            <img src="/imagens/criar.png" alt="Criar Relatório" />
-            <h3>Criar Relatório</h3>
-          </div>
-          {/* Quick access for general actions */}
-          <div className="card" onClick={() => navigate("/vistoriador/notificar-cliente")}>
-            <img src="/imagens/notificar.png" alt="Notificar Cliente" /> 
-            <h3>Notificar Cliente</h3>
-          </div>
-          {/* Reagendar Vistoria is now primarily a button on the data entry page, 
-              but you could have a general rescheduling dashboard here if needed.
-              For now, I'm removing it from the quick access to avoid redundancy 
-              with the button on the VistoriaDataEntryPage.*/}
+        </div>
+
+        <div className="survey-cards-container">
+          {possibleSurveys.map((survey) => (
+            <div key={survey.id} className="survey-card">
+              <img src={survey.image} alt={survey.title} className="survey-image" />
+              <h3>{survey.title}</h3>
+              <p>{survey.description}</p>
+              {/* O botão "Ver Vistoria" agora navega para a página de detalhes da vistoria
+                  (que seria o VistoriaDataEntryPage) para 'Acessar Aba de Vistoria'. */}
+              <button
+                className="view-survey-button"
+                onClick={() => navigate(`/vistoriador/vistoria/${survey.id}`)}
+              >
+                Ver Vistoria
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <div className="pagination">
+          <a href="#">&lt;</a>
+          <a href="#" className="active">1</a>
+          <a href="#">2</a>
+          <a href="#">3</a>
+          <a href="#">4</a>
+          <a href="#">&gt;</a>
         </div>
       </section>
     </div>
