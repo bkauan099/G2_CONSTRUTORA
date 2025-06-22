@@ -4,13 +4,20 @@ const db = require('../db'); // usando postgres
 
 // GET: Lista todos os administradores
 router.get('/', async (req, res) => {
-  try {
-    const administradores = await db`SELECT * FROM Administrador`;
-    res.json(administradores);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  // try {
+  const { data, error } = await db.from('administrador').select('*');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+  // } catch (err) {
+  //   res.status(500).json({ error: err.message });
+  // }
 });
+
+// router.get('/ad', async (req, res) => {
+//   const { data, error } = await db.from('administrador').select('*');
+//   if (error) return res.status(500).json({ error: error.message });
+//   res.json(data);
+// });
 
 // POST: Cadastra um novo administrador
 router.post('/', async (req, res) => {
@@ -25,6 +32,11 @@ router.post('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
+});
+
+
+router.get('/hello', (req, res) => {
+  res.send('Hello from Administrador!');
 });
 
 module.exports = router;
