@@ -30,15 +30,29 @@ async function gerarRelatorio(req, res) {
     const doc = new PDFDocument();
     const nomeArquivo = `relatorio_${Date.now()}.pdf`;
     const caminho = path.join(__dirname, "../relatorios", nomeArquivo);
-    const logoPath = path.join(__dirname, "../assets/logo-civis.png");
+
     const assinaturaPath = path.join(__dirname, "../assets/assinatura.png");
+    const fundoPath = path.join(__dirname, "../assets/vistoria.png"); // imagem de fundo
 
     doc.pipe(fs.createWriteStream(caminho));
 
+    // Função para desenhar o fundo
+    const desenharFundo = () => {
+      if (fs.existsSync(fundoPath)) {
+        doc.image(fundoPath, 0, 0, {
+          width: doc.page.width,
+          height: doc.page.height,
+        });
+      }
+    };
+
+    // Aplica o fundo na primeira página
+    desenharFundo();
+
+    // Garante que o fundo será aplicado em novas páginas
+    doc.on("pageAdded", desenharFundo);
+
     // Logo
-    if (fs.existsSync(logoPath)) {
-      doc.image(logoPath, 50, 40, { width: 100 });
-    }
 
     doc.moveDown(2);
     doc.fontSize(14).text("Relatório Técnico de Vistoria", { align: "center" });
