@@ -6,9 +6,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Importa rotas
-// const funcionariosRoutes = require('./models/Funcionario');
-// const administradoresRoutes = require('./models/Administrador');
 
 const funcionariosRoutes = require('./routes/funcionarioRoutes');
 const administradoresRoutes = require('./routes/administradorRoutes');
