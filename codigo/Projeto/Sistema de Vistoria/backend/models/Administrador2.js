@@ -1,9 +1,8 @@
 const Funcionario = require('./Funcionario2');
 
 class Administrador extends Funcionario {
-  constructor(id, cpf, email, nome, senha, telefone, idAdministrador) {
-    super(id, cpf, email, nome, senha, telefone);
-    this.idAdministrador = idAdministrador;
+  constructor(props) {
+    super(props);
   }
 
   cadastrarFuncionario() {
