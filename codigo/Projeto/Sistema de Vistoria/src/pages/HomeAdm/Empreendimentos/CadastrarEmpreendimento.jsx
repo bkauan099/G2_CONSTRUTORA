@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { estadosECidades } from '../../../utils/estadosECidades';
+
 import '../home.css';
 import './empreendimentos.css';
 
 function CadastrarEmpreendimento() {
   const navigate = useNavigate();
 
+  const estados = Object.keys(estadosECidades).sort(); // Ordena os estados por ordem alfabética
+  const [cidadesDisponiveis, setCidadesDisponiveis] = useState([]);
+
   const [formData, setFormData] = useState({
     nome: '',
-    rua: '', // agora corresponde ao campo do banco
     descricao: '',
+    construtora: '',
+    dataentrega: '',
+    observacoes: '',
+    cidade: '',
+    estado: '',
+    cep: '',
+    rua: '',
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+  };
+
+  const handleEstadoChange = (e) => {
+    const estadoSelecionado = e.target.value;
+    setFormData({ ...formData, estado: estadoSelecionado, cidade: '' });
+    setCidadesDisponiveis(estadosECidades[estadoSelecionado] || []);
   };
 
   const handleSubmit = async (e) => {
@@ -26,17 +43,7 @@ function CadastrarEmpreendimento() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          nome: formData.nome,
-          descricao: formData.descricao,
-          rua: formData.rua,
-          construtora: null,
-          dataentrega: null,
-          observacoes: null,
-          cidade: null,
-          estado: null,
-          cep: null,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -73,38 +80,57 @@ function CadastrarEmpreendimento() {
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-group">
             <label htmlFor="nome">Nome:</label>
-            <input
-              type="text"
-              id="nome"
-              name="nome"
-              value={formData.nome}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="rua">Rua (Endereço):</label>
-            <input
-              type="text"
-              id="rua"
-              name="rua"
-              value={formData.rua}
-              onChange={handleChange}
-              required
-            />
+            <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
           </div>
 
           <div className="form-group">
             <label htmlFor="descricao">Descrição:</label>
-            <textarea
-              id="descricao"
-              name="descricao"
-              value={formData.descricao}
-              onChange={handleChange}
-              rows="4"
-              required
-            ></textarea>
+            <textarea id="descricao" name="descricao" rows="3" value={formData.descricao} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="construtora">Construtora:</label>
+            <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="dataentrega">Data de Entrega:</label>
+            <input type="date" id="dataentrega" name="dataentrega" value={formData.dataentrega} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="observacoes">Observações:</label>
+            <textarea id="observacoes" name="observacoes" rows="2" value={formData.observacoes} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="estado">Estado:</label>
+            <select id="estado" name="estado" value={formData.estado} onChange={handleEstadoChange} required>
+              <option value="">Selecione um estado</option>
+              {estados.map((estado) => (
+                <option key={estado} value={estado}>{estado}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="cidade">Cidade:</label>
+            <select id="cidade" name="cidade" value={formData.cidade} onChange={handleChange} required disabled={!formData.estado}>
+              <option value="">Selecione uma cidade</option>
+              {cidadesDisponiveis.map((cidade) => (
+                <option key={cidade} value={cidade}>{cidade}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="cep">CEP:</label>
+            <input type="text" id="cep" name="cep" value={formData.cep} onChange={handleChange} />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="rua">Rua:</label>
+            <input type="text" id="rua" name="rua" value={formData.rua} onChange={handleChange} />
           </div>
 
           <div className="form-actions">

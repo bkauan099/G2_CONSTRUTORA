@@ -31,21 +31,25 @@ function Empreendimentos() {
 
   // Exclusão (opcional, precisa de rota DELETE no backend)
   const handleExcluir = async (id, nome) => {
-    if (!window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?`)) return;
+  if (!window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?`)) return;
 
-    try {
-      const response = await fetch(`http://localhost:3001/api/empreendimentos/${id}`, {
-        method: 'DELETE',
-      });
-      if (!response.ok) throw new Error('Erro ao excluir empreendimento');
+  try {
+    const response = await fetch(`http://localhost:3001/api/empreendimentos/${id}`, {
+      method: 'DELETE',
+    });
 
-      setEmpreendimentos((prev) => prev.filter((e) => e.idEmpreendimento !== id));
-      alert(`Empreendimento "${nome}" excluído com sucesso!`);
-    } catch (err) {
-      console.error('Erro ao excluir:', err);
-      alert('Erro ao excluir empreendimento.');
-    }
-  };
+    if (!response.ok) throw new Error('Erro ao excluir empreendimento');
+
+    // Atualiza a lista automaticamente na tela
+    setEmpreendimentos((prev) => prev.filter((e) => e.idempreendimento !== id));
+
+    alert(`Empreendimento "${nome}" excluído com sucesso!`);
+  } catch (err) {
+    console.error('Erro ao excluir:', err);
+    alert('Erro ao excluir empreendimento.');
+  }
+};
+
 
   return (
     <div className="home-container">
@@ -89,7 +93,7 @@ function Empreendimentos() {
                   <td>{emp.descricao}</td>
                   <td className="acoes-botoes">
                     <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.idEmpreendimento}`)}>Editar</button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(emp.idEmpreendimento, emp.nome)}>Excluir</button>
+                    <button className="btn-excluir" onClick={() => handleExcluir(emp.idempreendimento, emp.nome)}>Excluir</button>
                     <button className="btn-editar" onClick={() => navigate(`/imoveis?empreendimentoId=${emp.idEmpreendimento}`)}>Exibir Imóveis</button>
                   </td>
                 </tr>

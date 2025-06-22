@@ -1,86 +1,92 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../home.css'; 
-import './imoveis.css'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import '../home.css';
+import './imoveis.css';
 
 function ListagemImoveis() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const empreendimentoId = queryParams.get('empreendimentoId');
 
-  const [imoveis, setImoveis] = useState(() => {
-    const savedImoveis = localStorage.getItem('imoveisMock');
-    return savedImoveis ? JSON.parse(savedImoveis) : [
-      { id: 1, descricao: 'Apartamento 3 quartos, vista mar', tipo: 'Apartamento', idEmpreendimento: 101, numeroUnidade: '101A' },
-      { id: 2, descricao: 'Casa com piscina e 4 suítes', tipo: 'Casa', idEmpreendimento: 102, numeroUnidade: '12' },
-      { id: 3, descricao: 'Loja comercial térrea, ótima localização', tipo: 'Comercial', idEmpreendimento: 103, numeroUnidade: 'Loja 05' },
-    ];
-  });
-  //armazenamento inicial dos imoveis
+  const [imoveis, setImoveis] = useState([]);
+  const [empreendimento, setEmpreendimento] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    localStorage.setItem('imoveisMock', JSON.stringify(imoveis));
-  }, [imoveis]);
+    const fetchImoveis = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/imoveis/${empreendimentoId}`);
+        if (!response.ok) throw new Error('Erro ao buscar imóveis');
 
-    //exclusao de imóvel
-  const handleExcluir = (id, descricao) => {
-    if (window.confirm(`Tem certeza que deseja excluir o imóvel "${descricao}"?`)) {
-      const novosImoveis = imoveis.filter(imovel => imovel.id !== id);
-      setImoveis(novosImoveis);
-      alert(`Imóvel "${descricao}" excluído(a) com sucesso!`);
-    }
-  };
+        const data = await response.json();
+        setImoveis(data.imoveis);
+        setEmpreendimento(data.empreendimento);
+      } catch (err) {
+        console.error('Erro ao buscar imóveis:', err);
+        alert('Erro ao buscar imóveis. Verifique o console.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (empreendimentoId) fetchImoveis();
+  }, [empreendimentoId]);
 
   return (
     <div className="home-container">
       <header className="navbar">
         <div className="logo">CIVIS (Admin)</div>
         <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a>
-          <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
-          <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
-          <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
-          <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
-           
+          <a onClick={() => navigate("/home")}>Home</a>
+          <a onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
         </nav>
-        <button className="logout-button" onClick={() => { navigate("/login"); }}>
+        <button className="logout-button" onClick={() => navigate("/login")}>
           Sair
         </button>
       </header>
 
       <main className="admin-page-container">
-        <div className="admin-header">
-          <h1>Gestão de Imóveis</h1>
-          <button className="admin-action-button" onClick={() => navigate('cadastrar-imoveis')}>
-            Adicionar Imóvel
-          </button>
-        </div>
+        <button className="back-arrow" onClick={() => navigate('/empreendimentos')}>
+          &#8592; Voltar
+        </button>
 
-        {imoveis.length === 0 ? (
-          <p style={{ textAlign: 'center', marginTop: '50px', color: '#555' }}>Nenhum imóvel cadastrado.</p>
+        <h1 style={{ marginBottom: '20px', color: '#004080' }}>
+          Gestão de Imóveis
+        </h1>
+
+        {empreendimento && (
+          <div style={{ marginBottom: '30px' }}>
+            <h2>{empreendimento.nome}</h2>
+            <p>{empreendimento.descricao}</p>
+          </div>
+        )}
+
+        {loading ? (
+          <p>Carregando imóveis...</p>
+        ) : imoveis.length === 0 ? (
+          <p>Nenhum imóvel encontrado.</p>
         ) : (
-          <table className="lista-tabela"> 
+          <table className="lista-tabela">
             <thead>
               <tr>
                 <th>ID</th>
-                <th>Descrição</th>
-                <th>Tipo</th>
-                <th>Empreendimento ID</th>
-                <th>Unidade</th>
+                <th>Bloco</th>
+                <th>Número</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {imoveis.map(imovel => (
-                <tr key={imovel.id}>
-                  <td>{imovel.id}</td>
-                  <td>{imovel.descricao}</td>
-                  <td>{imovel.tipo}</td>
-                  <td>{imovel.idEmpreendimento}</td>
-                  <td>{imovel.numeroUnidade}</td>
+              {imoveis.map((endereco) => (
+                <tr key={endereco.idendereco}>
+                  <td>{endereco.idendereco}</td>
+                  <td>{endereco.bloco}</td>
+                  <td>{endereco.numero}</td>
                   <td className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-imovel/${imovel.id}`)}>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-imovel/${endereco.idendereco}`)}>
                       Editar
                     </button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(imovel.id, imovel.descricao)}>
+                    <button className="btn-excluir" onClick={() => alert('Excluir ainda não implementado')}>
                       Excluir
                     </button>
                   </td>

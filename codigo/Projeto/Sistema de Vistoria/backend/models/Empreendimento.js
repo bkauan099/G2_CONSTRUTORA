@@ -2,10 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { createClient } = require('@supabase/supabase-js');
 
-// Cria o cliente Supabase — espera que as variáveis estejam no .env carregadas antes
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
-// POST: cria um novo empreendimento com endereço
+// POST: Cria um novo empreendimento
 router.post('/', async (req, res) => {
   const {
     nome = '',
@@ -13,39 +12,23 @@ router.post('/', async (req, res) => {
     construtora = '',
     dataentrega = null,
     observacoes = '',
-    cidade = '',
     estado = '',
+    cidade = '',
     cep = '',
     rua = ''
   } = req.body;
 
   try {
-    // 1. Insere o endereço (tabela e colunas em minúsculo)
-    const { data: enderecoData, error: enderecoError } = await supabase
-      .from('endereco')
-      .insert([{ condominio: null, bloco: null, numero: null }]) // campos mínimos exigidos
-      .select('idendereco')
-      .single();
-
-    if (enderecoError) {
-      console.error('Erro ao inserir endereço:', enderecoError);
-      return res.status(500).json({ error: 'Erro ao inserir endereço.' });
-    }
-
-    const idendereco = enderecoData.idendereco;
-
-    // 2. Insere o empreendimento com o idEndereco obtido
     const { data: empreendimentoData, error: empreendimentoError } = await supabase
       .from('empreendimento')
       .insert([{
-        idendereco,
         nome,
         descricao,
         construtora,
         dataentrega,
         observacoes,
-        cidade,
         estado,
+        cidade,
         cep,
         rua
       }])
@@ -64,12 +47,12 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET: Lista todos os empreendimentos com o endereço
+// GET: Lista todos os empreendimentos
 router.get('/', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('empreendimento')
-      .select('*, endereco(*)');
+      .select('*');
 
     if (error) {
       console.error('Erro ao buscar empreendimentos:', error);
@@ -80,6 +63,28 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.error('Erro inesperado ao listar empreendimentos:', err);
     res.status(500).json({ error: 'Erro inesperado.' });
+  }
+});
+
+// DELETE: Exclui um empreendimento por ID
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { error } = await supabase
+      .from('empreendimento')
+      .delete()
+      .eq('idempreendimento', id); // certifique-se que o nome da coluna está tudo minúsculo
+
+    if (error) {
+      console.error('Erro ao excluir empreendimento:', error);
+      return res.status(500).json({ error: 'Erro ao excluir empreendimento.' });
+    }
+
+    res.status(200).json({ message: 'Empreendimento excluído com sucesso.' });
+  } catch (err) {
+    console.error('Erro inesperado ao excluir empreendimento:', err);
+    res.status(500).json({ error: 'Erro inesperado ao excluir empreendimento.' });
   }
 });
 
