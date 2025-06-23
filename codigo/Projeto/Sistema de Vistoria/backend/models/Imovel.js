@@ -80,4 +80,24 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+router.get('/todos', async (req, res) => {
+  try {
+    const imoveis = await db`
+      SELECT 
+        i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        e.nome AS nomeempreendimento,
+        v.datainicio AS datainiciovistoria,
+        v.idvistoria
+      FROM imovel i
+      LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      LEFT JOIN vistoria v ON i.idimovel = v.idimovel
+    `;
+    res.status(200).json(imoveis);
+  } catch (error) {
+    console.error('Erro ao buscar imóveis:', error);
+    res.status(500).json({ error: 'Erro ao buscar imóveis.' });
+  }
+});
+
+
 module.exports = router;

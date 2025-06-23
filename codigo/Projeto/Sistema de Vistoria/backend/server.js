@@ -10,6 +10,9 @@ const loginRoutes = require('./routes/login');
 const relatorioRoutes = require('./routes/relatorio.routes');
 const empreendimentoRoutes = require('./models/Empreendimento');  
 const imoveisRoutes = require('./models/Imovel');
+const vistoriadoresRoutes = require('./models/Vistoriador');
+const clientesRoutes = require('./models/Cliente');
+const vistoriasRoutes = require('./models/Vistoria');
 
 
 
@@ -25,6 +28,9 @@ app.use('/api/relatorio', relatorioRoutes);
 app.use('/api/empreendimentos', empreendimentoRoutes);  
 app.use('/api/imoveis', imoveisRoutes);
 app.use('/uploads', express.static('uploads'));
+app.use('/api/vistoriadores', vistoriadoresRoutes);
+app.use('/api/clientes', clientesRoutes);
+app.use('/api/vistorias', vistoriasRoutes);
 
 
 
