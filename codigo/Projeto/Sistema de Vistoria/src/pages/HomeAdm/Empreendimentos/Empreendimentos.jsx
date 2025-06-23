@@ -29,7 +29,7 @@ function Empreendimentos() {
     fetchEmpreendimentos();
   }, []);
 
-  // Exclusão (opcional, precisa de rota DELETE no backend)
+  // Exclusão
   const handleExcluir = async (id, nome) => {
     if (!window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?`)) return;
 
@@ -39,9 +39,11 @@ function Empreendimentos() {
       });
       if (!response.ok) throw new Error('Erro ao excluir empreendimento');
 
+      // Remover do estado local após exclusão bem-sucedida
       setEmpreendimentos((prev) => prev.filter((e) => e.idEmpreendimento !== id));
       alert(`Empreendimento "${nome}" excluído com sucesso!`);
-    } catch (err) {
+    } /* eslint-disable-next-line no-dupe-else-if */
+    catch (err) {
       console.error('Erro ao excluir:', err);
       alert('Erro ao excluir empreendimento.');
     }
@@ -78,15 +80,35 @@ function Empreendimentos() {
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Descrição</th>
+                <th>Construtora</th> {/* Adicionado */}
+                <th>Data de Entrega</th> {/* Adicionado */}
+                <th>Observações</th> {/* Adicionado */}
+                <th>Rua</th> {/* Adicionado */}
+                <th>Número</th> {/* Adicionado */}
+                <th>Condomínio</th> {/* Adicionado */}
+                <th>Bloco</th> {/* Adicionado */}
+                <th>Cidade</th> {/* Adicionado */}
+                <th>Estado</th> {/* Adicionado */}
+                <th>CEP</th> {/* Adicionado */}
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {empreendimentos.map(emp => (
                 <tr key={emp.idEmpreendimento}>
-                  <td>{emp.idEmpreendimento}</td>
-                  <td>{emp.nome}</td>
-                  <td>{emp.descricao}</td>
+                  <td data-label="ID">{emp.idEmpreendimento}</td>
+                  <td data-label="Nome">{emp.nome}</td>
+                  <td data-label="Descrição">{emp.descricao}</td>
+                  <td data-label="Construtora">{emp.construtora}</td> {/* Adicionado */}
+                  <td data-label="Data de Entrega">{emp.dataEntrega}</td> {/* Adicionado */}
+                  <td data-label="Observações">{emp.observacoes}</td> {/* Adicionado */}
+                  <td data-label="Rua">{emp.rua}</td> {/* Adicionado */}
+                  <td data-label="Número">{emp.numero}</td> {/* Adicionado */}
+                  <td data-label="Condomínio">{emp.condominio}</td> {/* Adicionado */}
+                  <td data-label="Bloco">{emp.bloco}</td> {/* Adicionado */}
+                  <td data-label="Cidade">{emp.cidade}</td> {/* Adicionado */}
+                  <td data-label="Estado">{emp.estado}</td> {/* Adicionado */}
+                  <td data-label="CEP">{emp.cep}</td> {/* Adicionado */}
                   <td className="acoes-botoes">
                     <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.idEmpreendimento}`)}>Editar</button>
                     <button className="btn-excluir" onClick={() => handleExcluir(emp.idEmpreendimento, emp.nome)}>Excluir</button>

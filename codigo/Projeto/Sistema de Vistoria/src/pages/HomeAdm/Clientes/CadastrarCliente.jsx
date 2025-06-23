@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../home.css'; 
-import './clientes.css'; 
+import '../home.css';
+import './clientes.css';
 
 function CadastrarCliente() {
   const navigate = useNavigate();
 
-
-    //variaveis, agora que lembrei se ta certo ou nao os tipos de dados
+  // Removido idCliente da inicialização, pois será gerado automaticamente
   const [formData, setFormData] = useState({
-    idCliente: '', // int
-    nome: '',     // string
-    cpf: '',      // string
-    telefone: '', // string
-    email: '',    // string
+    nome: '',
+    cpf: '',
+    telefone: '',
+    email: '',
   });
 
   const handleChange = (e) => {
@@ -27,21 +25,21 @@ function CadastrarCliente() {
     const storedClientes = localStorage.getItem('clientesMock');
     const clientes = storedClientes ? JSON.parse(storedClientes) : [];
 
-    //id maximo + 1 para novo cliente
+    // Gerar novo ID interno (id) e ID de Cliente (idCliente) automaticamente
     const newId = clientes.length > 0 ? Math.max(...clientes.map(c => c.id)) + 1 : 1;
+    const newIdCliente = clientes.length > 0 ? Math.max(...clientes.map(c => c.idCliente)) + 1 : 101; // Gera idCliente sequencial, começando de 101 ou do maior existente
 
-    //novo cliente com id e idCliente
-    const novoCliente = { 
-      ...formData, 
-      id: newId, 
-      idCliente: parseInt(formData.idCliente) || newId 
+    const novoCliente = {
+      ...formData,
+      id: newId,          // ID interno para o localStorage
+      idCliente: newIdCliente // idCliente gerado automaticamente
     };
 
     const updatedClientes = [...clientes, novoCliente];
     localStorage.setItem('clientesMock', JSON.stringify(updatedClientes));
 
-    alert('Cliente cadastrado com sucesso!');
-    navigate('/clientes'); // volta para a listagem
+    alert(`Cliente cadastrado com sucesso! ID do Cliente: ${newIdCliente}`);
+    navigate('/clientes'); // Volta para a listagem
   };
 
   return (
@@ -52,7 +50,7 @@ function CadastrarCliente() {
           <a href="#" onClick={() => navigate("/home")}>Home</a>
           <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
         </nav>
-        <button className="logout-button" onClick={() => {navigate("/login"); }}> {/*logout */ }
+        <button className="logout-button" onClick={() => { navigate("/login"); }}>
           Sair
         </button>
       </header>
@@ -63,12 +61,10 @@ function CadastrarCliente() {
         </button>
         <h1 style={{ marginBottom: '30px', color: '#004080' }}>Cadastrar Novo Cliente</h1>
 
-        {/* formulário de cadastro, entrada dos dados*/}
         <form onSubmit={handleSubmit} className="form-container">
-          <div className="form-group">
-            <label htmlFor="idCliente">ID Cliente:</label>
-            <input type="number" id="idCliente" name="idCliente" value={formData.idCliente} onChange={handleChange} required />
-          </div>
+          {/* O campo ID Cliente foi removido do formulário, pois será gerado automaticamente */}
+          {/* Você pode mostrar o ID gerado automaticamente na mensagem de sucesso, se quiser. */}
+          
           <div className="form-group">
             <label htmlFor="nome">Nome Completo:</label>
             <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
@@ -86,7 +82,6 @@ function CadastrarCliente() {
             <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
           </div>
 
-            {/* botões de ação do formulário */}
           <div className="form-actions">
             <button type="button" className="btn-cancelar" onClick={() => navigate('/clientes')}>
               Cancelar

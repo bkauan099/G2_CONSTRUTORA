@@ -153,7 +153,7 @@ function VistoriaDataEntryPage() {
           value={vistoriaData.idRelatorio || 'Não Gerado'}
           readOnly
         />
-
+        {/*botao para gerar relatorio */}
         <div className="form-actions">
           <button
             type="button"
@@ -163,6 +163,7 @@ function VistoriaDataEntryPage() {
             Iniciar Vistoria
           </button>
 
+          {/* Botão para reagendar vistoria */}
           <button
             type="button"
             onClick={handleReagendar}
@@ -171,16 +172,20 @@ function VistoriaDataEntryPage() {
             Reagendar Vistoria
           </button>
 
+
+          {/* Botão para finalizar vistoria */}
           <button
             type="button"
             onClick={handleFinalizar}
             className="action-button finalize-button"
+            disabled={vistoriaData.status !== 'EM_ANDAMENTO'}
           >
             Finalizar Vistoria
           </button>
         </div>
       </form>
-
+      
+      {/* Botão para voltar à lista de vistorias */ }
       <button
         type="button"
         className="back-to-list-button"

@@ -3,7 +3,7 @@ body.inicial-body {
   margin: 0;
   padding: 0;
   background-color: #1a2a41; 
-  overflow-x: hidden;
+  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
   font-family: 'Arial', sans-serif;
 }
 
@@ -24,7 +24,7 @@ body.inicial-body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 25px;
+  padding: 20px 25px; /* Padding padrão */
   position: relative;
   z-index: 10;
 }
@@ -36,12 +36,12 @@ body.inicial-body {
 }
 
 .inicial-header .header-logo {
-  height: 250px; 
+  height: 250px; /* Mantido como está. Se for muito grande em mobile, ajustar via media query */
   width: auto;
   margin-bottom: 0;
 }
 
-/* Hamburger menu (will be visible on both mobile and desktop now) */
+/* Hamburger menu (visível em todas as telas para este padrão) */
 .hamburger-menu {
   background: none;
   border: none;
@@ -52,7 +52,7 @@ body.inicial-body {
   display: block; 
 }
 
-
+/* Overlay do menu mobile */
 .mobile-menu-overlay {
   position: fixed;
   top: 0;
@@ -111,16 +111,16 @@ body.inicial-body {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px 25px;
-  padding-bottom: 150px;
+  padding: 20px 25px; /* Padding padrão */
+  padding-bottom: 100px; /* Reduzido um pouco para ser mais responsivo */
   text-align: left;
 }
 
 .hero-section .hero-title {
-  font-size: 48px;
+  font-size: 3em; /* Use em para ser mais responsivo ao tamanho da fonte base */
   font-weight: bold;
   line-height: 1.1;
-  margin-bottom: 20px;
+  margin-bottom: 15px; /* Ajustado */
   color: #fff;
 }
 
@@ -130,29 +130,31 @@ body.inicial-body {
 
 /* Estilo para o subtítulo principal */
 .hero-section .hero-subtitle {
-  font-size: 22px;
+  font-size: 1.2em; /* Ajustado */
   color: #87CEEB; 
-  margin-top: -10px; 
-  margin-bottom: 25px; 
+  margin-top: -5px; /* Ajustado */
+  margin-bottom: 20px; /* Ajustado */
   font-weight: 500; 
-  max-width: 500px;
+  max-width: 90%; /* Mais flexível */
+  text-align: left; /* Garante alinhamento esquerdo mesmo em mobile */
 }
 
 .hero-section .hero-description {
-  font-size: 18px;
+  font-size: 1em; /* Ajustado */
   line-height: 1.5;
-  margin-bottom: 30px;
-  max-width: 500px;
+  margin-bottom: 25px; /* Ajustado */
+  max-width: 90%; /* Mais flexível */
   color: #e0e0e0;
+  text-align: left; /* Garante alinhamento esquerdo mesmo em mobile */
 }
 
 .hero-section .agendar-button {
   background-color: #1a73e8;
   color: white;
   border: none;
-  padding: 15px 30px;
+  padding: 12px 25px; /* Ajustado */
   border-radius: 8px;
-  font-size: 18px;
+  font-size: 1em; /* Ajustado */
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -167,7 +169,7 @@ body.inicial-body {
 /* Bottom Info Section */
 .bottom-info-section {
   background-color: #1a2a41; 
-  padding: 40px 25px;
+  padding: 60px 25px; /* Padding padrão */
   text-align: center; 
   color: white;
   position: relative;
@@ -184,7 +186,7 @@ body.inicial-body {
 /* Container for info cards */
 .info-cards-container {
   display: grid; 
-  grid-template-columns: 1fr; 
+  grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
   gap: 25px; 
   max-width: 1200px; 
   margin: 0 auto; 
@@ -199,6 +201,11 @@ body.inicial-body {
   text-align: center; 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
   transition: transform 0.3s ease, background-color 0.3s ease; 
+  height: 100%; /* Garante que todos os cards na linha tenham altura igual, se usando grid/flex no pai */
+  display: flex; /* Para centralizar conteúdo verticalmente se houver variação de altura */
+  flex-direction: column;
+  justify-content: flex-start; /* Alinha o conteúdo ao topo */
+  align-items: center; /* Centraliza horizontalmente */
 }
 
 .info-card:hover {
@@ -208,76 +215,122 @@ body.inicial-body {
 
 /* Estilos para os ícones das caixinhas */
 .info-card .card-icon {
-    width: 60px; 
+    width: 50px; /* Ajustado */
     height: auto;
     margin-bottom: 15px; 
 }
 
 .info-card h3 {
-  font-size: 24px;
+  font-size: 22px; /* Ajustado */
   color: #a7ffeb; 
-  margin-bottom: 15px;
+  margin-bottom: 10px; /* Ajustado */
 }
 
 /* Estilo para o "sub-subtítulo" dentro das caixinhas (Quem Somos) */
 .info-card h4 {
-    font-size: 18px; 
+    font-size: 16px; /* Ajustado */
     color: #a7ffeb; 
-    margin-bottom: 10px; 
+    margin-bottom: 8px; /* Ajustado */
     font-weight: 600;
 }
 
 .info-card p {
-  font-size: 16px;
+  font-size: 15px; /* Ajustado */
   color: #e0e0e0; 
   line-height: 1.6;
 }
 
 
 /* Responsive Adjustments */
-@media (min-width: 768px) {
+@media (max-width: 599px) { /* Breakpoint para celulares pequenos */
   .inicial-header {
-    justify-content: space-between;
+    padding: 15px 20px;
   }
-
+  .inicial-header .header-logo {
+    height: 180px; /* Reduz o tamanho do logo em telas muito pequenas */
+  }
   .hero-section {
-    padding: 80px 50px;
-    padding-bottom: 150px;
-    align-items: flex-start;
+    padding: 20px 20px;
+    padding-bottom: 80px; /* Mais compacto */
   }
-
   .hero-section .hero-title {
-    font-size: 64px;
+    font-size: 2.5em; /* Título menor */
   }
-
-  .hero-section .hero-description {
-    font-size: 20px;
-  }
-
-  .bottom-info-section {
-    padding: 60px 50px;
-  }
-
-  .bottom-info-section .bottom-info-title {
-    font-size: 36px;
-  }
-
-  
-  .info-cards-container {
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 30px; 
-  }
-
-  
   .hero-section .hero-subtitle {
-    font-size: 28px; 
-    margin-top: -15px;
+    font-size: 1em; /* Subtítulo menor */
+  }
+  .hero-section .hero-description {
+    font-size: 0.9em; /* Descrição menor */
+  }
+  .hero-section .agendar-button {
+    padding: 10px 20px;
+    font-size: 0.9em;
+  }
+  .bottom-info-section {
+    padding: 30px 20px;
+  }
+  .bottom-info-section .bottom-info-title {
+    font-size: 24px;
+  }
+  .info-card {
+    padding: 20px;
+    min-height: auto; /* Deixa a altura flexível */
+  }
+  .info-card h3 {
+    font-size: 20px;
   }
 }
 
-@media (min-width: 1024px) {
-  
+@media (min-width: 600px) and (max-width: 1023px) { /* Breakpoint para tablets */
+  .inicial-header {
+    padding: 20px 40px;
+  }
+  .hero-section {
+    padding: 60px 40px;
+    padding-bottom: 120px;
+  }
+  .hero-section .hero-title {
+    font-size: 4em;
+  }
+  .hero-section .hero-subtitle {
+    font-size: 1.5em;
+  }
+  .hero-section .hero-description {
+    font-size: 1.1em;
+  }
+  .bottom-info-section {
+    padding: 50px 40px;
+  }
+  .bottom-info-section .bottom-info-title {
+    font-size: 32px;
+  }
   .info-cards-container {
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets */
+  }
+}
+
+@media (min-width: 1024px) { /* Breakpoint para desktops maiores */
+  .inicial-header {
+    padding: 20px 60px;
+  }
+  .hero-section {
+    padding: 80px 60px;
+    padding-bottom: 150px;
+  }
+  .hero-section .hero-title {
+    font-size: 4em; /* Mantido como estava, se quiser maior, ajuste aqui */
+  }
+  .hero-section .hero-subtitle {
+    font-size: 1.8em;
+  }
+  .hero-section .hero-description {
+    font-size: 1.2em;
+  }
+  .bottom-info-section {
+    padding: 80px 60px;
+  }
+  .info-cards-container {
+    grid-template-columns: repeat(4, 1fr); /* Quatro colunas em desktops */
+    gap: 30px; /* Aumenta o gap para desktops */
   }
 }

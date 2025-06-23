@@ -1,16 +1,14 @@
 /* Container principal da página */
 .iniciar-vistoria-detalhes-container {
-  padding: 30px;
+  padding: 60px;
   background-color: #f8f9fa; /* Fundo cinza claro */
   min-height: 100vh; /* Altura mínima de 100% da viewport */
   font-family: Arial, sans-serif; /* Fonte padrão */
   color: #333; /* Cor do texto principal */
-  max-width: 800px; /* Largura máxima do container para centralizar */
+  max-width: 500px; /* Largura máxima do container para centralizar */
   margin: 0 auto; /* Centraliza o container horizontalmente */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
   border-radius: 10px; /* Bordas arredondadas */
-  margin-top: 30px;
-  margin-bottom: 30px;
   position: relative; /* Necessário para posicionar o botão de voltar */
 }
 
@@ -18,7 +16,7 @@
 .iniciar-vistoria-detalhes-container h1 {
   text-align: center; /* Centraliza o texto do título */
   color: #004d40; /* Tom de verde escuro/azulado */
-  margin-bottom: 20px;
+  margin-bottom: 30px;
   font-size: 32px; /* Tamanho do título aumentado */
 }
 
@@ -151,29 +149,29 @@
 }
 
 /* Ajustes responsivos para telas menores */
-@media (max-width: 768px) {
+@media (min-width: 600px) { /* Em telas maiores, layout de duas colunas */
+  .iniciar-vistoria-form {
+    grid-template-columns: 1fr 1fr; /* Duas colunas */
+    gap: 15px 30px; /* Espaçamento entre campos */
+  }
+  /* Campos que devem ocupar uma linha inteira (ex: Observações, Status, Relatório, Anexos) */
+  .iniciar-vistoria-form .full-width-field {
+    grid-column: 1 / -1; /* Faz ocupar todas as colunas disponíveis */
+  }
+}
+
+@media (max-width: 599px) { /* Para telas pequenas, garante uma coluna e padding adequado */
   .iniciar-vistoria-detalhes-container {
-    padding: 20px;
-    margin: 20px auto;
+    padding: 15px; /* Reduz padding em telas pequenas */
+    margin: 15px auto; /* Reduz margem em telas pequenas */
   }
   .iniciar-vistoria-detalhes-container h1 {
     font-size: 24px;
   }
-  .iniciar-vistoria-detalhes-container .back-arrow {
-    top: 15px;
-    left: 15px;
-    font-size: 18px;
-  }
   .form-actions-extended {
-    flex-direction: column; /* Botões empilhados verticalmente */
-    align-items: center; /* Centraliza os botões empilhados */
+    grid-template-columns: 1fr; /* Botões empilhados verticalmente */
   }
-  .form-actions-extended .action-button {
-    width: 90%; /* Aumenta a largura dos botões empilhados */
-    min-width: unset;
+  .iniciar-vistoria-form {
+    gap: 15px; /* Apenas espaçamento vertical */
   }
-  .form-actions {
-  justify-content: flex-end; /* para alinhar botões à direita */
-}
-
 }
