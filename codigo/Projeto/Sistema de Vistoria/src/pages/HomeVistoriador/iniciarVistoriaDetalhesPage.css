@@ -1,0 +1,179 @@
+/* Container principal da página */
+.iniciar-vistoria-detalhes-container {
+  padding: 30px;
+  background-color: #f8f9fa; /* Fundo cinza claro */
+  min-height: 100vh; /* Altura mínima de 100% da viewport */
+  font-family: Arial, sans-serif; /* Fonte padrão */
+  color: #333; /* Cor do texto principal */
+  max-width: 800px; /* Largura máxima do container para centralizar */
+  margin: 0 auto; /* Centraliza o container horizontalmente */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  border-radius: 10px; /* Bordas arredondadas */
+  margin-top: 30px;
+  margin-bottom: 30px;
+  position: relative; /* Necessário para posicionar o botão de voltar */
+}
+
+/* Título da página */
+.iniciar-vistoria-detalhes-container h1 {
+  text-align: center; /* Centraliza o texto do título */
+  color: #004d40; /* Tom de verde escuro/azulado */
+  margin-bottom: 20px;
+  font-size: 32px; /* Tamanho do título aumentado */
+}
+
+/* Descrição da página */
+.iniciar-vistoria-detalhes-container .description {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #666; /* Tom de cinza mais suave */
+  font-size: 16px; /* Tamanho da descrição */
+}
+
+/* Estilo para os rótulos dos campos (labels) */
+.iniciar-vistoria-form label {
+  display: block; /* Cada label ocupa sua própria linha */
+  font-weight: bold; /* Texto em negrito */
+  margin-bottom: 8px;
+  color: #555; /* Cor do texto da label */
+  font-size: 16px;
+}
+
+/* Estilo para campos de input de texto, data/hora e textarea */
+.iniciar-vistoria-form input[type="text"],
+.iniciar-vistoria-form input[type="datetime-local"],
+.iniciar-vistoria-form textarea,
+.iniciar-vistoria-form .status-display-input, /* Adicionado para inputs de exibição de status */
+.iniciar-vistoria-form .report-id-display-input { /* Adicionado para inputs de exibição de ID de relatório */
+  width: calc(100% - 20px); /* Ocupa quase 100% da largura, descontando padding */
+  padding: 12px; /* Espaçamento interno um pouco maior */
+  margin-bottom: 25px; /* Margem abaixo um pouco maior */
+  border: 1px solid #ccc; /* Borda cinza clara */
+  border-radius: 5px; /* Bordas levemente arredondadas */
+  font-size: 16px;
+  box-sizing: border-box; /* Garante que padding e borda não aumentem a largura total */
+}
+
+/* Estilo específico para textarea para permitir redimensionamento vertical */
+.iniciar-vistoria-form textarea {
+  resize: vertical; /* Permite redimensionar apenas verticalmente */
+  min-height: 150px; /* Altura mínima para o campo de texto longo */
+}
+
+/* Container para os botões de ação */
+.form-actions-extended {
+  display: flex; /* Usa flexbox para organizar os botões */
+  flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha em telas pequenas */
+  justify-content: center; /* Centraliza os botões horizontalmente */
+  gap: 15px; /* Espaço entre os botões */
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+
+/* Estilo base para todos os botões de ação */
+.form-actions-extended .action-button {
+  background-color: #007bff; /* Azul padrão */
+  color: white; /* Texto branco */
+  border: none; /* Sem borda */
+  padding: 12px 25px; /* Espaçamento interno */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Cursor de "mãozinha" */
+  font-size: 16px;
+  min-width: 160px; /* Largura mínima para os botões */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves */
+}
+
+/* Efeito ao passar o mouse sobre os botões de ação */
+.form-actions-extended .action-button:hover {
+  transform: translateY(-2px); /* Efeito de "levantar" */
+}
+
+/* Estilo para botões desabilitados */
+.form-actions-extended .action-button:disabled {
+  background-color: #cccccc; /* Fundo cinza */
+  cursor: not-allowed; /* Cursor de "proibido" */
+  opacity: 0.7; /* Opacidade reduzida */
+}
+
+/* Estilos específicos para cada tipo de botão */
+.action-button.save-button {
+  background-color: #28a745; /* Verde para salvar */
+}
+.action-button.save-button:hover {
+  background-color: #218838;
+}
+
+.action-button.finalize-button {
+  background-color: #dc3545; /* Vermelho para finalizar */
+}
+.action-button.finalize-button:hover {
+  background-color: #c82333;
+}
+
+.action-button.report-button {
+  background-color: #6c757d; /* Cinza para relatório */
+}
+.action-button.report-button:hover {
+  background-color: #5a6268;
+}
+
+/* Estilo para o botão de voltar (seta) */
+.iniciar-vistoria-detalhes-container .back-arrow {
+  position: absolute; /* Posicionamento absoluto em relação ao container pai */
+  top: 25px; /* 25px do topo */
+  left: 25px; /* 25px da esquerda */
+  background: none; /* Sem fundo */
+  border: none; /* Sem borda */
+  font-size: 20px; /* Tamanho da fonte (seta) */
+  cursor: pointer;
+  color: #004d40; /* Cor da seta */
+  padding: 5px;
+  transition: color 0.3s ease; /* Transição de cor */
+  display: flex; /* Para alinhar o texto "Voltar" ao lado da seta */
+  align-items: center;
+  gap: 5px;
+}
+
+/* Efeito ao passar o mouse sobre o botão de voltar */
+.iniciar-vistoria-detalhes-container .back-arrow:hover {
+  color: #00332c; /* Cor mais escura ao passar o mouse */
+}
+
+/* Estilos para mensagens de carregamento e erro */
+.loading, .error {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #004d40;
+}
+.error {
+  color: #dc3545; /* Cor de erro (vermelho) */
+}
+
+/* Ajustes responsivos para telas menores */
+@media (max-width: 768px) {
+  .iniciar-vistoria-detalhes-container {
+    padding: 20px;
+    margin: 20px auto;
+  }
+  .iniciar-vistoria-detalhes-container h1 {
+    font-size: 24px;
+  }
+  .iniciar-vistoria-detalhes-container .back-arrow {
+    top: 15px;
+    left: 15px;
+    font-size: 18px;
+  }
+  .form-actions-extended {
+    flex-direction: column; /* Botões empilhados verticalmente */
+    align-items: center; /* Centraliza os botões empilhados */
+  }
+  .form-actions-extended .action-button {
+    width: 90%; /* Aumenta a largura dos botões empilhados */
+    min-width: unset;
+  }
+  .form-actions {
+  justify-content: flex-end; /* para alinhar botões à direita */
+}
+
+}
