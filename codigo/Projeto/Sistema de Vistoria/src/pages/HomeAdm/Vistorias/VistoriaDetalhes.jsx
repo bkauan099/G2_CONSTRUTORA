@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../home.css'; // Estilos gerais e de admin (ajuste o caminho)
-
+// Você pode reutilizar estilos de vistoriaDataEntryPage.css ou criar um vistorias.css mais geral
 function VistoriaDetalhes() {
   const { id } = useParams(); // Pega o ID interno (do localStorage) da vistoria da URL
   const navigate = useNavigate();
@@ -16,7 +16,7 @@ function VistoriaDetalhes() {
     const vistoriaEncontrada = vistorias.find(item => item.id === parseInt(id));
 
     if (vistoriaEncontrada) {
-      // Garante que todos os campos são strings para exibição segura (e trata null/undefined)
+      // Garante que todos os campos são strings para exibição segura
       const sanitizedData = {
         idVistoria: vistoriaEncontrada.idVistoria || 'N/A',
         idCliente: vistoriaEncontrada.idCliente || 'N/A',
@@ -34,7 +34,7 @@ function VistoriaDetalhes() {
       alert('Vistoria não encontrada!');
       navigate('/vistorias-agendadas'); // Redireciona de volta para a listagem
     }
-  }, [id, navigate]); // Dependências: re-executa se o ID ou navigate mudarem
+  }, [id, navigate]);
 
   if (!vistoria) {
     // Retorna um indicador de carregamento ou null enquanto os dados não são carregados
@@ -114,11 +114,12 @@ function VistoriaDetalhes() {
             <label><strong>Observações (Agendamento):</strong></label>
             <p>{vistoria.observacoes || 'N/A'}</p>
           </div>
+          {/* Adicione outros detalhes relevantes da vistoria, se existirem e forem relevantes para a visualização */}
 
           <div className="form-actions" style={{ justifyContent: 'flex-start' }}>
             {/* Botão para ir para a página de edição de vistoria do vistoriador (se houver, com ID interno) */}
             <button type="button" className="btn-editar" onClick={() => navigate(`/vistoriador/vistoria/${id}`)}>
-              ✏️ Iniciar/Editar Vistoria (Vistoriador)
+              ✏️ Iniciar/Editar Vistoria
             </button>
           </div>
         </div>

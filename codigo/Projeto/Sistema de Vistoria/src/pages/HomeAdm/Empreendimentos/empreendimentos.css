@@ -75,3 +75,36 @@
 .empreendimento-card .card-actions .btn-ver-imoveis:hover {
     background-color: #218838;
 }
+
+/* No seu home.css, adicione estas novas regras de grid para formulários,
+   preferencialmente perto dos estilos de .form-container ou .form-group */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
+    gap: 15px 30px; /* Espaço vertical e horizontal */
+}
+
+/* Para telas médias e grandes, 2 colunas */
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr; /* Duas colunas */
+    }
+
+    /* Para fazer um campo ocupar a largura total em um grid de 2 colunas */
+    .form-grid .full-width-field {
+        grid-column: 1 / -1; /* Ocupa da primeira à última coluna */
+    }
+}
+
+/* Estilo para sub-títulos dentro de formulários (ex: para "Endereço") */
+.form-section-title {
+    grid-column: 1 / -1; /* Ocupa a largura total */
+    text-align: left;
+    color: #004080;
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}

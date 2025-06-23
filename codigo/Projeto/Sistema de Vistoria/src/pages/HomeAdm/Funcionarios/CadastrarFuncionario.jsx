@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../home.css'; 
+import '../home.css';
 
-function CadastrarFuncionario() { 
+function CadastrarFuncionario() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    nome: '',
-    cargo: '',
-    email: '',
-    telefone: '',
-    dataContratacao: '',
-    
+    nome: '',     // Conforme diagrama
+    cpf: '',      // Conforme diagrama
+    email: '',    // Conforme diagrama
+    senha: '',    // Conforme diagrama
+    telefone: '', // Conforme diagrama
+    // 'cargo' e 'dataContratacao' removidos para estarem estritamente conforme o diagrama de Funcionario
   });
 
   const handleChange = (e) => {
@@ -25,13 +25,16 @@ function CadastrarFuncionario() {
     const funcionarios = storedFuncionarios ? JSON.parse(storedFuncionarios) : [];
 
     const newId = funcionarios.length > 0 ? Math.max(...funcionarios.map(f => f.id)) + 1 : 1;
-    const novoFuncionario = { ...formData, id: newId };
+    const novoFuncionario = {
+      ...formData,
+      id: newId, // Este 'id' é o identificador interno para o localStorage
+    };
 
     const updatedFuncionarios = [...funcionarios, novoFuncionario];
     localStorage.setItem('funcionariosMock', JSON.stringify(updatedFuncionarios));
 
     alert('Funcionário cadastrado com sucesso!');
-    navigate('/funcionarios'); 
+    navigate('/funcionarios');
   };
 
   return (
@@ -67,12 +70,12 @@ function CadastrarFuncionario() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="cargo">Cargo:</label>
+            <label htmlFor="cpf">CPF:</label>
             <input
               type="text"
-              id="cargo"
-              name="cargo"
-              value={formData.cargo}
+              id="cpf"
+              name="cpf"
+              value={formData.cpf}
               onChange={handleChange}
               required
             />
@@ -91,6 +94,18 @@ function CadastrarFuncionario() {
           </div>
 
           <div className="form-group">
+            <label htmlFor="senha">Senha:</label>
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              value={formData.senha}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="telefone">Telefone:</label>
             <input
               type="tel"
@@ -98,18 +113,6 @@ function CadastrarFuncionario() {
               name="telefone"
               value={formData.telefone}
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="dataContratacao">Data de Contratação:</label>
-            <input
-              type="date"
-              id="dataContratacao"
-              name="dataContratacao"
-              value={formData.dataContratacao}
-              onChange={handleChange}
-              required
             />
           </div>
 
@@ -127,4 +130,4 @@ function CadastrarFuncionario() {
   );
 }
 
-export default CadastrarFuncionario; 
+export default CadastrarFuncionario;

@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../home.css'; 
+import '../home.css';
 
 function EditarFuncionario() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    nome: '',
-    cargo: '',
-    email: '',
-    telefone: '',
-    dataContratacao: '',
+    nome: '',     // Conforme diagrama
+    cpf: '',      // ADICIONADO: Conforme diagrama
+    email: '',    // Conforme diagrama
+    senha: '',    // ADICIONADO: Conforme diagrama (Para mock. Em real, seria "alterar senha" à parte)
+    telefone: '', // Conforme diagrama
+    // 'cargo' e 'dataContratacao' removidos para estarem estritamente conforme o diagrama de Funcionario
   });
 
   useEffect(() => {
@@ -20,10 +21,18 @@ function EditarFuncionario() {
     const funcionarioEncontrado = funcionarios.find(func => func.id === parseInt(id));
 
     if (funcionarioEncontrado) {
-      setFormData(funcionarioEncontrado);
+      // Garante que todos os campos são string para evitar "controlled to uncontrolled"
+      const sanitizedData = {
+        nome: funcionarioEncontrado.nome || '',
+        cpf: funcionarioEncontrado.cpf || '',
+        email: funcionarioEncontrado.email || '',
+        senha: funcionarioEncontrado.senha || '', // Lembre-se da segurança em produção!
+        telefone: funcionarioEncontrado.telefone || '',
+      };
+      setFormData(sanitizedData);
     } else {
       alert('Funcionário não encontrado!');
-      navigate('/funcionarios'); 
+      navigate('/funcionarios');
     }
   }, [id, navigate]);
 
@@ -44,7 +53,7 @@ function EditarFuncionario() {
     localStorage.setItem('funcionariosMock', JSON.stringify(updatedFuncionarios));
 
     alert('Funcionário atualizado com sucesso!');
-    navigate('/funcionarios'); 
+    navigate('/funcionarios');
   };
 
   const handleDelete = () => {
@@ -58,7 +67,7 @@ function EditarFuncionario() {
         localStorage.setItem('funcionariosMock', JSON.stringify(updatedFuncionarios));
 
         alert(`Funcionário(a) ${formData.nome} excluído(a) com sucesso!`);
-        navigate('/funcionarios'); 
+        navigate('/funcionarios');
       } else {
         alert("Exclusão cancelada ou confirmação incorreta.");
       }
@@ -98,12 +107,12 @@ function EditarFuncionario() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="cargo">Cargo:</label>
+            <label htmlFor="cpf">CPF:</label> {/* ADICIONADO CAMPO CPF */}
             <input
               type="text"
-              id="cargo"
-              name="cargo"
-              value={formData.cargo}
+              id="cpf"
+              name="cpf"
+              value={formData.cpf}
               onChange={handleChange}
               required
             />
@@ -122,6 +131,18 @@ function EditarFuncionario() {
           </div>
 
           <div className="form-group">
+            <label htmlFor="senha">Senha:</label> {/* ADICIONADO CAMPO SENHA */}
+            <input
+              type="password"
+              id="senha"
+              name="senha"
+              value={formData.senha}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
             <label htmlFor="telefone">Telefone:</label>
             <input
               type="tel"
@@ -129,18 +150,6 @@ function EditarFuncionario() {
               name="telefone"
               value={formData.telefone}
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="dataContratacao">Data de Contratação:</label>
-            <input
-              type="date"
-              id="dataContratacao"
-              name="dataContratacao"
-              value={formData.dataContratacao}
-              onChange={handleChange}
-              required
             />
           </div>
 
@@ -161,4 +170,4 @@ function EditarFuncionario() {
   );
 }
 
-export default EditarFuncionario; 
+export default EditarFuncionario;

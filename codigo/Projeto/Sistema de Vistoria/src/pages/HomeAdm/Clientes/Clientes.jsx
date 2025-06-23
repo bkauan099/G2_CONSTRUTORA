@@ -52,7 +52,7 @@ function Clientes() {
         <div className="admin-header">
           <h1>Gestão de Clientes</h1>
           <button className="admin-action-button" onClick={() => navigate('/cadastrar-cliente')}>
-            + Adicionar Cliente
+            Adicionar Cliente
           </button>
         </div>
 

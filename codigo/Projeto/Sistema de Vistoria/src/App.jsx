@@ -25,8 +25,10 @@ import EditarImovel from "./pages/HomeAdm/Imoveis/EditarImovel";
 // Vistorias
 import VistoriasAgendadas from "./pages/HomeAdm/Vistorias/VistoriasAgendadas";
 import NovaVistoria from "./pages/HomeAdm/Vistorias/NovaVistoria";
+import VistoriaDetalhes from "./pages/HomeAdm/Vistorias/VistoriaDetalhes"; // Detalhes da vistoria para o administrador
 //Clientes
 import Clientes from "./pages/HomeAdm/Clientes/Clientes";
+import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastrarCliente"; // Descomente se tiver este componente
 // import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastrarCliente"; // Descomente se tiver este componente
 import EditarCliente from "./pages/HomeAdm/Clientes/EditarCliente";
 
@@ -121,7 +123,7 @@ function App() {
                 <Route path="/editar-empreendimento/:id" element={<EditarEmpreendimento />} />
                 {/* Clientes */}
                 <Route path="/clientes" element={<Clientes />} />
-                {/* <Route path="/cadastrar-cliente" element={<CadastrarCliente />} /> */}
+                {<Route path="/cadastrar-cliente" element={<CadastrarCliente />} />}
                 <Route path="/editar-cliente/:id" element={<EditarCliente />} />
                 {/* Imóveis */}
                 <Route path="/imoveis" element={<Imoveis />} />
@@ -131,6 +133,7 @@ function App() {
                 {/* Vistorias */}
                 <Route path="/vistorias-agendadas" element={<VistoriasAgendadas />} />
                 <Route path="/nova-vistoria" element={<NovaVistoria />} />
+                <Route path="/vistoria-detalhes/:id" element={<VistoriaDetalhes />} />
               </>
             )}
 
