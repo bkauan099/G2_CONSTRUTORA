@@ -8,16 +8,9 @@ router.get('/', async (req, res) => {
   const { data, error } = await db.from('administrador').select('*');
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
-  // } catch (err) {
-  //   res.status(500).json({ error: err.message });
-  // }
+
 });
 
-// router.get('/ad', async (req, res) => {
-//   const { data, error } = await db.from('administrador').select('*');
-//   if (error) return res.status(500).json({ error: error.message });
-//   res.json(data);
-// });
 
 // POST: Cadastra um novo administrador
 router.post('/', async (req, res) => {

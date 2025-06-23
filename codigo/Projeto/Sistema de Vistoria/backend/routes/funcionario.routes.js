@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../Db');
+const db = require('../db');
 
 // Aqui eu fiz um GET para criar o funcionario, mas isso é so exemplo pra ter uma noção, pode mudar
 router.get('/', async (req, res) => {

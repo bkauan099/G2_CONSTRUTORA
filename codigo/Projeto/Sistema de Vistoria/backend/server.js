@@ -1,3 +1,5 @@
+require('dns').setDefaultResultOrder('ipv4first');
+
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
@@ -6,6 +8,10 @@ const funcionariosRoutes = require('./models/Funcionario');
 const administradoresRoutes = require('./models/Administrador');
 const loginRoutes = require('./routes/login');
 const relatorioRoutes = require('./routes/relatorio.routes');
+const empreendimentoRoutes = require('./models/Empreendimento');  
+const imoveisRoutes = require('./models/Imovel');
+
+
 
 const app = express();
 app.use(cors());
@@ -16,6 +22,11 @@ app.use('/api/funcionarios', funcionariosRoutes);
 app.use('/api/administradores', administradoresRoutes);
 app.use('/api', loginRoutes);
 app.use('/api/relatorio', relatorioRoutes);
+app.use('/api/empreendimentos', empreendimentoRoutes);  
+app.use('/api/imoveis', imoveisRoutes);
+app.use('/uploads', express.static('uploads'));
+
+
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

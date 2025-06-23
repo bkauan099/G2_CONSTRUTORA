@@ -1,4 +1,34 @@
-const User = require('./user');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*const User = require('./user');
 
 class Cliente extends User {
   constructor(props) {
@@ -17,4 +47,4 @@ class Cliente extends User {
   }
 }
 
-module.exports = Cliente;
+module.exports = Cliente;*/

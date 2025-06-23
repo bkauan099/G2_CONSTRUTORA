@@ -1,11 +1,89 @@
 const express = require('express');
 const router = express.Router();
-const { createClient } = require('@supabase/supabase-js');
+const db = require('../db');
 
-// Cria o cliente Supabase — espera que as variáveis estejam no .env carregadas antes
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+// POST: Criar novo empreendimento
+router.post('/', async (req, res) => {
+  const {
+    nome,
+    descricao,
+    construtora,
+    dataentrega,
+    observacoes,
+    estado,
+    cidade,
+    cep,
+    rua
+  } = req.body;
 
-// POST: cria um novo empreendimento com endereço
+  try {
+    const [empreendimento] = await db`
+      INSERT INTO empreendimento
+        (nome, descricao, construtora, dataentrega, observacoes, estado, cidade, cep, rua)
+      VALUES
+        (${nome}, ${descricao}, ${construtora}, ${dataentrega}, ${observacoes}, ${estado}, ${cidade}, ${cep}, ${rua})
+      RETURNING *`;
+    res.status(201).json(empreendimento);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// GET: Listar empreendimentos
+router.get('/', async (req, res) => {
+  try {
+    const empreendimentos = await db`SELECT * FROM empreendimento`;
+    res.status(200).json(empreendimentos);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE: Excluir por ID
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    await db`DELETE FROM empreendimento WHERE idempreendimento = ${id}`;
+    res.status(200).json({ message: 'Empreendimento excluído com sucesso.' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+
+// GET: Buscar um empreendimento por ID
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [empreendimento] = await db`
+      SELECT * FROM empreendimento WHERE idempreendimento = ${Number(id)}
+    `;
+
+    if (!empreendimento) {
+      return res.status(404).json({ error: 'Empreendimento não encontrado.' });
+    }
+
+    res.status(200).json(empreendimento);
+  } catch (error) {
+    console.error('Erro ao buscar empreendimento por ID:', error);
+    res.status(500).json({ error: 'Erro ao buscar empreendimento.' });
+  }
+});
+
+module.exports = router;
+
+
+
+
+/* IGNORAR TUDO ABAIXO, ARQUIVOS ANTIGOS
+
+// Empreendimento.js
+const express = require('express');
+const router = express.Router();
+const db = require('../db');  // Importando o cliente do db.js
+
+// POST: Cria um novo empreendimento
 router.post('/', async (req, res) => {
   const {
     nome = '',
@@ -13,39 +91,23 @@ router.post('/', async (req, res) => {
     construtora = '',
     dataentrega = null,
     observacoes = '',
-    cidade = '',
     estado = '',
+    cidade = '',
     cep = '',
     rua = ''
   } = req.body;
 
   try {
-    // 1. Insere o endereço (tabela e colunas em minúsculo)
-    const { data: enderecoData, error: enderecoError } = await supabase
-      .from('endereco')
-      .insert([{ condominio: null, bloco: null, numero: null }]) // campos mínimos exigidos
-      .select('idendereco')
-      .single();
-
-    if (enderecoError) {
-      console.error('Erro ao inserir endereço:', enderecoError);
-      return res.status(500).json({ error: 'Erro ao inserir endereço.' });
-    }
-
-    const idendereco = enderecoData.idendereco;
-
-    // 2. Insere o empreendimento com o idEndereco obtido
-    const { data: empreendimentoData, error: empreendimentoError } = await supabase
+    const { data: empreendimentoData, error: empreendimentoError } = await db
       .from('empreendimento')
       .insert([{
-        idendereco,
         nome,
         descricao,
         construtora,
         dataentrega,
         observacoes,
-        cidade,
         estado,
+        cidade,
         cep,
         rua
       }])
@@ -57,19 +119,18 @@ router.post('/', async (req, res) => {
     }
 
     res.status(201).json(empreendimentoData);
-
   } catch (err) {
     console.error('Erro inesperado ao criar empreendimento:', err);
     res.status(500).json({ error: 'Erro inesperado ao criar empreendimento.' });
   }
 });
 
-// GET: Lista todos os empreendimentos com o endereço
+// GET: Lista todos os empreendimentos
 router.get('/', async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await db
       .from('empreendimento')
-      .select('*, endereco(*)');
+      .select('*');
 
     if (error) {
       console.error('Erro ao buscar empreendimentos:', error);
@@ -83,4 +144,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+// DELETE: Exclui um empreendimento por ID
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const { error } = await db
+      .from('empreendimento')
+      .delete()
+      .eq('idempreendimento', id);
+
+    if (error) {
+      console.error('Erro ao excluir empreendimento:', error);
+      return res.status(500).json({ error: 'Erro ao excluir empreendimento.' });
+    }
+
+    res.status(200).json({ message: 'Empreendimento excluído com sucesso.' });
+  } catch (err) {
+    console.error('Erro inesperado ao excluir empreendimento:', err);
+    res.status(500).json({ error: 'Erro inesperado ao excluir empreendimento.' });
+  }
+});
+
 module.exports = router;
+*/
