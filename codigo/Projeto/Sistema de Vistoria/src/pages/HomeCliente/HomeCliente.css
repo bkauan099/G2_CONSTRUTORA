@@ -219,3 +219,19 @@
 .botao-central:hover {
   background-color: #0056b3;
 }
+
+.botao-validar {
+  background-color: #fd7e14; /* Verde só pra diferenciar, se quiser deixar igual ao azul, troque */
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 25px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 20px; /* Distância extra pra direita */
+}
+
+.botao-validar:hover {
+  background-color: #e86c00;
+}

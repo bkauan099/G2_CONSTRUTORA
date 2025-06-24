@@ -11,7 +11,6 @@ function CadastrarEmpreendimento() {
     nome: '',
     descricao: '',
     construtora: '',
-    dataentrega: '',  // Corrigido
     observacoes: '',
     cidade: '',
     estado: '',
@@ -39,7 +38,7 @@ function CadastrarEmpreendimento() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),  // Envia já com o campo correto
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -84,15 +83,11 @@ function CadastrarEmpreendimento() {
               <textarea id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} rows="4" />
             </div>
 
-            <div className="form-group">
+            <div className="form-group full-width-field">
               <label htmlFor="construtora">Construtora:</label>
               <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="dataentrega">Data de Entrega:</label>
-              <input type="date" id="dataentrega" name="dataentrega" value={formData.dataentrega} onChange={handleChange} />
-            </div>
 
             <div className="form-group full-width-field">
               <label htmlFor="observacoes">Observações:</label>

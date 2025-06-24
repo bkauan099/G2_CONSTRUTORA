@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./login.css";
+import "./login.css"; // usa o CSS com grid e responsividade
 
 function Login({ onLogin }) {
   const navigate = useNavigate();
@@ -8,7 +8,6 @@ function Login({ onLogin }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
     const email = e.target.elements[0].value;
     const senha = e.target.elements[1].value;
 
@@ -17,9 +16,7 @@ function Login({ onLogin }) {
     try {
       const response = await fetch("http://localhost:3001/api/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
       });
 
@@ -30,8 +27,6 @@ function Login({ onLogin }) {
       }
 
       const tipo = data.tipo;
-
-      // ✅ Guarda o idcliente no localStorage, se for cliente
       if (tipo === "cliente") {
         localStorage.setItem("idcliente", data.id);
       }
@@ -48,83 +43,51 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-page">
-      <div className="login-container">
-        <button
-          type="button"
-          className="back-arrow"
-          onClick={() => navigate("/")}
-          aria-label="Voltar"
-        >
-          &#8592;
-        </button>
+      {/* Área da logo */}
+      <div className="login-logo-section">
+        <img
+          src="src/pages/Login/logo.png"
+          alt="CIVIS Logo"
+          className="logo-image"
+        />
+      </div>
 
-        <h1 className="login-title">Login</h1>
-
-        <form onSubmit={handleLogin} className="login-form">
-          <label>Email</label>
-          <input type="email" placeholder="Digite seu email" required />
-
-          <label>Senha</label>
-          <input type="password" placeholder="Digite sua senha" required />
-
-          <button type="submit" className="login-button">
-            {loading ? "Entrando..." : "Entrar"}
+      {/* Área do formulário */}
+      <div className="login-content-wrapper">
+        <div className="login-container">
+          <button
+            type="button"
+            className="back-arrow"
+            onClick={() => navigate("/")}
+            aria-label="Voltar"
+          >
+            &#8592;
           </button>
 
-          <p
-            className="no-account"
-            onClick={() => navigate("/cadastro-login")}
-          >
-            Não possui cadastro?
-          </p>
-        </form>
+          <h1 className="login-title">Login</h1>
+
+          <form onSubmit={handleLogin} className="login-form">
+            <label>Email</label>
+            <input type="email" placeholder="Digite seu email" required />
+
+            <label>Senha</label>
+            <input type="password" placeholder="Digite sua senha" required />
+
+            <button type="submit" className="login-button">
+              {loading ? "Entrando..." : "Entrar"}
+            </button>
+
+            <p
+              className="no-account"
+              onClick={() => navigate("/cadastro-login")}
+            >
+              Não possui cadastro?
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   );
 }
 
 export default Login;
-
-
-
-
-
-
-
-
-  // COMENTAR A VERSÃO COM BACKEND
-  /*
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    const email = e.target.elements[0].value;
-    const senha = e.target.elements[1].value;
-
-    setLoading(true);
-
-    try {
-      const response = await fetch("http://localhost:3001/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, senha }),
-      });
-
-      if (!response.ok) {
-        const erro = await response.json();
-        throw new Error(erro.erro || "Erro desconhecido.");
-      }
-
-      const data = await response.json();
-      const tipo = data.tipo;
-
-      alert(`Login de ${tipo} realizado com sucesso!`);
-      onLogin(tipo);
-      navigate(`/home/${tipo}`); // Se usar rotas dinâmicas como /home/admin
-    } catch (err) {
-      alert(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-  */

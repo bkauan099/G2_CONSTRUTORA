@@ -19,12 +19,43 @@ html, body, #root {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f0f2f5;
+  font-family: "Segoe UI", sans-serif;
+  
+  /* NOVO: Layout principal com grid */
+  display: grid;
+  grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
+  grid-template-rows: auto 1fr; /* Header + Conteúdo */
+  overflow: hidden; /* Garante que nada transborde */
+}
+
+/* NOVO: Container para a área da logo e background escuro */
+.login-logo-section {
+    background-color: #2c3e50; /* Cor de fundo escura como na referência */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    /* Padrão mobile: ocupa a largura total */
+    grid-column: 1 / -1; /* Ocupa todas as colunas disponíveis */
+    height: 150px; /* Altura para mobile */
+}
+
+
+/* NOVO: Container que vai envolver o login/cadastro para o grid */
+.login-content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1; /* Permite que o wrapper ocupe o espaço restante */
+    padding: 20px; /* Padding geral para o conteúdo */
 }
 
 /* Estilos para a caixa (container) do formulário de login */
 .login-container {
   position: relative;
-  width: 350px;
+  width: 100%; /* Ajustado para flexibilidade dentro do wrapper */
+  max-width: 350px; /* Largura máxima */
   padding: 40px 30px;
   background-color: white;
   border-radius: 10px;
@@ -58,7 +89,7 @@ html, body, #root {
   margin-top: 15px;
   margin-bottom: 5px;
   font-weight: 500;
-  color: #333; /* Cor padrão do texto do label no login */
+  color: #333;
 }
 
 .login-form input {
@@ -99,19 +130,12 @@ html, body, #root {
 }
 
 /* --- Estilos para a Página de Cadastro (Aprimorados e Consolidando) --- */
-/* Centraliza toda a página de cadastro */
-.cadastro-page {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f0f2f5;
-  font-family: 'Segoe UI', sans-serif;
-  padding: 20px;
-}
+/* A página de cadastro pode reutilizar .login-page, .login-content-wrapper, .login-container */
+/* para o layout de duas colunas */
 
 /* Estilos para a caixa (container) do formulário de cadastro */
 .cadastro-container {
+  /* Pode ser o mesmo que .login-container ou ter pequenos ajustes */
   position: relative;
   width: 100%;
   max-width: 400px;
@@ -133,6 +157,7 @@ html, body, #root {
 /* Estilos para grupos de formulário (envolvem label e input/select) */
 .cadastro-form .form-group {
   margin-bottom: 30px;
+  
 }
 
 /* Estilos para os labels do formulário de cadastro */
@@ -144,9 +169,9 @@ html, body, #root {
   font-size: 0.95rem;
 }
 
-/* Estilo específico para o label do Tipo de Usuário */
-.cadastro-form label[for="userType"] { /* Alvo específico o label do Tipo de Usuário */
-  color: #333; 
+/* Estilo específico para o label do Tipo de Usuário (para deixar em branco) */
+.cadastro-form label[for="userType"] {
+  color: white;
 }
 
 /* Estilos para inputs e selects do formulário de cadastro */
@@ -163,11 +188,13 @@ html, body, #root {
 
 /* Estilo para o texto dentro do select e das options (e fundo) */
 .cadastro-form select {
+  background-color: #34495e; /* Fundo do select agora é escuro */
   color: white; /* Texto do select em branco */
 }
 
 /* Estilo para as opções dentro do select (quando o dropdown é aberto) */
 .cadastro-form select option {
+  background-color: #34495e; /* Fundo escuro para as opções */
   color: white; /* Texto das opções em branco */
 }
 
@@ -232,4 +259,61 @@ html, body, #root {
 
 .back-arrow:hover {
   color: #34495e;
+}
+
+
+/* === Media Queries para Layout de Duas Colunas (Logo + Formulário) === */
+@media (min-width: 768px) {
+    .login-page {
+        grid-template-columns: 1.5fr 1fr; /* Coluna da logo maior que a do formulário */
+        grid-template-rows: 1fr; /* Uma única linha */
+        height: 100vh; /* Altura total */
+    }
+
+    .login-logo-section {
+        grid-column: 1 / 2; /* Ocupa a primeira coluna */
+        height: 100%; /* Ocupa toda a altura */
+    }
+
+    .login-logo-section .logo-image {
+        max-width: 250px; /* Tamanho maior da logo em desktop */
+    }
+
+    .login-content-wrapper {
+        grid-column: 2 / 3; /* Ocupa a segunda coluna */
+        background-color: white; /* Fundo branco para a coluna do formulário */
+        height: 100%; /* Ocupa toda a altura */
+        border-radius: 0; /* Remove borda arredondada na divisão */
+        box-shadow: none; /* Remove sombra aqui, a sombra é no login-container */
+    }
+
+
+}
+
+/* Media Query para telas menores que 768px (mantém o layout empilhado) */
+@media (max-width: 767px) {
+    .login-logo-section {
+        border-bottom-left-radius: 0; /* Ajusta bordas para topo */
+        border-bottom-right-radius: 0;
+    }
+    .login-content-wrapper {
+        padding: 20px;
+    }
+    .login-container, .cadastro-container {
+        width: 100%;
+        max-width: 350px; /* Mantém largura máxima em mobile */
+        margin-top: -50px; /* Puxa o formulário para cima, sobrepondo a logo */
+        border-radius: 10px; /* Volta o border-radius em mobile */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Volta a sombra em mobile */
+    }
+}
+.form-group select{
+  color: white !important;
+  background-color: #34495e !important; /* Fundo escuro para o select */
+  border: 1px solid #ced4da !important; /* Borda clara */ 
+  border-radius: 8px !important; /* Borda arredondada */
+}
+.form-group label {
+  color: #333 !important; /* Cor do texto do label */
+  font-weight: 600 !important; /* Peso do texto do label */ 
 }

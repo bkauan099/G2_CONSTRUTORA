@@ -47,15 +47,23 @@ function Home({ onLogout }) {
         </div>
       </main>
 
-      {/* Botão adicionado aqui */}
+      {/* Botão "Agendar Vistoria" navegando para a página correta */}
       <div className="botao-central-container">
         <button
           className="botao-central"
-          onClick={() => alert("Botão clicado!")}
+          onClick={() => navigate("/agendar-vistoria")}
         >
-          Clique Aqui
+          Agendar Vistoria
+        </button>
+
+        <button
+          className="botao-validar"
+          onClick={() => navigate("/validar-vistoria")}
+        >
+          Validar Vistoria
         </button>
       </div>
+
 
       <section className="possible-surveys-section">
         <div className="menu-header-surveys">

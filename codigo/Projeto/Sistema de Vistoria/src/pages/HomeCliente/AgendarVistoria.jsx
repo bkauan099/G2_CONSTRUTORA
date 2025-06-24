@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HomeCliente.css'; 
 
@@ -6,22 +6,60 @@ function AgendarVistoria() {
   const navigate = useNavigate();
   const [imovelSelecionado, setImovelSelecionado] = useState('');
   const [dataDesejada, setDataDesejada] = useState('');
-  const [observacoes, setObservacoes] = useState('');
+  const [imoveisDisponiveis, setImoveisDisponiveis] = useState([]);
 
-  const imoveisDisponiveis = [
-    { id: 1, nome: 'Apartamento Central' },
-    { id: 2, nome: 'Casa no Campo' },
-  ];
+  useEffect(() => {
+    const fetchImoveis = async () => {
+      const idCliente = localStorage.getItem("idcliente");
+      if (!idCliente) {
+        alert("Cliente não identificado. Faça login novamente.");
+        navigate("/login");
+        return;
+      }
 
-  const handleSubmit = (e) => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/imoveis/cliente/${idCliente}/disponiveis`);
+        if (!res.ok) throw new Error("Erro ao buscar imóveis");
+        const data = await res.json();
+        setImoveisDisponiveis(data);
+      } catch (err) {
+        console.error(err);
+        alert("Erro ao carregar imóveis.");
+      }
+    };
+
+    fetchImoveis();
+  }, [navigate]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({
-      imovelSelecionado,
-      dataDesejada,
-      observacoes,
-    });
-    alert('Sua solicitação de vistoria foi enviada com sucesso!');
-    navigate('/minhas-vistorias'); 
+
+    if (!imovelSelecionado || !dataDesejada) {
+      alert("Por favor, preencha todos os campos obrigatórios.");
+      return;
+    }
+
+    try {
+      const res = await fetch(`http://localhost:3001/api/imoveis/agendar/${imovelSelecionado}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          dataagendada: dataDesejada
+        })
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Erro ao agendar vistoria");
+      }
+
+      alert("Sua solicitação de vistoria foi enviada com sucesso!");
+      navigate('/home-cliente');  // Redireciona para a home do cliente
+    } catch (err) {
+      alert(err.message);
+    }
   };
 
   return (
@@ -29,7 +67,7 @@ function AgendarVistoria() {
       <header className="navbar">
         <div className="logo">CIVIS</div>
         <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/home")}>Home</a>
+          <a href="#" onClick={() => navigate("/home-cliente")}>Home</a>
           <a href="#" onClick={() => navigate("/agendar-vistoria")}>Agendar Vistoria</a>
           <a href="#" onClick={() => navigate("/minhas-vistorias")}>Minhas Vistorias</a>
           <a href="#" onClick={() => navigate("/meus-imoveis")}>Meus Imóveis</a>
@@ -40,7 +78,7 @@ function AgendarVistoria() {
       </header>
 
       <main className="main-content" style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-        <button className="back-arrow" onClick={() => navigate("/home")} style={{ marginBottom: '20px', marginLeft: '20px' }}>
+        <button className="back-arrow" onClick={() => navigate("/home-cliente")} style={{ marginBottom: '20px', marginLeft: '20px' }}>
           &#8592; Voltar
         </button>
         <h1 style={{ color: '#001f3f', marginBottom: '30px', marginLeft: '20px' }}>Agendar Nova Vistoria</h1>
@@ -56,8 +94,8 @@ function AgendarVistoria() {
           >
             <option value="">-- Selecione um imóvel --</option>
             {imoveisDisponiveis.map(imovel => (
-              <option key={imovel.id} value={imovel.id}>
-                {imovel.nome}
+              <option key={imovel.idimovel} value={imovel.idimovel}>
+                {imovel.descricao || `${imovel.nomeempreendimento} - Bloco ${imovel.bloco}, Nº ${imovel.numero}`}
               </option>
             ))}
           </select>
@@ -71,16 +109,6 @@ function AgendarVistoria() {
             required
             style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '15px' }}
           />
-
-          <label htmlFor="observacoes">Observações:</label>
-          <textarea
-            id="observacoes"
-            value={observacoes}
-            onChange={(e) => setObservacoes(e.target.value)}
-            rows="4"
-            placeholder="Descreva quaisquer detalhes importantes para a vistoria."
-            style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '25px', resize: 'vertical' }}
-          ></textarea>
 
           <button type="submit" className="login-button">
             Solicitar Vistoria
