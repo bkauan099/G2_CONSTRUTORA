@@ -3,6 +3,7 @@ const path = require("path");
 const PDFDocument = require("pdfkit");
 const OpenAI = require("openai");
 const nodemailer = require("nodemailer");
+const db = require("../db");  // <-- Certifique-se de que esse é o caminho correto para sua instância de banco
 require("dotenv").config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
@@ -12,11 +13,12 @@ async function gerarRelatorio(req, res) {
     nomeVistoriador,
     localizacao,
     dataVistoria,
+    idVistoria,               // <-- Adicionado: id da vistoria vindo da requisição
     ...dadosTecnicos
   } = req.body;
 
   try {
-    const prompt = `Gere um relatório técnico claro e objetivo com base nas informações técnicas a seguir e as deixe enumeradas, organizadas e explicadas detalhadamente e no final coloque a conclusão e as recomendações e tambem análise e responda o que se pode no campo de observações gerais: ${JSON.stringify(dadosTecnicos)}. Não inclua assinatura, nem nome do vistoriador, nem localização , nem data de vistoria, nem o nome Relatório Técnico de Vistoria.`;
+    const prompt = `Gere um relatório técnico claro e objetivo com base nas informações técnicas a seguir e as deixe enumeradas, organizadas e explicadas detalhadamente e no final coloque a conclusão e as recomendações e também análise e responda o que se pode no campo de observações gerais: ${JSON.stringify(dadosTecnicos)}. Não inclua assinatura, nem nome do vistoriador, nem localização, nem data de vistoria, nem o nome Relatório Técnico de Vistoria.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
@@ -40,7 +42,7 @@ async function gerarRelatorio(req, res) {
     const fundoPath = path.join(__dirname, "../assets/vistoria.png");
 
     const doc = new PDFDocument();
-    const stream = fs.createWriteStream(caminho); // <- usamos essa referência para capturar 'finish'
+    const stream = fs.createWriteStream(caminho);
     doc.pipe(stream);
 
     const desenharFundo = () => {
@@ -74,7 +76,6 @@ async function gerarRelatorio(req, res) {
 
     doc.end();
 
-    // Após finalizar o PDF, envia o e-mail
     stream.on("finish", async () => {
       try {
         const destino = process.env.EMAIL_DESTINO;
@@ -101,7 +102,18 @@ async function gerarRelatorio(req, res) {
         });
 
         console.log("Relatório enviado para:", destino);
-        res.json({ mensagem: "Relatório gerado e enviado com sucesso", arquivo: nomeArquivo });
+
+        // 🔴 Atualizando o status do imóvel
+        await db`
+          UPDATE imovel
+          SET status = 'Aguardando Validação da Vistoria'
+          FROM vistoria
+          WHERE vistoria.idvistoria = ${idVistoria}
+          AND vistoria.idimovel = imovel.idimovel
+        `;
+
+
+        res.json({ mensagem: "Relatório gerado, enviado e status do imóvel atualizado com sucesso", arquivo: nomeArquivo });
 
       } catch (emailError) {
         console.error("Erro ao enviar e-mail:", emailError);

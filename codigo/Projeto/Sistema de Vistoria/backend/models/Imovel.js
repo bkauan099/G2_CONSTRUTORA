@@ -181,6 +181,67 @@ router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
   }
 });
 
+// GET - Buscar imóveis pendentes de validação
+router.get('/pendentes-validacao', async (req, res) => {
+  try {
+    const imoveis = await db`
+      SELECT 
+        i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        e.nome AS nomeempreendimento
+      FROM imovel i
+      LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      WHERE i.status = 'Aguardando Validação da Vistoria'
+    `;
+
+    res.status(200).json(imoveis);
+  } catch (error) {
+    console.error('Erro ao buscar imóveis pendentes de validação:', error);
+    res.status(500).json({ error: 'Erro ao buscar imóveis.' });
+  }
+});
+
+// PUT - Validar uma vistoria (atualizar status do imóvel)
+router.put('/validar/:idimovel', async (req, res) => {
+  const { idimovel } = req.params;
+
+  try {
+    await db`
+      UPDATE imovel
+      SET status = 'Vistoria Validada'
+      WHERE idimovel = ${Number(idimovel)}
+    `;
+
+    res.status(200).json({ message: 'Vistoria validada com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao validar vistoria:', error);
+    res.status(500).json({ error: 'Erro ao validar vistoria.' });
+  }
+});
+
+// GET - Imóveis do cliente com status "Aguardando Validação da Vistoria"
+router.get('/cliente/:idcliente/pendentes-validacao', async (req, res) => {
+  const { idcliente } = req.params;
+
+  try {
+    const imoveis = await db`
+      SELECT 
+        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        e.nome AS nomeempreendimento
+      FROM imovel i
+      JOIN vistoria v ON i.idimovel = v.idimovel
+      JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      WHERE v.idcliente = ${Number(idcliente)} 
+        AND i.status = 'Aguardando Validação da Vistoria'
+    `;
+
+    res.status(200).json(imoveis);
+  } catch (error) {
+    console.error('Erro ao buscar imóveis pendentes de validação para o cliente:', error);
+    res.status(500).json({ error: 'Erro ao buscar imóveis.' });
+  }
+});
+
+
 
 module.exports = router;
 
