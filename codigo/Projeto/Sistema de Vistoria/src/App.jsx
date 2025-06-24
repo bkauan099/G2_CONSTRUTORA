@@ -153,7 +153,7 @@ function App() {
                 <Route path="/vistoriador/realizar-vistoria" element={<RealizarVistoriaListPage />} />
                 <Route path="/vistoriador/vistoria/:id" element={<VistoriaDataEntryPage />} />
                 {/* NOVA ROTA ADICIONADA PARA INICIAR VISTORIA E PREENCHER DADOS GENÉRICOS */}
-                <Route path="/vistoriador/iniciar-vistoria-detalhes/:id" element={<IniciarVistoriaDetalhesPage />} />
+                <Route path="/vistoriador/iniciar-vistoria-detalhes/:id" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
                 <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} />
