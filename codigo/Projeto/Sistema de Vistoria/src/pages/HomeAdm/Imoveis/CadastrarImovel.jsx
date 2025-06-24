@@ -1,45 +1,64 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../home.css'; 
-import './imoveis.css'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import '../home.css';
+import './imoveis.css';
 
-
-//parte de cadastrar imovel
 function CadastrarImovel() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const empreendimentoid = new URLSearchParams(location.search).get('empreendimentoid');
 
-  //variaveis para guardar os dados do formulario
   const [formData, setFormData] = useState({
-    idImovel: '', 
-    descricao: '', 
-    tipo: '',      
-    observacao: '',
-    // anexos: '',  //implementar posteriormente, por enquanto so isso
-    numeroUnidade: '', 
-    idEmpreendimento: '', 
-    // idCliente: '', // int (se o imóvel já tiver um cliente associado no cadastro inicial)
+    descricao: '',
+    bloco: '',
+    numero: '',
+    anexos: null,
   });
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, files } = e.target;
+
+    if (name === 'anexos') {
+      setFormData({ ...formData, anexos: files[0] });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const storedImoveis = localStorage.getItem('imoveisMock');
-    const imoveis = storedImoveis ? JSON.parse(storedImoveis) : [];
+    if (!empreendimentoid) {
+      alert('Empreendimento ID não encontrado na URL.');
+      return;
+    }
 
-    
-    const newId = imoveis.length > 0 ? Math.max(...imoveis.map(i => i.id)) + 1 : 1;
-    const novoImovel = { ...formData, id: newId, idImovel: parseInt(formData.idImovel) || newId, idEmpreendimento: parseInt(formData.idEmpreendimento) || null };
+    const formDataToSend = new FormData();
+    formDataToSend.append('descricao', formData.descricao);
+    formDataToSend.append('bloco', formData.bloco);
+    formDataToSend.append('numero', formData.numero);
+    formDataToSend.append('idempreendimento', empreendimentoid);
 
-    const updatedImoveis = [...imoveis, novoImovel];
-    localStorage.setItem('imoveisMock', JSON.stringify(updatedImoveis));
+    if (formData.anexos) {
+      formDataToSend.append('anexos', formData.anexos);
+    }
 
-    alert('Imóvel cadastrado com sucesso!');
-    navigate('/imoveis'); 
+    try {
+      const response = await fetch('http://localhost:3001/api/imoveis', {
+        method: 'POST',
+        body: formDataToSend,
+      });
+
+      if (!response.ok) {
+        throw new Error('Erro ao cadastrar imóvel.');
+      }
+
+      alert('Imóvel cadastrado com sucesso!');
+      navigate(`/imoveis?empreendimentoid=${empreendimentoid}`);
+    } catch (error) {
+      console.error('Erro ao cadastrar imóvel:', error);
+      alert('Erro ao cadastrar imóvel.');
+    }
   };
 
   return (
@@ -48,36 +67,19 @@ function CadastrarImovel() {
         <div className="logo">CIVIS (Admin)</div>
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a>
-          <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
-          <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
           <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
-          <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+          <a href="#" onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)}>Imóveis</a>
         </nav>
-        <button className="logout-button" onClick={() => { navigate("/login"); }}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
       </header>
 
       <main className="admin-page-container">
-        <button className="back-arrow" onClick={() => navigate('/imoveis')} style={{ marginBottom: '20px' }}>
+        <button className="back-arrow" onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)} style={{ marginBottom: '20px' }}>
           &#8592; Voltar
         </button>
         <h1 style={{ marginBottom: '30px', color: '#004080' }}>Cadastrar Novo Imóvel</h1>
 
-        <form onSubmit={handleSubmit} className="form-container">
-          <div className="form-group">
-            <label htmlFor="idImovel">ID do Imóvel:</label>
-            <input
-              type="number"
-              id="idImovel"
-              name="idImovel"
-              value={formData.idImovel}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
+        <form onSubmit={handleSubmit} className="form-container" encType="multipart/form-data">
           <div className="form-group">
             <label htmlFor="descricao">Descrição:</label>
             <input
@@ -91,70 +93,40 @@ function CadastrarImovel() {
           </div>
 
           <div className="form-group">
-            <label htmlFor="tipo">Tipo:</label>
-            <select
-              id="tipo"
-              name="tipo"
-              value={formData.tipo}
+            <label htmlFor="bloco">Bloco:</label>
+            <input
+              type="text"
+              id="bloco"
+              name="bloco"
+              value={formData.bloco}
               onChange={handleChange}
-              required
-            >
-              <option value="">Selecione o Tipo</option>
-              <option value="Apartamento">Apartamento</option>
-              <option value="Casa">Casa</option>
-              <option value="Comercial">Comercial</option>
-              <option value="Terreno">Terreno</option>
-            </select>
+            />
           </div>
 
           <div className="form-group">
-            <label htmlFor="observacao">Observação:</label>
-            <textarea
-              id="observacao"
-              name="observacao"
-              value={formData.observacao}
-              onChange={handleChange}
-              rows="3"
-            ></textarea>
-          </div>
-          
-          {/* campo de anexo simulado*/}
-          <div className="form-group">
-            <label htmlFor="anexos">Anexos (URL/Caminho):</label>
+            <label htmlFor="numero">Número:</label>
             <input
               type="text"
+              id="numero"
+              name="numero"
+              value={formData.numero}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="anexos">Anexos (Imagem):</label>
+            <input
+              type="file"
               id="anexos"
               name="anexos"
-              value={formData.anexos}
+              accept="image/*"
               onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="numeroUnidade">Número da Unidade:</label>
-            <input
-              type="text"
-              id="numeroUnidade"
-              name="numeroUnidade"
-              value={formData.numeroUnidade}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="idEmpreendimento">ID do Empreendimento:</label>
-            <input
-              type="number"
-              id="idEmpreendimento"
-              name="idEmpreendimento"
-              value={formData.idEmpreendimento}
-              onChange={handleChange}
-              required
             />
           </div>
 
           <div className="form-actions">
-            <button type="button" className="btn-cancelar" onClick={() => navigate('/imoveis')}>
+            <button type="button" className="btn-cancelar" onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)}>
               Cancelar
             </button>
             <button type="submit" className="btn-salvar">

@@ -6,154 +6,115 @@ function VistoriaDataEntryPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const [vistoriaData, setVistoriaData] = useState({
-    idVistoria: parseInt(id) || null,
-    idCliente: '',
-    idImovel: '',
-    idRelatorio: null,
-    idVistoriador: '',
-    dataInicio: '',
-    dataFim: '',
-    status: 'AGENDADA',
-  });
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [vistoriaDetalhes, setVistoriaDetalhes] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (id) {
-      setVistoriaData({
-        idVistoria: parseInt(id),
-        idCliente: 101,
-        idImovel: 205,
-        idRelatorio: null,
-        idVistoriador: 302,
-        dataInicio: '2025-06-20',
-        dataFim: '2025-06-20',
-        status: 'AGENDADA',
-      });
-      setIsLoading(false);
-    } else {
-      setIsLoading(false);
-      setVistoriaData(prevState => ({
-        ...prevState,
-        status: 'AGENDADA',
-        dataInicio: new Date().toISOString().slice(0, 10)
-      }));
-    }
+    const fetchVistoria = async () => {
+      try {
+        const res = await fetch(`http://localhost:3001/api/vistorias/${id}`);
+        if (!res.ok) throw new Error('Erro ao buscar vistoria');
+
+        const data = await res.json();
+        setVistoriaDetalhes(data);
+      } catch (err) {
+        console.error('Erro ao carregar detalhes da vistoria:', err);
+        alert('Erro ao carregar detalhes da vistoria.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchVistoria();
   }, [id]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setVistoriaData(prevData => ({ ...prevData, [name]: value }));
+  const handleIniciarVistoria = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/vistorias/iniciar/${id}`, {
+        method: 'PUT',
+      });
+
+      if (!response.ok) {
+        const erro = await response.json();
+        throw new Error(erro.error || 'Erro ao iniciar a vistoria.');
+      }
+
+      alert('Vistoria iniciada com sucesso!');
+      navigate(`/vistoriador/iniciar-vistoria-detalhes/${id}`);
+    } catch (err) {
+      console.error('Erro ao iniciar a vistoria:', err);
+      alert(err.message);
+    }
   };
 
-  const handleIniciarVistoria = () => {
-    setVistoriaData(prevData => ({
-      ...prevData,
-      status: 'EM_ANDAMENTO',
-      dataInicio: new Date().toISOString().slice(0, 10)
-    }));
-    navigate(`/vistoriador/iniciar-vistoria-detalhes/${vistoriaData.idVistoria}`);
-  };
-
-  const handleReagendar = () => {
-    navigate(`/vistoriador/reagendar-vistoria/${vistoriaData.idVistoria}`);
-  };
-
-  const handleFinalizar = () => {
-    setVistoriaData(prevData => ({
-      ...prevData,
-      status: 'FINALIZADA',
-      dataFim: new Date().toISOString().slice(0, 10)
-    }));
-    alert('Vistoria finalizada! Notificando cliente...');
-  };
-
-  if (isLoading) return <div>Carregando dados da vistoria...</div>;
-  if (error) return <div>Erro: {error}</div>;
+  if (loading) return <div>Carregando detalhes da vistoria...</div>;
+  if (!vistoriaDetalhes) return <div>Vistoria não encontrada.</div>;
 
   return (
     <div className="vistoria-data-entry-container">
-      <h1>Detalhes da Vistoria ID: {vistoriaData.idVistoria || 'Nova Vistoria'}</h1>
+      <h1>{vistoriaDetalhes.nomeempreendimento || `Detalhes da Vistoria ID: ${id}`}</h1>
 
-      <form className="vistoria-form">
-        <label htmlFor="idVistoria">ID da Vistoria:</label>
-        <input
-          type="text"
-          id="idVistoria"
-          name="idVistoria"
-          value={vistoriaData.idVistoria || ''}
-          readOnly
+      {vistoriaDetalhes.anexos && (
+        <img
+          src={`http://localhost:3001/uploads/${vistoriaDetalhes.anexos}`}
+          alt="Imagem do Imóvel"
+          className="imagem-empreendimento"
         />
+      )}
 
-        <label htmlFor="idCliente">ID do Cliente:</label>
-        <input
-          type="number"
-          id="idCliente"
-          name="idCliente"
-          value={vistoriaData.idCliente}
-          onChange={handleChange}
-        />
+      <div className="vistoria-form">
+        <div className="info-line">
+          <span className="label">Descrição do Imóvel:</span>
+          <span className="value">{vistoriaDetalhes.descricao || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="idImovel">ID do Imóvel:</label>
-        <input
-          type="number"
-          id="idImovel"
-          name="idImovel"
-          value={vistoriaData.idImovel}
-          onChange={handleChange}
-        />
+        <div className="info-line">
+          <span className="label">Cidade:</span>
+          <span className="value">{vistoriaDetalhes.cidade || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="idVistoriador">ID do Vistoriador:</label>
-        <input
-          type="number"
-          id="idVistoriador"
-          name="idVistoriador"
-          value={vistoriaData.idVistoriador}
-          onChange={handleChange}
-        />
+        <div className="info-line">
+          <span className="label">Estado:</span>
+          <span className="value">{vistoriaDetalhes.estado || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="dataInicio">Data de Início:</label>
-        <input
-          type="date"
-          id="dataInicio"
-          name="dataInicio"
-          value={vistoriaData.dataInicio}
-          onChange={handleChange}
-        />
+        <div className="info-line">
+          <span className="label">CEP:</span>
+          <span className="value">{vistoriaDetalhes.cep || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="dataFim">Data de Fim:</label>
-        <input
-          type="date"
-          id="dataFim"
-          name="dataFim"
-          value={vistoriaData.dataFim}
-          onChange={handleChange}
-        />
+        <div className="info-line">
+          <span className="label">Rua:</span>
+          <span className="value">{vistoriaDetalhes.rua || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="status">Status:</label>
-        <select
-          id="status"
-          name="status"
-          value={vistoriaData.status}
-          onChange={handleChange}
-        >
-          <option value="AGENDADA">Agendada</option>
-          <option value="EM_ANDAMENTO">Em Andamento</option>
-          <option value="FINALIZADA">Finalizada</option>
-          <option value="CANCELADA">Cancelada</option>
-        </select>
+        <div className="info-line">
+          <span className="label">Bloco:</span>
+          <span className="value">{vistoriaDetalhes.bloco || 'N/A'}</span>
+        </div>
 
-        <label htmlFor="idRelatorio">ID do Relatório:</label>
-        <input
-          type="text"
-          id="idRelatorio"
-          name="idRelatorio"
-          value={vistoriaData.idRelatorio || 'Não Gerado'}
-          readOnly
-        />
-        {/*botao para gerar relatorio */}
+        <div className="info-line">
+          <span className="label">Número:</span>
+          <span className="value">{vistoriaDetalhes.numero || 'N/A'}</span>
+        </div>
+
+        <div className="info-line">
+          <span className="label">Vistorias Realizadas:</span>
+          <span className="value">{vistoriaDetalhes.vistoriasrealizadas ?? '0'}</span>
+        </div>
+
+        <div className="info-line">
+          <span className="label">Status do Imóvel:</span>
+          <span className="value">{vistoriaDetalhes.status || 'N/A'}</span>
+        </div>
+
+        <div className="info-line">
+          <span className="label">Data Agendada:</span>
+          <span className="value">
+            {vistoriaDetalhes.datainicio ? new Date(vistoriaDetalhes.datainicio).toLocaleDateString() : 'N/A'}
+          </span>
+        </div>
+
         <div className="form-actions">
           <button
             type="button"
@@ -163,29 +124,24 @@ function VistoriaDataEntryPage() {
             Iniciar Vistoria
           </button>
 
-          {/* Botão para reagendar vistoria */}
           <button
             type="button"
-            onClick={handleReagendar}
+            onClick={() => navigate(`/vistoriador/reagendar-vistoria/${id}`)}
             className="action-button reschedule-button"
           >
             Reagendar Vistoria
           </button>
 
-
-          {/* Botão para finalizar vistoria */}
           <button
             type="button"
-            onClick={handleFinalizar}
+            onClick={() => alert('Vistoria finalizada!')}
             className="action-button finalize-button"
-            disabled={vistoriaData.status !== 'EM_ANDAMENTO'}
           >
             Finalizar Vistoria
           </button>
         </div>
-      </form>
-      
-      {/* Botão para voltar à lista de vistorias */ }
+      </div>
+
       <button
         type="button"
         className="back-to-list-button"

@@ -34,7 +34,7 @@
   font-weight: bold; /* Texto em negrito */
   margin-bottom: 8px;
   color: #555; /* Cor do texto da label */
-  font-size: 16px;
+  font-size: 18px;
 }
 
 /* Estilo para campos de input de texto, data/hora e textarea */
@@ -175,3 +175,36 @@
     gap: 15px; /* Apenas espaçamento vertical */
   }
 }
+
+.iniciar-vistoria-form .campo-imprevistos {
+  min-height: 72px; /* Aproximadamente 3 linhas de texto */
+  resize: vertical; /* Permite o usuário redimensionar verticalmente */
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.iniciar-vistoria-detalhes-container h1 {
+  text-align: center;
+  color: #004d40;
+  margin-bottom: 8px; /* menor espaçamento abaixo do título */
+  font-size: 32px;
+}
+
+.subtitulo-bloco-numero {
+  text-align: center;
+  color: #004d40;
+  margin-top: 0;
+  margin-bottom: 30px;
+  font-size: 24px;
+  font-weight: bold; /* deixa o texto em negrito */
+}
+
+
+/* Campo "Imprevistos" com altura para ~3 linhas e resize vertical */
+.iniciar-vistoria-form .campo-imprevistos {
+  min-height: 72px; /* cerca de 3 linhas */
+  resize: vertical;
+  padding: 12px;
+  box-sizing: border-box;
+}
+

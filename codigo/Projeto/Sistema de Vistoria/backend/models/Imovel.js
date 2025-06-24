@@ -99,5 +99,29 @@ router.get('/todos', async (req, res) => {
   }
 });
 
+// GET - Buscar imóveis de um cliente específico
+router.get('/cliente/:idcliente', async (req, res) => {
+  const { idcliente } = req.params;
+
+  try {
+    const imoveis = await db`
+      SELECT 
+        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        e.nome AS nomeempreendimento,
+        v.datainicio AS datainiciovistoria,
+        v.idvistoria
+      FROM imovel i
+      JOIN vistoria v ON i.idimovel = v.idimovel
+      JOIN cliente c ON v.idcliente = c.idcliente
+      LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      WHERE c.idcliente = ${Number(idcliente)}
+    `;
+
+    res.status(200).json(imoveis);
+  } catch (error) {
+    console.error('Erro ao buscar imóveis do cliente:', error);
+    res.status(500).json({ error: 'Erro ao buscar imóveis do cliente.' });
+  }
+});
 
 module.exports = router;

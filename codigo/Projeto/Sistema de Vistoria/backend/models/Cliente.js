@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
@@ -23,18 +15,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST: Cadastrar novo cliente
+// POST: Cadastrar novo cliente (agora incluindo senha)
 router.post('/', async (req, res) => {
-  const { nome, email, telefone, cpf } = req.body;
+  const { nome, email, telefone, cpf, senha } = req.body;
 
-  if (!nome || !email || !telefone || !cpf) {
+  if (!nome || !email || !telefone || !cpf || !senha) {
     return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
   }
 
   try {
     const [novoCliente] = await db`
-      INSERT INTO cliente (nome, email, telefone, cpf)
-      VALUES (${nome}, ${email}, ${telefone}, ${cpf})
+      INSERT INTO cliente (nome, email, telefone, cpf, senha)
+      VALUES (${nome}, ${email}, ${telefone}, ${cpf}, ${senha})
       RETURNING *
     `;
     res.status(201).json(novoCliente);
@@ -60,45 +52,3 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*const User = require('./user');
-
-class Cliente extends User {
-  constructor(props) {
-    super(props);
-  }
-
-  agendarVistoria(vistoria) {
-    this.vistorias.push(vistoria);
-  }
-
-  validarVistoria(vistoriaId) {
-    const vistoria = this.vistorias.find(v => v.id === vistoriaId);
-    if (vistoria) {
-      vistoria.status = 'VALIDADA';
-    }
-  }
-}
-
-module.exports = Cliente;*/
