@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ✅ GET: Buscar uma vistoria por ID (com validação de número e join com imóvel)
+// GET: Buscar uma vistoria por ID (com JOIN no imóvel e no empreendimento, incluindo imagem)
 router.get('/:id', async (req, res) => {
   const { id } = req.params;
   const idParsed = Number(id);
@@ -26,9 +26,23 @@ router.get('/:id', async (req, res) => {
 
   try {
     const [vistoria] = await db`
-      SELECT v.*, i.observacoes, i.status
+      SELECT 
+        v.*,
+        i.observacoes,
+        i.status,
+        i.descricao,
+        i.bloco,
+        i.numero,
+        i.vistoriasrealizadas,
+        i.anexos,  -- <-- Aqui pega a imagem do imóvel
+        e.nome AS nomeempreendimento,
+        e.cidade,
+        e.estado,
+        e.cep,
+        e.rua
       FROM vistoria v
       JOIN imovel i ON v.idimovel = i.idimovel
+      JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
       WHERE v.idvistoria = ${idParsed}
     `;
 
@@ -42,6 +56,7 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar vistoria.' });
   }
 });
+
 
 // POST: Criar uma nova vistoria e atualizar o imóvel
 router.post('/', async (req, res) => {
@@ -90,5 +105,50 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir vistoria.' });
   }
 });
+
+// PUT: Iniciar a vistoria (atualiza datahorainicio da vistoria e status do imóvel)
+router.put('/iniciar/:id', async (req, res) => {
+  const { id } = req.params;
+  const idParsed = Number(id);
+
+  if (isNaN(idParsed)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  const dataHoraInicio = new Date().toISOString(); // Pega o timestamp atual
+
+  try {
+    // Primeiro, atualiza o campo datahorainicio na vistoria
+    await db`
+      UPDATE vistoria
+      SET datahorainicio = ${dataHoraInicio}
+      WHERE idvistoria = ${idParsed}
+    `;
+
+    // Agora, pega o idimovel da vistoria
+    const [vistoria] = await db`
+      SELECT idimovel FROM vistoria WHERE idvistoria = ${idParsed}
+    `;
+
+    if (!vistoria) {
+      return res.status(404).json({ error: 'Vistoria não encontrada.' });
+    }
+
+    const idImovel = vistoria.idimovel;
+
+    // Atualiza o status do imóvel
+    await db`
+      UPDATE imovel
+      SET status = 'Vistoria em Andamento'
+      WHERE idimovel = ${idImovel}
+    `;
+
+    res.status(200).json({ message: 'Vistoria iniciada com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao iniciar vistoria:', err);
+    res.status(500).json({ error: 'Erro ao iniciar a vistoria.' });
+  }
+});
+
 
 module.exports = router;
