@@ -3,7 +3,8 @@ const path = require("path");
 const PDFDocument = require("pdfkit");
 const OpenAI = require("openai");
 const nodemailer = require("nodemailer");
-const db = require("../db");  // <-- Certifique-se de que esse é o caminho correto para sua instância de banco
+const db = require("../db");
+const fetch = require("node-fetch");
 require("dotenv").config();
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
@@ -13,7 +14,7 @@ async function gerarRelatorio(req, res) {
     nomeVistoriador,
     localizacao,
     dataVistoria,
-    idVistoria,               // <-- Adicionado: id da vistoria vindo da requisição
+    idVistoria,
     ...dadosTecnicos
   } = req.body;
 
@@ -25,17 +26,13 @@ async function gerarRelatorio(req, res) {
       messages: [
         {
           role: "system",
-          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados."
+          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados.",
         },
-        {
-          role: "user",
-          content: prompt
-        }
+        { role: "user", content: prompt },
       ],
     });
 
     const texto = response.choices[0].message.content;
-
     const nomeArquivo = `relatorio_${Date.now()}.pdf`;
     const caminho = path.join(__dirname, "../relatorios", nomeArquivo);
     const assinaturaPath = path.join(__dirname, "../assets/assinatura.png");
@@ -73,11 +70,11 @@ async function gerarRelatorio(req, res) {
 
     doc.text(nomeVistoriador);
     doc.text("Engenheiro Responsável");
-
     doc.end();
 
     stream.on("finish", async () => {
       try {
+        // Envio de e-mail
         const destino = process.env.EMAIL_DESTINO;
 
         const transporter = nodemailer.createTransport({
@@ -93,17 +90,42 @@ async function gerarRelatorio(req, res) {
           to: destino,
           subject: "Relatório Técnico de Vistoria",
           text: "Segue em anexo o relatório técnico.",
-          attachments: [
-            {
-              filename: nomeArquivo,
-              path: caminho,
-            },
-          ],
+          attachments: [{ filename: nomeArquivo, path: caminho }],
         });
 
         console.log("Relatório enviado para:", destino);
 
-        // 🔴 Atualizando o status do imóvel
+        // Upload manual para Supabase com fetch
+        const storageUrl = 'https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object';
+        const bucketName = 'relatorios';
+        const filePath = `relatorios/${nomeArquivo}`;
+        const pdfBuffer = fs.readFileSync(caminho);
+
+        const uploadResponse = await fetch(`${storageUrl}/${filePath}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/pdf',
+            'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+          },
+          body: pdfBuffer
+        });
+
+        if (!uploadResponse.ok) {
+          console.error("Erro ao enviar PDF para Supabase via fetch:", await uploadResponse.text());
+          return res.status(500).json({ erro: "Erro ao subir PDF para Supabase Storage" });
+        }
+
+        // URL pública manualmente gerada (para bucket público)
+        const publicUrl = `https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object/public/${filePath}`;
+
+        // Atualiza URL no banco
+        await db`
+          UPDATE vistoria
+          SET relatorio_url = ${publicUrl}
+          WHERE idvistoria = ${idVistoria}
+        `;
+
+        // Atualiza status do imóvel
         await db`
           UPDATE imovel
           SET status = 'Aguardando Validação da Vistoria'
@@ -112,8 +134,12 @@ async function gerarRelatorio(req, res) {
           AND vistoria.idimovel = imovel.idimovel
         `;
 
-
-        res.json({ mensagem: "Relatório gerado, enviado e status do imóvel atualizado com sucesso", arquivo: nomeArquivo });
+        // Envia resposta final
+        res.json({
+          mensagem: "Relatório gerado, enviado, salvo e status do imóvel atualizado com sucesso",
+          arquivo: nomeArquivo,
+          url: publicUrl
+        });
 
       } catch (emailError) {
         console.error("Erro ao enviar e-mail:", emailError);

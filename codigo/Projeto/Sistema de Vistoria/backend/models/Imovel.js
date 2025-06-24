@@ -226,7 +226,8 @@ router.get('/cliente/:idcliente/pendentes-validacao', async (req, res) => {
     const imoveis = await db`
       SELECT 
         DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
-        e.nome AS nomeempreendimento
+        e.nome AS nomeempreendimento,
+        v.relatorio_url
       FROM imovel i
       JOIN vistoria v ON i.idimovel = v.idimovel
       JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
@@ -240,6 +241,7 @@ router.get('/cliente/:idcliente/pendentes-validacao', async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
 });
+
 
 
 
