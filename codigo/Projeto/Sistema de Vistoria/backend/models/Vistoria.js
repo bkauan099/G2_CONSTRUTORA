@@ -34,7 +34,7 @@ router.get('/:id', async (req, res) => {
         i.bloco,
         i.numero,
         i.vistoriasrealizadas,
-        i.anexos,  -- <-- Aqui pega a imagem do imóvel
+        i.anexos,
         e.nome AS nomeempreendimento,
         e.cidade,
         e.estado,
@@ -58,9 +58,9 @@ router.get('/:id', async (req, res) => {
 });
 
 
-// POST: Criar uma nova vistoria e atualizar o imóvel
+// POST: Criar uma nova vistoria
 router.post('/', async (req, res) => {
-  const { idimovel, idcliente, idvistoriador, observacoes, datainicio } = req.body;
+  const { idimovel, idcliente, idvistoriador, datainicio } = req.body;
 
   if (!idimovel || !idcliente || !idvistoriador || !datainicio) {
     return res.status(400).json({ error: 'Todos os campos obrigatórios devem ser preenchidos.' });
@@ -73,9 +73,10 @@ router.post('/', async (req, res) => {
       RETURNING *
     `;
 
+    // Atualizar o status do imóvel após criação da vistoria
     await db`
       UPDATE imovel
-      SET status = 'Vistoria Criada', observacoes = ${observacoes}
+      SET status = 'Aguardando Agendamento da Vistoria'
       WHERE idimovel = ${Number(idimovel)}
     `;
 
@@ -115,17 +116,15 @@ router.put('/iniciar/:id', async (req, res) => {
     return res.status(400).json({ error: 'ID inválido.' });
   }
 
-  const dataHoraInicio = new Date().toISOString(); // Pega o timestamp atual
+  const dataHoraInicio = new Date().toISOString();
 
   try {
-    // Primeiro, atualiza o campo datahorainicio na vistoria
     await db`
       UPDATE vistoria
       SET datahorainicio = ${dataHoraInicio}
       WHERE idvistoria = ${idParsed}
     `;
 
-    // Agora, pega o idimovel da vistoria
     const [vistoria] = await db`
       SELECT idimovel FROM vistoria WHERE idvistoria = ${idParsed}
     `;
@@ -134,19 +133,39 @@ router.put('/iniciar/:id', async (req, res) => {
       return res.status(404).json({ error: 'Vistoria não encontrada.' });
     }
 
-    const idImovel = vistoria.idimovel;
-
-    // Atualiza o status do imóvel
     await db`
       UPDATE imovel
       SET status = 'Vistoria em Andamento'
-      WHERE idimovel = ${idImovel}
+      WHERE idimovel = ${vistoria.idimovel}
     `;
 
     res.status(200).json({ message: 'Vistoria iniciada com sucesso.' });
   } catch (err) {
     console.error('Erro ao iniciar vistoria:', err);
     res.status(500).json({ error: 'Erro ao iniciar a vistoria.' });
+  }
+});
+
+// GET: Listar vistorias pendentes (Aguardando Agendamento da Vistoria) de um Cliente específico
+router.get('/pendentes/cliente/:idcliente', async (req, res) => {
+  const idCliente = Number(req.params.idcliente);
+  if (isNaN(idCliente)) {
+    return res.status(400).json({ error: "ID inválido." });
+  }
+
+  try {
+    const vistorias = await db`
+      SELECT v.*, i.descricao, e.nome AS nomeempreendimento
+      FROM vistoria v
+      JOIN imovel i ON v.idimovel = i.idimovel
+      JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      WHERE v.idcliente = ${idCliente}
+        AND i.status = 'Aguardando Agendamento da Vistoria'
+    `;
+    res.status(200).json(vistorias);
+  } catch (err) {
+    console.error('Erro ao buscar vistorias pendentes:', err);
+    res.status(500).json({ error: "Erro ao buscar vistorias pendentes." });
   }
 });
 

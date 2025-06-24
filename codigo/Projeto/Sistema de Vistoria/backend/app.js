@@ -18,7 +18,8 @@ import VistoriaDetalhes from "./pages/HomeAdm/Vistorias/VistoriaDetalhes";
 
 // Páginas de Vistoria (Vistoriador)
 import VistoriaDataEntryPage from "./pages/HomeVistoriador/VistoriaDataEntryPage";
-// Se tiver outras como IniciarVistoriaDetalhesPage ou ReagendamentoVistoria, importe também.
+// Importa a página AgendarVistoria
+import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
 
 function App() {
   return (
@@ -33,6 +34,9 @@ function App() {
         <Route path="/home" element={<HomeAdm />} />
         <Route path="/home-cliente" element={<HomeCliente />} />
         <Route path="/home-vistoriador" element={<HomeVistoriador />} />
+
+        {/* Rota nova para Agendar Vistoria */}
+        <Route path="/agendar-vistoria" element={<AgendarVistoria />} />
 
         {/* Vistoria - Admin */}
         <Route path="/nova-vistoria" element={<NovaVistoria />} />

@@ -80,6 +80,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// GET - Buscar todos os imóveis com dados adicionais
 router.get('/todos', async (req, res) => {
   try {
     const imoveis = await db`
@@ -124,4 +125,62 @@ router.get('/cliente/:idcliente', async (req, res) => {
   }
 });
 
+
+// PUT - Agendar Vistoria (atualizar dataagendada da vistoria + status do imóvel)
+
+router.put('/agendar/:idimovel', async (req, res) => {
+  const { idimovel } = req.params;
+  const { dataagendada } = req.body;
+
+  if (!dataagendada) {
+    return res.status(400).json({ error: 'A dataagendada é obrigatória.' });
+  }
+
+  try {
+    // Atualiza a data da vistoria
+    await db`
+      UPDATE vistoria
+      SET dataagendada = ${dataagendada}
+      WHERE idimovel = ${Number(idimovel)}
+    `;
+
+    // Atualiza o status do imóvel
+    await db`
+      UPDATE imovel
+      SET status = 'Vistoria Agendada'
+      WHERE idimovel = ${Number(idimovel)}
+    `;
+
+    res.status(200).json({ message: 'Vistoria agendada com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao agendar vistoria:', error);
+    res.status(500).json({ error: 'Erro ao agendar vistoria.' });
+  }
+});
+
+// GET - Buscar imóveis disponíveis para agendar vistoria
+router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
+  const { idcliente } = req.params;
+
+  try {
+    const imoveis = await db`
+      SELECT 
+        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        e.nome AS nomeempreendimento
+      FROM imovel i
+      JOIN vistoria v ON i.idimovel = v.idimovel
+      JOIN cliente c ON v.idcliente = c.idcliente
+      LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      WHERE c.idcliente = ${Number(idcliente)} AND i.status = 'Aguardando Agendamento da Vistoria'
+    `;
+
+    res.status(200).json(imoveis);
+  } catch (error) {
+    console.error('Erro ao buscar imóveis disponíveis:', error);
+    res.status(500).json({ error: 'Erro ao buscar imóveis disponíveis.' });
+  }
+});
+
+
 module.exports = router;
+
