@@ -45,23 +45,23 @@ function Home({ onLogout }) {
         <h2>Gerenciamento Rápido</h2>
         <div className="atalhos-cards" >
           <div className="card" onClick={() => navigate("/nova-vistoria")}>
-            <img src="/imagens/nova-vistoria.png" alt="Nova Vistoria" />
+            <img src="/assets/nova.png" alt="Nova Vistoria" />
             <h3>Nova Vistoria</h3>
           </div>
           <div className="card" onClick={() => navigate("/vistorias-agendadas")}>
-            <img src="/imagens/agendadas.png" alt="Agendadas" />
+            <img src="/assets/agendada.png" alt="Agendadas" />
             <h3>Vistorias Agendadas</h3>
           </div>
             <div className="card" onClick={() => navigate("/clientes")}>
-            <img src="/imagens/clientes.png" alt="Clientes" />
+            <img src="/assets/cliente.png" alt="Clientes" />
             <h3>Clientes</h3>
           </div>
           <div className="card" onClick={() => navigate("/empreendimentos")}>
-            <img src="/imagens/empreendimentos.png" alt="Empreendimentos" />
+            <img src="/assets/empreendimentos.png" alt="Empreendimentos" />
             <h3>Empreendimentos</h3>
           </div>
           <div className="card" onClick={() => navigate("/funcionarios")}>
-            <img src="/imagens/funcionário.png" alt="Funcionário" />
+            <img src="/assets/funcionario.jpg" alt="Funcionário" />
             <h3>Funcionário</h3>
           </div>
         </div>
@@ -71,3 +71,5 @@ function Home({ onLogout }) {
 }
 
 export default Home;  
+
+

@@ -189,14 +189,13 @@ body.inicial-body {
   grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
   gap: 25px; 
   max-width: 1200px; 
-  margin: 0 auto; 
-  padding: 0 15px; 
+  margin:  auto; 
 }
 
 /* Individual info cards */
 .info-card {
   background-color: #304A66; 
-  padding: 30px;
+  padding: 1px;
   border-radius: 10px; 
   text-align: center; 
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
@@ -206,6 +205,7 @@ body.inicial-body {
   flex-direction: column;
   justify-content: flex-start; /* Alinha o conteúdo ao topo */
   align-items: center; /* Centraliza horizontalmente */
+  overflow:   hidden; /* Garante que nada transborde */
 }
 
 .info-card:hover {
@@ -215,9 +215,8 @@ body.inicial-body {
 
 /* Estilos para os ícones das caixinhas */
 .info-card .card-icon {
-    width: 50px; /* Ajustado */
+    width: 300px; /* Ajustado */
     height: auto;
-    margin-bottom: 15px; 
 }
 
 .info-card h3 {
@@ -230,7 +229,7 @@ body.inicial-body {
 .info-card h4 {
     font-size: 16px; /* Ajustado */
     color: #a7ffeb; 
-    margin-bottom: 8px; /* Ajustado */
+    margin-bottom: 10px; /* Ajustado */
     font-weight: 600;
 }
 
@@ -267,7 +266,7 @@ body.inicial-body {
     font-size: 0.9em;
   }
   .bottom-info-section {
-    padding: 30px 20px;
+    padding: 10px 10px;
   }
   .bottom-info-section .bottom-info-title {
     font-size: 24px;

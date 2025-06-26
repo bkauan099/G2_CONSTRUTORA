@@ -37,6 +37,8 @@ import MeusImoveis from "./pages/HomeCliente/MeuImovel";
 import ImovelDetalhado from "./pages/HomeCliente/ImovelDetalhado";
 import MinhasVistorias from "./pages/HomeCliente/MinhasVistorias";
 import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria";
+import ValidarVistoria from "./pages/HomeCliente/ValidarVistoria";
+
 
 //Componentes específicos do Vistoriador
 import RealizarVistoriaListPage from "./pages/HomeVistoriador/RealizarVistoriaListPage"; 
@@ -144,8 +146,10 @@ function App() {
                 <Route path="/imovel-detalhado/:id" element={<ImovelDetalhado />} />
                 <Route path="/minhas-vistorias" element={<MinhasVistorias />} />
                 <Route path="/agendar-vistoria" element={<AgendarVistoria />} />
+                <Route path="/validar-vistoria" element={<ValidarVistoria />} />
               </>
             )}
+
 
             {/* Rotas específicas do Vistoriador */}
             {userType === "vistoriador" && (
@@ -153,7 +157,7 @@ function App() {
                 <Route path="/vistoriador/realizar-vistoria" element={<RealizarVistoriaListPage />} />
                 <Route path="/vistoriador/vistoria/:id" element={<VistoriaDataEntryPage />} />
                 {/* NOVA ROTA ADICIONADA PARA INICIAR VISTORIA E PREENCHER DADOS GENÉRICOS */}
-                <Route path="/vistoriador/iniciar-vistoria-detalhes/:id" element={<IniciarVistoriaDetalhesPage />} />
+                <Route path="/vistoriador/iniciar-vistoria-detalhes/:id" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
                 <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} />

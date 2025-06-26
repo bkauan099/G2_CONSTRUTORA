@@ -1,39 +1,72 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom'; // Adicionado useLocation para filtrar por Empreendimento ID
-import '../home.css'; 
-import './imoveis.css'; 
+import { useNavigate, useLocation } from 'react-router-dom';
+import '../home.css';
+import './imoveis.css';
 
 function ListagemImoveis() {
   const navigate = useNavigate();
-  const location = useLocation(); // Hook para acessar a URL atual
-  const empreendimentoId = new URLSearchParams(location.search).get('empreendimentoId'); // Pega o empreendimentoId da URL
+  const location = useLocation();
+  const empreendimentoid = new URLSearchParams(location.search).get('empreendimentoid');
 
-  const [imoveis, setImoveis] = useState(() => {
-    const savedImoveis = localStorage.getItem('imoveisMock');
-    return savedImoveis ? JSON.parse(savedImoveis) : [
-      // Dados mock com idImovel e outros campos do diagrama
-      { id: 1, idImovel: 101, descricao: 'Apartamento 3 quartos, vista mar', tipo: 'Apartamento', idEmpreendimento: 1, numeroUnidade: '101A', observacao: 'Boa iluminação', anexos: 'url_anexo1' },
-      { id: 2, idImovel: 102, descricao: 'Casa com piscina e 4 suítes', tipo: 'Casa', idEmpreendimento: 2, numeroUnidade: '12', observacao: 'Grande jardim', anexos: 'url_anexo2' },
-      { id: 3, idImovel: 103, descricao: 'Loja comercial térrea, ótima localização', tipo: 'Comercial', idEmpreendimento: 3, numeroUnidade: 'Loja 05', observacao: 'Perto do metrô', anexos: 'url_anexo3' },
-      { id: 4, idImovel: 104, descricao: 'Apartamento cobertura duplex', tipo: 'Apartamento', idEmpreendimento: 1, numeroUnidade: 'Cobertura', observacao: 'Vista panorâmica', anexos: 'url_anexo4' },
-    ];
-  });
-  // armazenamento inicial dos imoveis
+  const [imoveis, setImoveis] = useState([]);
+  const [empreendimentoNome, setEmpreendimentoNome] = useState('');
+  const [loading, setLoading] = useState(true);
+
+  // Buscar o nome do empreendimento
   useEffect(() => {
-    localStorage.setItem('imoveisMock', JSON.stringify(imoveis));
-  }, [imoveis]);
+    const fetchEmpreendimento = async () => {
+      try {
+        const response = await fetch(`http://localhost:3001/api/empreendimentos/${empreendimentoid}`);
+        if (!response.ok) throw new Error('Erro ao buscar empreendimento');
 
-  // Filtra os imóveis com base no empreendimentoId (se presente na URL)
-  const imoveisFiltrados = empreendimentoId
-    ? imoveis.filter(imovel => imovel.idEmpreendimento === parseInt(empreendimentoId))
-    : imoveis;
+        const data = await response.json();
+        setEmpreendimentoNome(data.nome);  // Campo "nome" vindo do banco
+      } catch (error) {
+        console.error('Erro ao buscar nome do empreendimento:', error);
+        setEmpreendimentoNome('Desconhecido');
+      }
+    };
 
-  // exclusao de imóvel
-  const handleExcluir = (id, descricao) => {
-    if (window.confirm(`Tem certeza que deseja excluir o imóvel "${descricao}"?`)) {
-      const novosImoveis = imoveis.filter(imovel => imovel.id !== id);
-      setImoveis(novosImoveis);
-      alert(`Imóvel "${descricao}" excluído(a) com sucesso!`);
+    if (empreendimentoid) {
+      fetchEmpreendimento();
+    }
+  }, [empreendimentoid]);
+
+  // Buscar imóveis
+  useEffect(() => {
+    const fetchImoveis = async () => {
+      try {
+        const url = `http://localhost:3001/api/imoveis?empreendimentoid=${empreendimentoid}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Erro ao buscar imóveis');
+
+        const data = await response.json();
+        setImoveis(data);
+      } catch (error) {
+        console.error('Erro ao buscar imóveis:', error);
+        alert('Erro ao buscar imóveis. Verifique o console.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (empreendimentoid) {
+      fetchImoveis();
+    }
+  }, [empreendimentoid]);
+
+  const handleExcluir = async (id, descricao) => {
+    if (!window.confirm(`Tem certeza que deseja excluir o imóvel "${descricao}"?`)) return;
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/imoveis/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Erro ao excluir imóvel.');
+
+      setImoveis((prev) => prev.filter((imovel) => imovel.idimovel !== id));
+      alert(`Imóvel "${descricao}" excluído com sucesso.`);
+    } catch (error) {
+      console.error('Erro ao excluir imóvel:', error);
+      alert('Erro ao excluir imóvel.');
     }
   };
 
@@ -43,61 +76,52 @@ function ListagemImoveis() {
         <div className="logo">CIVIS (Admin)</div>
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a>
-          <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
-          <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
           <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
-          <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+          <a href="#" onClick={() => navigate("/imoveis")}>Imóveis</a>
         </nav>
-        <button className="logout-button" onClick={() => { navigate("/login"); }}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
       </header>
 
       <main className="admin-page-container">
         <div className="admin-header">
-          <h1>Gestão de Imóveis</h1>
-          <button className="admin-action-button" onClick={() => navigate('/cadastrar-imovel')}> {/* Corrigido para cadastrar-imovel */}
+          <h1>Imóveis do {empreendimentoNome}</h1>
+          <button className="admin-action-button" onClick={() => navigate(`/cadastrar-imovel?empreendimentoid=${empreendimentoid}`)}>
             Adicionar Imóvel
           </button>
         </div>
 
-        {imoveisFiltrados.length === 0 ? (
+        {loading ? (
+          <p>Carregando imóveis...</p>
+        ) : imoveis.length === 0 ? (
           <p style={{ textAlign: 'center', marginTop: '50px', color: '#555' }}>
-            {empreendimentoId
-              ? `Nenhum imóvel cadastrado para o Empreendimento ID ${empreendimentoId}.`
-              : 'Nenhum imóvel cadastrado.'}
+            Nenhum imóvel encontrado para o empreendimento {empreendimentoNome}.
           </p>
         ) : (
           <table className="lista-tabela">
             <thead>
               <tr>
-                <th>ID Imóvel</th> {/* Atualizado para "ID Imóvel" */}
                 <th>Descrição</th>
-                <th>Tipo</th>
-                <th>Empreendimento ID</th>
-                <th>Unidade</th>
+                <th>Status</th>
+                <th>Vistorias Realizadas</th>
+                <th>Bloco</th>
+                <th>Número</th>
+                <th>Observações</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
-              {imoveisFiltrados.map(imovel => (
-                <tr key={imovel.id}> {/* 'key' ainda usa o id interno */}
-                  <td data-label="ID Imóvel">{imovel.idImovel}</td> {/* Exibindo idImovel, adicionado data-label */}
-                  <td data-label="Descrição">{imovel.descricao}</td> {/* Adicionado data-label */}
-                  <td data-label="Tipo">{imovel.tipo}</td> {/* Adicionado data-label */}
-                  <td data-label="Empreendimento ID">{imovel.idEmpreendimento}</td> {/* Adicionado data-label */}
-                  <td data-label="Unidade">{imovel.numeroUnidade}</td> {/* Adicionado data-label */}
-                  <td data-label="Ações" className="acoes-botoes"> {/* Adicionado data-label */}
-                    <button className="btn-editar" onClick={() => navigate(`/visualizar-imovel/${imovel.id}`)}> {/* Adicionado botão Visualizar */}
-                      Visualizar
-                    </button>
-                    <button className="btn-editar" onClick={() => navigate(`/editar-imovel/${imovel.id}`)}>
-                      Editar
-                    </button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(imovel.id, imovel.descricao)}>
-                      Excluir
-                    </button>
+              {imoveis.map((imovel) => (
+                <tr key={imovel.idimovel}>
+                  <td>{imovel.descricao}</td>
+                  <td>{imovel.status}</td>
+                  <td>{imovel.vistoriasrealizadas}</td>
+                  <td>{imovel.bloco}</td>
+                  <td>{imovel.numero}</td>
+                  <td>{imovel.observacao}</td>
+                  <td className="acoes-botoes">
+                    <button className="btn-editar" onClick={() => navigate(`/visualizar-imovel/${imovel.idimovel}`)}>Visualizar</button>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-imovel/${imovel.idimovel}`)}>Editar</button>
+                    <button className="btn-excluir" onClick={() => handleExcluir(imovel.idimovel, imovel.descricao)}>Excluir</button>
                   </td>
                 </tr>
               ))}

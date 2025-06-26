@@ -1,55 +1,96 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../home.css';
 
 function NovaVistoria() {
   const navigate = useNavigate();
 
+  const [empreendimentos, setEmpreendimentos] = useState([]);
+  const [imoveis, setImoveis] = useState([]);
+  const [clientes, setClientes] = useState([]);
+  const [vistoriadores, setVistoriadores] = useState([]);
+
+  const [selectedEmpreendimentoId, setSelectedEmpreendimentoId] = useState('');
   const [formData, setFormData] = useState({
-    // Campos conforme o diagrama para agendamento inicial
-    idCliente: '',      // int - NOVO CAMPO
-    idImovel: '',       // int - Renomeado de imovelId
-    idVistoriador: '',  // int - Renomeado de vistoriadorId
-    dataInicio: '',     // date - Renomeado de dataAgendamento
-    // idVistoria será gerado
-    // idRelatorio, dataFim, status serão definidos automaticamente ou posteriormente
-    observacoes: '',    // string - Campo adicional para contexto
+    idimovel: '',
+    idcliente: '',
+    idvistoriador: '',
+    observacoes: '',
   });
+
+  // Carregar empreendimentos, clientes e vistoriadores
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [empRes, cliRes, vistRes] = await Promise.all([
+          fetch('http://localhost:3001/api/empreendimentos'),
+          fetch('http://localhost:3001/api/clientes'),
+          fetch('http://localhost:3001/api/vistoriadores'),
+        ]);
+
+        setEmpreendimentos(await empRes.json());
+        setClientes(await cliRes.json());
+        setVistoriadores(await vistRes.json());
+      } catch (err) {
+        console.error('Erro ao carregar dados iniciais:', err);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleEmpreendimentoChange = async (e) => {
+    const id = e.target.value;
+    setSelectedEmpreendimentoId(id);
+    setFormData({ ...formData, idimovel: '' });
+
+    try {
+      const res = await fetch(`http://localhost:3001/api/imoveis?empreendimentoid=${id}`);
+      setImoveis(await res.json());
+    } catch (err) {
+      console.error('Erro ao carregar imóveis:', err);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const storedVistorias = localStorage.getItem('vistoriasAgendadasMock');
-    const vistorias = storedVistorias ? JSON.parse(storedVistorias) : [];
-
-    // Geração de ID interno e idVistoria automaticamente
-    const newId = vistorias.length > 0 ? Math.max(...vistorias.map(v => v.id)) + 1 : 1;
-    const newIdVistoria = vistorias.length > 0 ? Math.max(...vistorias.map(v => v.idVistoria || 0)) + 1 : 1001; // Gera idVistoria sequencial
-
-    const novaVistoria = {
-      id: newId,          // ID interno para o localStorage
-      idVistoria: newIdVistoria, // idVistoria gerado automaticamente
-      idCliente: parseInt(formData.idCliente),
-      idImovel: parseInt(formData.idImovel),
-      idVistoriador: parseInt(formData.idVistoriador),
-      dataInicio: formData.dataInicio,
-      dataFim: null,        // Data de fim é nula no agendamento inicial
-      status: 'Agendada',   // Status inicial
-      idRelatorio: null,    // Relatório é nulo no agendamento inicial
-      observacoes: formData.observacoes,
-    };
-
-    const updatedVistorias = [...vistorias, novaVistoria];
-    localStorage.setItem('vistoriasAgendadasMock', JSON.stringify(updatedVistorias));
-
-    alert(`Nova vistoria agendada com sucesso! ID da Vistoria: ${newIdVistoria}`);
-    navigate('/vistorias-agendadas');
+  const payload = {
+    idcliente: formData.idcliente,
+    idvistoriador: formData.idvistoriador,
+    idimovel: formData.idimovel,
+    observacoes: formData.observacoes,
+    datainicio: new Date().toISOString(),
   };
+
+  try {
+    const res = await fetch('http://localhost:3001/api/vistorias', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Erro detalhado ao agendar vistoria:', errorText);
+      throw new Error('Erro ao agendar vistoria.');
+    }
+
+    const novaVistoria = await res.json(); // Aqui pegamos o ID retornado
+    alert('Vistoria agendada com sucesso!');
+    navigate(`/vistorias-agendadas/${novaVistoria.idvistoria}`); // Navega para os detalhes
+
+  } catch (err) {
+    console.error('Erro ao agendar vistoria:', err);
+    alert('Erro ao agendar vistoria.');
+  }
+};
+
 
   return (
     <div className="home-container">
@@ -57,87 +98,71 @@ function NovaVistoria() {
         <div className="logo">CIVIS (Admin)</div>
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
-          <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a>
         </nav>
-        <button className="logout-button" onClick={() => {navigate("/login"); }}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
       </header>
 
       <main className="admin-page-container">
-        <button className="back-arrow" onClick={() => navigate('/vistorias-agendadas')} style={{ marginBottom: '20px' }}>
-          &#8592; Voltar
-        </button>
-        <h1 style={{ marginBottom: '30px', color: '#004080' }}>Agendar Nova Vistoria</h1>
-
+        <h1>Agendar Nova Vistoria</h1>
         <form onSubmit={handleSubmit} className="form-container">
+          
+          {/* Empreendimento */}
           <div className="form-group">
-            <label htmlFor="idCliente">ID do Cliente:</label> {/* NOVO CAMPO */}
-            <input
-              type="number"
-              id="idCliente"
-              name="idCliente"
-              value={formData.idCliente}
-              onChange={handleChange}
-              required
-            />
+            <label>Selecione o Empreendimento:</label>
+            <select value={selectedEmpreendimentoId} onChange={handleEmpreendimentoChange} required>
+              <option value="">-- Escolha --</option>
+              {empreendimentos.map((e) => (
+                <option key={e.idempreendimento} value={e.idempreendimento}>{e.nome}</option>
+              ))}
+            </select>
           </div>
 
+          {/* Imóvel */}
           <div className="form-group">
-            <label htmlFor="idImovel">ID do Imóvel:</label> {/* Nome do campo ajustado */}
-            <input
-              type="number"
-              id="idImovel"
-              name="idImovel"
-              value={formData.idImovel}
-              onChange={handleChange}
-              required
-            />
+            <label>Selecione o Imóvel:</label>
+            <select name="idimovel" value={formData.idimovel} onChange={handleChange} required>
+              <option value="">-- Escolha --</option>
+              {imoveis.map((i) => (
+                <option key={i.idimovel} value={i.idimovel}>{i.descricao}</option>
+              ))}
+            </select>
           </div>
 
+          {/* Cliente */}
           <div className="form-group">
-            <label htmlFor="idVistoriador">ID do Vistoriador:</label> {/* Nome do campo ajustado */}
-            <input
-              type="number"
-              id="idVistoriador"
-              name="idVistoriador"
-              value={formData.idVistoriador}
-              onChange={handleChange}
-              required
-            />
+            <label>Selecione o Cliente:</label>
+            <select name="idcliente" value={formData.idcliente} onChange={handleChange} required>
+              <option value="">-- Escolha --</option>
+              {clientes.map((c) => (
+                <option key={c.idcliente} value={c.idcliente}>
+                  {c.nome} - {c.cpf}
+                </option>
+              ))}
+            </select>
           </div>
 
+          {/* Vistoriador */}
           <div className="form-group">
-            <label htmlFor="dataInicio">Data da Vistoria:</label> {/* Nome do campo ajustado */}
-            <input
-              type="date"
-              id="dataInicio"
-              name="dataInicio"
-              value={formData.dataInicio}
-              onChange={handleChange}
-              required
-            />
+            <label>Selecione o Vistoriador:</label>
+            <select name="idvistoriador" value={formData.idvistoriador} onChange={handleChange} required>
+              <option value="">-- Escolha --</option>
+              {vistoriadores.map((v) => (
+                <option key={v.idvistoriador} value={v.idvistoriador}>
+                  {v.nome} - {v.cpf}
+                </option>
+              ))}
+            </select>
           </div>
 
+          {/* Observações */}
           <div className="form-group">
-            <label htmlFor="observacoes">Observações:</label>
-            <textarea
-              id="observacoes"
-              name="observacoes"
-              value={formData.observacoes}
-              onChange={handleChange}
-              rows="3"
-            ></textarea>
+            <label>Observações:</label>
+            <textarea name="observacoes" value={formData.observacoes} onChange={handleChange}></textarea>
           </div>
 
           <div className="form-actions">
-            <button type="button" className="btn-cancelar" onClick={() => navigate('/home')}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn-salvar">
-              Agendar Vistoria
-            </button>
+            <button type="submit" className="btn-salvar">Agendar</button>
+            <button type="button" className="btn-cancelar" onClick={() => navigate('/home')}>Cancelar</button>
           </div>
         </form>
       </main>
