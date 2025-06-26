@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../home.css'; // Estilos gerais (navbar, admin-page-container, etc.)
-import './empreendimentos.css'; // Estilos específicos de empreendimentos
+import { estadosECidades } from '../../../utils/estadosECidades';
+import '../home.css';
+import './empreendimentos.css';
 
 function CadastrarEmpreendimento() {
   const navigate = useNavigate();
@@ -10,16 +11,18 @@ function CadastrarEmpreendimento() {
     nome: '',
     descricao: '',
     construtora: '',
-    dataEntrega: '',
     observacoes: '',
     cidade: '',
     estado: '',
     cep: '',
     rua: '',
-    condominio: '',
-    bloco: '',
-    numero: '',
   });
+
+  const estados = Object.keys(estadosECidades);
+
+  useEffect(() => {
+    setFormData((prev) => ({ ...prev, cidade: '' }));
+  }, [formData.estado]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,20 +38,7 @@ function CadastrarEmpreendimento() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          nome: formData.nome,
-          descricao: formData.descricao,
-          construtora: formData.construtora,
-          dataEntrega: formData.dataEntrega,
-          observacoes: formData.observacoes,
-          cidade: formData.cidade,
-          estado: formData.estado,
-          cep: formData.cep,
-          rua: formData.rua,
-          condominio: formData.condominio,
-          bloco: formData.bloco,
-          numero: formData.numero,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -72,9 +62,7 @@ function CadastrarEmpreendimento() {
           <a href="#" onClick={() => navigate("/home")}>Home</a>
           <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
         </nav>
-        <button className="logout-button" onClick={() => navigate("/login")}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
       </header>
 
       <main className="admin-page-container">
@@ -84,139 +72,68 @@ function CadastrarEmpreendimento() {
         <h1 style={{ marginBottom: '30px', color: '#004080' }}>Cadastrar Novo Empreendimento</h1>
 
         <form onSubmit={handleSubmit} className="form-container">
-          {/* Adicionando a classe form-grid para o layout de grid */}
           <div className="form-grid">
-            <div className="form-group full-width-field"> {/* Nome ocupa a largura total */}
+            <div className="form-group full-width-field">
               <label htmlFor="nome">Nome:</label>
-              <input
-                type="text"
-                id="nome"
-                name="nome"
-                value={formData.nome}
-                onChange={handleChange}
-                required
-              />
+              <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
             </div>
 
-            <div className="form-group full-width-field"> {/* Descrição ocupa a largura total */}
+            <div className="form-group full-width-field">
               <label htmlFor="descricao">Descrição:</label>
-              <textarea
-                id="descricao"
-                name="descricao"
-                value={formData.descricao}
-                onChange={handleChange}
-                rows="4"
-              ></textarea>
+              <textarea id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} rows="4" />
             </div>
 
-            <div className="form-group">
+            <div className="form-group full-width-field">
               <label htmlFor="construtora">Construtora:</label>
-              <input
-                type="text"
-                id="construtora"
-                name="construtora"
-                value={formData.construtora}
-                onChange={handleChange}
-              />
+              <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
-              <label htmlFor="dataEntrega">Data de Entrega:</label>
-              <input
-                type="date"
-                id="dataEntrega"
-                name="dataEntrega"
-                value={formData.dataEntrega}
-                onChange={handleChange}
-              />
-            </div>
 
-            <div className="form-group full-width-field"> {/* Observações ocupa a largura total */}
+            <div className="form-group full-width-field">
               <label htmlFor="observacoes">Observações:</label>
-              <textarea
-                id="observacoes"
-                name="observacoes"
-                value={formData.observacoes}
-                onChange={handleChange}
-                rows="3"
-              ></textarea>
+              <textarea id="observacoes" name="observacoes" value={formData.observacoes} onChange={handleChange} rows="3" />
             </div>
 
-            {/* Subtítulo para a seção de Endereço */}
             <h2 className="form-section-title">Endereço</h2>
 
             <div className="form-group">
-              <label htmlFor="rua">Rua:</label>
-              <input
-                type="text"
-                id="rua"
-                name="rua"
-                value={formData.rua}
-                onChange={handleChange}
-                required
-              />
+              <label htmlFor="estado">Estado:</label>
+              <select id="estado" name="estado" value={formData.estado} onChange={handleChange} required>
+                <option value="">Selecione o Estado</option>
+                {estados.map((estado) => (
+                  <option key={estado} value={estado}>{estado}</option>
+                ))}
+              </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="numero">Número:</label>
-              <input
-                type="text"
-                id="numero"
-                name="numero"
-                value={formData.numero}
-                onChange={handleChange}
-              />
-            </div>
+
             <div className="form-group">
               <label htmlFor="cidade">Cidade:</label>
-              <input
-                type="text"
+              <select
                 id="cidade"
                 name="cidade"
                 value={formData.cidade}
                 onChange={handleChange}
-              />
+                required
+                disabled={!formData.estado}
+              >
+                <option value="">Selecione a Cidade</option>
+                {formData.estado &&
+                  estadosECidades[formData.estado].map((cidade) => (
+                    <option key={cidade} value={cidade}>{cidade}</option>
+                  ))}
+              </select>
             </div>
-            <div className="form-group">
-              <label htmlFor="estado">Estado:</label>
-              <input
-                type="text"
-                id="estado"
-                name="estado"
-                value={formData.estado}
-                onChange={handleChange}
-              />
-            </div>
+
             <div className="form-group">
               <label htmlFor="cep">CEP:</label>
-              <input
-                type="text"
-                id="cep"
-                name="cep"
-                value={formData.cep}
-                onChange={handleChange}
-              />
+              <input type="text" id="cep" name="cep" value={formData.cep} onChange={handleChange} />
             </div>
+
             <div className="form-group">
-              <label htmlFor="condominio">Condomínio:</label>
-              <input
-                type="text"
-                id="condominio"
-                name="condominio"
-                value={formData.condominio}
-                onChange={handleChange}
-              />
+              <label htmlFor="rua">Rua:</label>
+              <input type="text" id="rua" name="rua" value={formData.rua} onChange={handleChange} required />
             </div>
-            <div className="form-group">
-              <label htmlFor="bloco">Bloco:</label>
-              <input
-                type="text"
-                id="bloco"
-                name="bloco"
-                value={formData.bloco}
-                onChange={handleChange}
-              />
-            </div>
-          </div> {/* Fim do form-grid */}
+          </div>
 
           <div className="form-actions">
             <button type="button" className="btn-cancelar" onClick={() => navigate('/empreendimentos')}>

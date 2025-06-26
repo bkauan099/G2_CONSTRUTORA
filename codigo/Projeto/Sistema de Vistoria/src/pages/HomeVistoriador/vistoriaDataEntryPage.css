@@ -1,13 +1,12 @@
-/* === CONTAINER DO FORMULÁRIO === */
 .vistoria-data-entry-container {
   padding: 30px;
   background-color: #f8f9fa;
-  min-height: 120vh; /* Aumenta altura */
+  min-height: 120vh;
   height: auto;
-  padding-bottom: 100px; /* Espaço inferior para não cortar os botões */
+  padding-bottom: 100px;
   font-family: Arial, sans-serif;
   color: #333;
-  max-width: 500px; /* Aumenta largura */
+  max-width: 600px; /* Aumenta um pouco a largura */
   margin: 30px auto;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -17,45 +16,38 @@
   text-align: center;
   color: #004d40;
   margin-bottom: 30px;
-  font-size: 32px;
+  font-size: 34px;
 }
 
-/* === FORMULÁRIO === */
-.vistoria-form label {
-  display: block;
+.vistoria-form {
+  font-size: 22px;
+  line-height: 1.6;
+}
+
+.info-line {
+  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.label {
+  color: #0056b3;
   font-weight: bold;
-  margin-bottom: 8px;
-  color: #555;
-  font-size: 16px;
+  margin-right: 4px; /* DIMINUI para aproximar os textos */
+  min-width: 30px; /* Opcional: Pode reduzir para caber melhor */
   text-align: left;
 }
 
-.vistoria-form input[type="text"],
-.vistoria-form input[type="number"],
-.vistoria-form input[type="date"],
-.vistoria-form select,
-.vistoria-form textarea {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  box-sizing: border-box;
-  display: block;
+.value {
+  color: #000; /* Preto para os valores */
 }
 
-.vistoria-form textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-/* === BOTÕES === */
 .form-actions {
   display: flex;
-  flex-wrap: wrap; /* Permite quebrar linha */
+  flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
+  margin-top: 25px;
 }
 
 .action-button {
@@ -67,9 +59,7 @@
   cursor: pointer;
   font-size: 16px;
   min-width: 180px;
-  flex: 1 1 180px; /* Faz o botão crescer ou quebrar se precisar */
-  position: relative;
-  z-index: 10;
+  flex: 1 1 180px;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -83,12 +73,11 @@
   opacity: 0.7;
 }
 
-/* === CORES ESPECÍFICAS === */
 .action-button.start-button {
-  background-color: #0056b3;
+  background-color: #28a745;
 }
 .action-button.start-button:hover {
-  background-color: #004085;
+  background-color: #218838;
 }
 
 .action-button.reschedule-button {
@@ -106,11 +95,10 @@
   background-color: #c82333;
 }
 
-/* === BOTÃO VOLTAR === */
 .back-to-list-button {
   display: block;
   width: fit-content;
-  margin: 30px auto 0;
+  margin: 40px auto 0;
   background-color: #004d40;
   color: white;
   border: none;
@@ -125,26 +113,35 @@
   background-color: #00332c;
 }
 
-/* === RESPONSIVO === */
 @media (max-width: 700px) {
   .vistoria-data-entry-container {
     padding: 20px;
     margin: 20px auto;
   }
+
   .vistoria-data-entry-container h1 {
     font-size: 28px;
   }
+
   .form-actions {
     flex-direction: column;
     align-items: center;
   }
+
   .action-button {
-    width: 80%;
+    width: 100%;
+  }
+
+  .label {
     min-width: unset;
+    margin-bottom: 5px;
   }
 }
-
-/* === DEBUG VISUAL (OPCIONAL) === */
+/* === DEBUG VISUAL (OPCIONAL) === 
 * {
   outline: 1px solid rgba(255, 0, 0, 0.05); /* Remove se não quiser visualizar os limites */
+
+.imagem-empreendimento{
+  width: 540px !important;
+  height: 300px !important;
 }

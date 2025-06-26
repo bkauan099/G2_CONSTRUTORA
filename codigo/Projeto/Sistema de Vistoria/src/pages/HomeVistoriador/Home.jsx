@@ -1,70 +1,41 @@
 import "./home.css";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function HomeVistoriador({ onLogout }) {
   const navigate = useNavigate();
+  const [imoveis, setImoveis] = useState([]);
 
-  // Placeholder data for "Vistorias Disponíveis"
-  // Em uma aplicação real, esses dados viriam de uma API
-  const possibleSurveys = [
-    {
-      id: 1,
-      image: "/assets/imagensEmpreendimentos/VillageGarden.jpg",
-      title: "Vistoria Casa - Turu",
-      description: "Agendada para 25/06/2025",
-      status: "AGENDADA" // Adicionado para refletir um possível status
-    },
-    {
-      id: 2,
-      image: "/assets/imagensEmpreendimentos/JardimDeEvora.jpg",
-      title: "Vistoria Apartamento - Cidade Operária",
-      description: "Agendada para 26/06/2025",
-      status: "AGENDADA"
-    },
-    {
-      id: 3,
-      image: "/assets/imagensEmpreendimentos/VillageAlvorada.jpg",
-      title: "Vistoria Apartamento - São Cristóvão",
-      description: "Agendada para 27/06/2025",
-      status: "AGENDADA"
-    },
-    {
-      id: 4,
-      image: "/assets/imagensEmpreendimentos/RanchoDasFlores.jpg", // Exemplo de vistoria em andamento
-      title: "Vistoria Loja - Centro",
-      description: "Em Andamento - Iniciada em 20/06/2025",
-      status: "EM_ANDAMENTO"
-    }
-    // Você pode adicionar mais conforme necessário
-  ];
+  useEffect(() => {
+    const fetchImoveis = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/imoveis/todos');
+        const data = await res.json();
+        setImoveis(data);
+      } catch (err) {
+        console.error("Erro ao buscar imóveis:", err);
+      }
+    };
+
+    fetchImoveis();
+  }, []);
 
   return (
     <div className="home-container">
       <header className="navbar">
-        <div className="logo">CIVIS</div> {/* Logo permanece CIVIS */}
+        <div className="logo">CIVIS</div>
         <nav className="nav-links">
-          {/* Change color of these links via CSS */}
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          {/* Este link leva à mesma lista de vistorias, conforme "Acessar Lista de Imóveis" */}
           <a href="#" onClick={() => navigate("/vistoriador/realizar-vistoria")}>Realizar Vistoria</a>
-
         </nav>
-        <button className="logout-button" onClick={onLogout}>
-          Sair
-        </button>
+        <button className="logout-button" onClick={onLogout}>Sair</button>
       </header>
 
       <main className="main-content">
         <div className="texto">
-          <h1>
-            Bem-vindo ao <br /> <span>CIVIS Vistoriador</span>
-          </h1>
-          <p>
-            Gerencie suas vistorias e crie relatórios de forma rápida, prática e
-            eficiente.
-          </p>
+          <h1>Bem-vindo ao <br /> <span>CIVIS Vistoriador</span></h1>
+          <p>Gerencie suas vistorias e crie relatórios de forma rápida, prática e eficiente.</p>
         </div>
-
         <div className="imagem">
           <img src="/imagens/vistoria.png" alt="Imagem Vistoria" />
         </div>
@@ -78,24 +49,36 @@ function HomeVistoriador({ onLogout }) {
               <input type="text" placeholder="Pesquisar Vistoria..." className="search-input" />
               <span className="search-icon">🔍</span>
             </div>
-            {/* O diagrama não mostra um botão de "Agendar Nova Vistoria" a partir desta tela para o vistoriador,
-                focando em acessar e proceder com as vistorias existentes. */}
           </div>
         </div>
 
         <div className="survey-cards-container">
-          {possibleSurveys.map((survey) => (
-            <div key={survey.id} className="survey-card">
-              <img src={survey.image} alt={survey.title} className="survey-image" />
-              <h3>{survey.title}</h3>
-              <p>{survey.description}</p>
-              {/* O botão "Ver Vistoria" agora navega para a página de detalhes da vistoria
-                  (que seria o VistoriaDataEntryPage) para 'Acessar Aba de Vistoria'. */}
+          {imoveis.map((imovel) => (
+            <div key={imovel.idimovel} className="survey-card">
+              <img
+                src={`http://localhost:3001/uploads/${imovel.anexos}`}
+                alt={`Imagem do imóvel ${imovel.descricao}`}
+                className="survey-image"
+              />
+              <h3>
+                {imovel.nomeempreendimento} - Bloco {imovel.bloco}, Nº {imovel.numero}
+              </h3>
+              <p>
+                Status: {imovel.status} <br />
+                {imovel.datainiciovistoria ? `Data Agendada: ${new Date(imovel.datainiciovistoria).toLocaleDateString()}` : ''}
+              </p>
+
               <button
                 className="view-survey-button"
-                onClick={() => navigate(`/vistoriador/vistoria/${survey.id}`)}
+                onClick={() => {
+                  if (imovel.idvistoria) {
+                    navigate(`/vistoriador/vistoria/${imovel.idvistoria}`);
+                  } else {
+                    navigate(`/nova-vistoria-para-imovel/${imovel.idimovel}`);
+                  }
+                }}
               >
-                Ver Vistoria
+                {imovel.idvistoria ? "Ver Vistoria" : "Criar Vistoria"}
               </button>
             </div>
           ))}

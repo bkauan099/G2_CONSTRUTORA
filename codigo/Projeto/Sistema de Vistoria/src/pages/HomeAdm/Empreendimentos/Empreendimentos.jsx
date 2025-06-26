@@ -8,7 +8,6 @@ function Empreendimentos() {
   const [empreendimentos, setEmpreendimentos] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Buscar empreendimentos no backend
   useEffect(() => {
     const fetchEmpreendimentos = async () => {
       try {
@@ -29,7 +28,6 @@ function Empreendimentos() {
     fetchEmpreendimentos();
   }, []);
 
-  // Exclusão
   const handleExcluir = async (id, nome) => {
     if (!window.confirm(`Tem certeza que deseja excluir o empreendimento "${nome}"?`)) return;
 
@@ -39,11 +37,9 @@ function Empreendimentos() {
       });
       if (!response.ok) throw new Error('Erro ao excluir empreendimento');
 
-      // Remover do estado local após exclusão bem-sucedida
-      setEmpreendimentos((prev) => prev.filter((e) => e.idEmpreendimento !== id));
+      setEmpreendimentos((prev) => prev.filter((e) => e.idempreendimento !== id));
       alert(`Empreendimento "${nome}" excluído com sucesso!`);
-    } /* eslint-disable-next-line no-dupe-else-if */
-    catch (err) {
+    } catch (err) {
       console.error('Erro ao excluir:', err);
       alert('Erro ao excluir empreendimento.');
     }
@@ -77,42 +73,32 @@ function Empreendimentos() {
           <table className="lista-tabela">
             <thead>
               <tr>
-                <th>ID</th>
                 <th>Nome</th>
                 <th>Descrição</th>
-                <th>Construtora</th> {/* Adicionado */}
-                <th>Data de Entrega</th> {/* Adicionado */}
-                <th>Observações</th> {/* Adicionado */}
-                <th>Rua</th> {/* Adicionado */}
-                <th>Número</th> {/* Adicionado */}
-                <th>Condomínio</th> {/* Adicionado */}
-                <th>Bloco</th> {/* Adicionado */}
-                <th>Cidade</th> {/* Adicionado */}
-                <th>Estado</th> {/* Adicionado */}
-                <th>CEP</th> {/* Adicionado */}
+                <th>Construtora</th>
+                <th>Observações</th>
+                <th>Rua</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>CEP</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody>
               {empreendimentos.map(emp => (
-                <tr key={emp.idEmpreendimento}>
-                  <td data-label="ID">{emp.idEmpreendimento}</td>
+                <tr key={emp.idempreendimento}>
                   <td data-label="Nome">{emp.nome}</td>
                   <td data-label="Descrição">{emp.descricao}</td>
-                  <td data-label="Construtora">{emp.construtora}</td> {/* Adicionado */}
-                  <td data-label="Data de Entrega">{emp.dataEntrega}</td> {/* Adicionado */}
-                  <td data-label="Observações">{emp.observacoes}</td> {/* Adicionado */}
-                  <td data-label="Rua">{emp.rua}</td> {/* Adicionado */}
-                  <td data-label="Número">{emp.numero}</td> {/* Adicionado */}
-                  <td data-label="Condomínio">{emp.condominio}</td> {/* Adicionado */}
-                  <td data-label="Bloco">{emp.bloco}</td> {/* Adicionado */}
-                  <td data-label="Cidade">{emp.cidade}</td> {/* Adicionado */}
-                  <td data-label="Estado">{emp.estado}</td> {/* Adicionado */}
-                  <td data-label="CEP">{emp.cep}</td> {/* Adicionado */}
+                  <td data-label="Construtora">{emp.construtora}</td>
+                  <td data-label="Observações">{emp.observacoes}</td>
+                  <td data-label="Rua">{emp.rua}</td>
+                  <td data-label="Cidade">{emp.cidade}</td>
+                  <td data-label="Estado">{emp.estado}</td>
+                  <td data-label="CEP">{emp.cep}</td>
                   <td className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.idEmpreendimento}`)}>Editar</button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(emp.idEmpreendimento, emp.nome)}>Excluir</button>
-                    <button className="btn-editar" onClick={() => navigate(`/imoveis?empreendimentoId=${emp.idEmpreendimento}`)}>Exibir Imóveis</button>
+                    <button className="btn-editar" onClick={() => navigate(`/editar-empreendimento/${emp.idempreendimento}`)}>Editar</button>
+                    <button className="btn-excluir" onClick={() => handleExcluir(emp.idempreendimento, emp.nome)}>Excluir</button>
+                    <button className="btn-editar" onClick={() => navigate(`/imoveis?empreendimentoid=${emp.idempreendimento}`)}>Exibir Imóveis</button>
                   </td>
                 </tr>
               ))}
