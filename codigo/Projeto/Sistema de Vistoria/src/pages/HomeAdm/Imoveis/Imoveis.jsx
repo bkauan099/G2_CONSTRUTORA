@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../home.css';
-import './imoveis.css';
+import './Imoveis.css';
 
 function ListagemImoveis() {
   const navigate = useNavigate();

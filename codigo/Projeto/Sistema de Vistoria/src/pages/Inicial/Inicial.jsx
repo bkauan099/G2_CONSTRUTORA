@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import "./inicial.css";
-import QuemSomosIcon from './2.png';
-import VistoriasImobiliarias from './3.png';
-import LocalizacaoIcon from './4.png';
-import ContatosIcon from './5.png';
+import "./Inicial.css";
+import QuemSomosIcon from '/assets/imagenstelainicial/2.png';
+import VistoriasImobiliarias from '/assets/imagenstelainicial/3.png';
+import LocalizacaoIcon from '/assets/imagenstelainicial/4.png';
+import ContatosIcon from '/assets/imagenstelainicial/5.png';
 
 function Inicial() {
     const navigate = useNavigate();
