@@ -18,7 +18,6 @@ function NovaVistoria() {
     observacoes: '',
   });
 
-  // Carregar empreendimentos, clientes e vistoriadores
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -57,40 +56,38 @@ function NovaVistoria() {
     setFormData({ ...formData, [name]: value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const payload = {
-    idcliente: formData.idcliente,
-    idvistoriador: formData.idvistoriador,
-    idimovel: formData.idimovel,
-    observacoes: formData.observacoes,
-    datainicio: new Date().toISOString(),
-  };
+    const payload = {
+      idcliente: formData.idcliente,
+      idvistoriador: formData.idvistoriador,
+      idimovel: formData.idimovel,
+      observacoes: formData.observacoes,
+      datainicio: new Date().toISOString(),
+    };
 
-  try {
-    const res = await fetch('http://localhost:3001/api/vistorias', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const res = await fetch('http://localhost:3001/api/vistorias', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
 
-    if (!res.ok) {
-      const errorText = await res.text();
-      console.error('Erro detalhado ao agendar vistoria:', errorText);
-      throw new Error('Erro ao agendar vistoria.');
+      if (!res.ok) {
+        const errorText = await res.text();
+        console.error('Erro detalhado ao agendar vistoria:', errorText);
+        throw new Error('Erro ao agendar vistoria.');
+      }
+
+      const novaVistoria = await res.json();
+      alert('Vistoria agendada com sucesso!');
+      navigate(`/vistorias-agendadas/${novaVistoria.idvistoria}`);
+    } catch (err) {
+      console.error('Erro ao agendar vistoria:', err);
+      alert('Erro ao agendar vistoria.');
     }
-
-    const novaVistoria = await res.json(); // Aqui pegamos o ID retornado
-    alert('Vistoria agendada com sucesso!');
-    navigate(`/vistorias-agendadas/${novaVistoria.idvistoria}`); // Navega para os detalhes
-
-  } catch (err) {
-    console.error('Erro ao agendar vistoria:', err);
-    alert('Erro ao agendar vistoria.');
-  }
-};
-
+  };
 
   return (
     <div className="home-container">
@@ -103,9 +100,23 @@ const handleSubmit = async (e) => {
       </header>
 
       <main className="admin-page-container">
-        <h1>Agendar Nova Vistoria</h1>
+        <h1 style={{ textAlign: 'center' }}>Agendar Nova Vistoria</h1>
+
         <form onSubmit={handleSubmit} className="form-container">
           
+          {/* Cliente (primeiro) */}
+          <div className="form-group">
+            <label>Selecione o Cliente:</label>
+            <select name="idcliente" value={formData.idcliente} onChange={handleChange} required>
+              <option value="">-- Escolha --</option>
+              {clientes.map((c) => (
+                <option key={c.idcliente} value={c.idcliente}>
+                  {c.nome} - {c.cpf}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {/* Empreendimento */}
           <div className="form-group">
             <label>Selecione o Empreendimento:</label>
@@ -124,19 +135,6 @@ const handleSubmit = async (e) => {
               <option value="">-- Escolha --</option>
               {imoveis.map((i) => (
                 <option key={i.idimovel} value={i.idimovel}>{i.descricao}</option>
-              ))}
-            </select>
-          </div>
-
-          {/* Cliente */}
-          <div className="form-group">
-            <label>Selecione o Cliente:</label>
-            <select name="idcliente" value={formData.idcliente} onChange={handleChange} required>
-              <option value="">-- Escolha --</option>
-              {clientes.map((c) => (
-                <option key={c.idcliente} value={c.idcliente}>
-                  {c.nome} - {c.cpf}
-                </option>
               ))}
             </select>
           </div>

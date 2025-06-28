@@ -129,3 +129,10 @@ body {
   font-size: 1rem;
   width: 100%;
 }
+/* Centralização de título */
+.titulo-centralizado {
+  text-align: center;
+  font-size: 2rem;
+  color: #001f3f;
+  margin-bottom: 30px;
+}
