@@ -6,6 +6,7 @@ function AgendarVistoria() {
   const navigate = useNavigate();
   const [imovelSelecionado, setImovelSelecionado] = useState('');
   const [dataDesejada, setDataDesejada] = useState('');
+  const [horaDesejada, setHoraDesejada] = useState('');  // novo estado para hora
   const [imoveisDisponiveis, setImoveisDisponiveis] = useState([]);
 
   useEffect(() => {
@@ -34,7 +35,7 @@ function AgendarVistoria() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!imovelSelecionado || !dataDesejada) {
+    if (!imovelSelecionado || !dataDesejada || !horaDesejada) {
       alert("Por favor, preencha todos os campos obrigatórios.");
       return;
     }
@@ -46,7 +47,8 @@ function AgendarVistoria() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          dataagendada: dataDesejada
+          dataagendada: dataDesejada,
+          horaagendada: horaDesejada  // envia a hora também
         })
       });
 
@@ -81,7 +83,7 @@ function AgendarVistoria() {
         <button className="back-arrow" onClick={() => navigate("/home-cliente")} style={{ marginBottom: '20px', marginLeft: '20px' }}>
           &#8592; Voltar
         </button>
-        <h1 style={{ color: '#001f3f', marginBottom: '30px', marginLeft: '20px' }}>Agendar Nova Vistoria</h1>
+        <h1 className="titulo-centralizado">Agendar Nova Vistoria</h1>
 
         <form onSubmit={handleSubmit} className="login-form" style={{ width: '80%', maxWidth: '500px', marginLeft: '20px', padding: '30px', backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
           <label htmlFor="imovel">Selecione o Imóvel:</label>
@@ -110,6 +112,16 @@ function AgendarVistoria() {
             style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '15px' }}
           />
 
+          <label htmlFor="hora">Hora Desejada:</label>
+          <input
+            type="time"
+            id="hora"
+            value={horaDesejada}
+            onChange={(e) => setHoraDesejada(e.target.value)}
+            required
+            style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', marginBottom: '15px' }}
+          />
+
           <button type="submit" className="login-button">
             Solicitar Vistoria
           </button>
@@ -118,5 +130,6 @@ function AgendarVistoria() {
     </div>
   );
 }
+
 
 export default AgendarVistoria;

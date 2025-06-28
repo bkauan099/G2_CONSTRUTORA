@@ -79,7 +79,7 @@ function ValidarVistoria() {
         <button className="back-arrow" onClick={() => navigate("/home-funcionario")} style={{ marginBottom: '20px', marginLeft: '20px' }}>
           &#8592; Voltar
         </button>
-        <h1 style={{ color: '#001f3f', marginBottom: '30px', marginLeft: '20px' }}>Validar Vistoria</h1>
+        <h1 className="titulo-centralizado">Validar Vistoria</h1>
 
         <form onSubmit={handleSubmit} className="login-form" style={{ width: '80%', maxWidth: '500px', marginLeft: '20px', padding: '30px', backgroundColor: 'white', borderRadius: '10px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)' }}>
           <label htmlFor="imovel">Selecione o Imóvel:</label>
@@ -121,6 +121,9 @@ function ValidarVistoria() {
 
           <button type="submit" className="login-button">
             Validar Vistoria
+          </button>
+          <button type="submit" className="login-button">
+            Solicitar Nova Vistoria
           </button>
         </form>
       </main>

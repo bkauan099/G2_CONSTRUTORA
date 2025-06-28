@@ -235,3 +235,20 @@
 .botao-validar:hover {
   background-color: #e86c00;
 }
+.login-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%; /* ou ajuste para 'fit-content' se quiser mais compacto */
+  max-width: 300px;
+  text-align: center;
+}
+
+.login-button:hover {
+  background-color: #0056b3;
+}

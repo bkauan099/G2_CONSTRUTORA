@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../../home.css';
 import '../Imoveis.css';
@@ -8,16 +8,31 @@ function CadastrarImovel() {
   const location = useLocation();
   const empreendimentoid = new URLSearchParams(location.search).get('empreendimentoid');
 
+  const [clientes, setClientes] = useState([]);
   const [formData, setFormData] = useState({
+    idcliente: '',
     descricao: '',
     bloco: '',
     numero: '',
     anexos: null,
   });
 
+  // Carregar clientes ao iniciar
+  useEffect(() => {
+    const fetchClientes = async () => {
+      try {
+        const res = await fetch('http://localhost:3001/api/clientes');
+        const data = await res.json();
+        setClientes(data);
+      } catch (error) {
+        console.error('Erro ao buscar clientes:', error);
+      }
+    };
+    fetchClientes();
+  }, []);
+
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
     if (name === 'anexos') {
       setFormData({ ...formData, anexos: files[0] });
     } else {
@@ -37,6 +52,7 @@ function CadastrarImovel() {
     formDataToSend.append('descricao', formData.descricao);
     formDataToSend.append('bloco', formData.bloco);
     formDataToSend.append('numero', formData.numero);
+    formDataToSend.append('idcliente', formData.idcliente);
     formDataToSend.append('idempreendimento', empreendimentoid);
 
     if (formData.anexos) {
@@ -74,12 +90,36 @@ function CadastrarImovel() {
       </header>
 
       <main className="admin-page-container">
-        <button className="back-arrow" onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)} style={{ marginBottom: '20px' }}>
+        <button
+          className="back-arrow"
+          onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)}
+          style={{ marginBottom: '20px' }}
+        >
           &#8592; Voltar
         </button>
-        <h1 style={{ marginBottom: '30px', color: '#004080' }}>Cadastrar Novo Imóvel</h1>
+        <h1 className="titulo-centralizado">Cadastrar Novo Imóvel</h1>
+
 
         <form onSubmit={handleSubmit} className="form-container" encType="multipart/form-data">
+          {/* Select Cliente */}
+          <div className="form-group">
+            <label htmlFor="idcliente">Selecione o Cliente:</label>
+            <select
+              id="idcliente"
+              name="idcliente"
+              value={formData.idcliente}
+              onChange={handleChange}
+              required
+            >
+              <option value="">-- Escolha --</option>
+              {clientes.map(c => (
+                <option key={c.idcliente} value={c.idcliente}>
+                  {c.nome} - {c.cpf}
+                </option>
+              ))}
+            </select>
+          </div>
+
           <div className="form-group">
             <label htmlFor="descricao">Descrição:</label>
             <input
@@ -126,7 +166,11 @@ function CadastrarImovel() {
           </div>
 
           <div className="form-actions">
-            <button type="button" className="btn-cancelar" onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)}>
+            <button
+              type="button"
+              className="btn-cancelar"
+              onClick={() => navigate(`/imoveis?empreendimentoid=${empreendimentoid}`)}
+            >
               Cancelar
             </button>
             <button type="submit" className="btn-salvar">
