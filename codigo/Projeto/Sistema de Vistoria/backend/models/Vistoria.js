@@ -57,7 +57,6 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-
 // POST: Criar uma nova vistoria
 router.post('/', async (req, res) => {
   const { idimovel, idcliente, idvistoriador, datainicio } = req.body;
@@ -73,7 +72,6 @@ router.post('/', async (req, res) => {
       RETURNING *
     `;
 
-    // Atualizar o status do imóvel após criação da vistoria
     await db`
       UPDATE imovel
       SET status = 'Aguardando Agendamento da Vistoria'
@@ -84,6 +82,54 @@ router.post('/', async (req, res) => {
   } catch (err) {
     console.error('Erro ao agendar vistoria:', err);
     res.status(500).json({ error: 'Erro ao agendar vistoria.' });
+  }
+});
+
+// PUT: Atualizar vistoria
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const idParsed = Number(id);
+  const {
+    dataagendada,
+    datahorainicio,
+    datahorafim,
+    condicoesclimaticas,
+    imprevistos,
+    observacoesgerais,
+    status,
+    relatorio_url
+  } = req.body;
+
+  if (isNaN(idParsed)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  try {
+    const [vistoriaExistente] = await db`
+      SELECT * FROM vistoria WHERE idvistoria = ${idParsed}
+    `;
+
+    if (!vistoriaExistente) {
+      return res.status(404).json({ error: 'Vistoria não encontrada.' });
+    }
+
+    await db`
+      UPDATE vistoria SET
+        dataagendada = ${dataagendada ?? vistoriaExistente.dataagendada},
+        datahorainicio = ${datahorainicio ?? vistoriaExistente.datahorainicio},
+        datahorafim = ${datahorafim ?? vistoriaExistente.datahorafim},
+        condicoesclimaticas = ${condicoesclimaticas ?? vistoriaExistente.condicoesclimaticas},
+        imprevistos = ${imprevistos ?? vistoriaExistente.imprevistos},
+        observacoesgerais = ${observacoesgerais ?? vistoriaExistente.observacoesgerais},
+        status = ${status ?? vistoriaExistente.status},
+        relatorio_url = ${relatorio_url ?? vistoriaExistente.relatorio_url}
+      WHERE idvistoria = ${idParsed}
+    `;
+
+    res.status(200).json({ message: 'Vistoria atualizada com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao atualizar vistoria:', err);
+    res.status(500).json({ error: 'Erro ao atualizar vistoria.' });
   }
 });
 
@@ -107,7 +153,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
-// PUT: Iniciar a vistoria (atualiza datahorainicio da vistoria e status do imóvel)
+// PUT: Iniciar a vistoria
 router.put('/iniciar/:id', async (req, res) => {
   const { id } = req.params;
   const idParsed = Number(id);
@@ -146,7 +192,7 @@ router.put('/iniciar/:id', async (req, res) => {
   }
 });
 
-// GET: Listar vistorias pendentes (Aguardando Agendamento da Vistoria) de um Cliente específico
+// GET: Vistorias pendentes para um cliente
 router.get('/pendentes/cliente/:idcliente', async (req, res) => {
   const idCliente = Number(req.params.idcliente);
   if (isNaN(idCliente)) {
@@ -169,8 +215,4 @@ router.get('/pendentes/cliente/:idcliente', async (req, res) => {
   }
 });
 
-
 module.exports = router;
-
-
-

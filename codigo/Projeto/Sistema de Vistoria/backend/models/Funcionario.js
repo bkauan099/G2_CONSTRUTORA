@@ -26,4 +26,44 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT: Atualiza um cliente pelo ID
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { cpf, email, nome, senha, telefone } = req.body;
+
+  try {
+    const [cliente] = await db`
+      UPDATE cliente
+      SET cpf = ${cpf}, email = ${email}, nome = ${nome}, senha = ${senha}, telefone = ${telefone}
+      WHERE id = ${id}
+      RETURNING *`;
+
+    if (!cliente) {
+      return res.status(404).json({ error: 'Cliente não encontrado' });
+    }
+
+    res.json(cliente);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE: Remove um funcionário pelo ID
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db`
+      DELETE FROM funcionario
+      WHERE id = ${id}
+      RETURNING *`;
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Funcionário não encontrado' });
+    }
+
+    res.json({ message: 'Funcionário deletado com sucesso' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
 module.exports = router;

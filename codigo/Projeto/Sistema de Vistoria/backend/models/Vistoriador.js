@@ -20,24 +20,110 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST: Cadastrar um novo vistoriador
-router.post('/', async (req, res) => {
-  const { idvistoriador } = req.body;
+// GET: Buscar vistoriador por ID
+router.get('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) return res.status(400).json({ error: 'ID inválido.' });
 
-  if (!idvistoriador) {
-    return res.status(400).json({ error: 'O campo idvistoriador é obrigatório.' });
+  try {
+    const [vistoriador] = await db`
+      SELECT 
+        v.idvistoriador,
+        f.nome,
+        f.cpf,
+        f.email,
+        f.telefone
+      FROM vistoriador v
+      JOIN funcionario f ON v.idvistoriador = f.id
+      WHERE v.idvistoriador = ${id}
+    `;
+
+    if (!vistoriador) {
+      return res.status(404).json({ error: 'Vistoriador não encontrado.' });
+    }
+
+    res.status(200).json(vistoriador);
+  } catch (err) {
+    console.error('Erro ao buscar vistoriador:', err);
+    res.status(500).json({ error: 'Erro ao buscar vistoriador.' });
+  }
+});
+
+// POST: Cadastrar novo funcionário e automaticamente torná-lo um vistoriador
+router.post('/', async (req, res) => {
+  const { nome, cpf, email, senha, telefone } = req.body;
+
+  if (!nome || !cpf || !email || !senha) {
+    return res.status(400).json({ error: 'Nome, CPF, e-mail e senha são obrigatórios.' });
   }
 
   try {
+    // Verifica se CPF ou e-mail já existem
+    const [cpfExistente] = await db`SELECT * FROM funcionario WHERE cpf = ${cpf}`;
+    const [emailExistente] = await db`SELECT * FROM funcionario WHERE email = ${email}`;
+
+    if (cpfExistente || emailExistente) {
+      return res.status(400).json({ error: 'CPF ou e-mail já estão cadastrados.' });
+    }
+
+    // Cadastra o funcionário
+    const [novoFuncionario] = await db`
+      INSERT INTO funcionario (nome, cpf, email, senha, telefone)
+      VALUES (${nome}, ${cpf}, ${email}, ${senha}, ${telefone || null})
+      RETURNING id, nome, cpf, email
+    `;
+
+    // Cadastra o funcionário como vistoriador
     const [novoVistoriador] = await db`
       INSERT INTO vistoriador (idvistoriador)
-      VALUES (${idvistoriador})
-      RETURNING *
+      VALUES (${novoFuncionario.id})
+      RETURNING idvistoriador
     `;
-    res.status(201).json(novoVistoriador);
+
+    res.status(201).json({
+      message: 'Funcionário e vistoriador criados com sucesso.',
+      funcionario: novoFuncionario,
+      vistoriador: novoVistoriador
+    });
   } catch (err) {
-    console.error('Erro ao cadastrar vistoriador:', err);
-    res.status(500).json({ error: 'Erro ao cadastrar vistoriador.' });
+    console.error('Erro ao cadastrar funcionário e vistoriador:', err);
+    res.status(500).json({ error: 'Erro ao cadastrar funcionário e vistoriador.' });
+  }
+});
+
+// PUT: Atualizar dados do vistoriador (funcionário vinculado)
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const idNum = Number(id);
+  const { nome, cpf, email, senha, telefone } = req.body;
+
+  if (isNaN(idNum)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  try {
+    // Verifica se o funcionário (vistoriador) existe
+    const [funcionarioExistente] = await db`
+      SELECT * FROM funcionario WHERE id = ${idNum}
+    `;
+    if (!funcionarioExistente) {
+      return res.status(404).json({ error: 'Vistoriador (funcionário) não encontrado.' });
+    }
+
+    await db`
+      UPDATE funcionario SET
+        nome = ${nome ?? funcionarioExistente.nome},
+        cpf = ${cpf ?? funcionarioExistente.cpf},
+        email = ${email ?? funcionarioExistente.email},
+        senha = ${senha ?? funcionarioExistente.senha},
+        telefone = ${telefone ?? funcionarioExistente.telefone}
+      WHERE id = ${idNum}
+    `;
+
+    res.status(200).json({ message: 'Vistoriador atualizado com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao atualizar vistoriador:', err);
+    res.status(500).json({ error: 'Erro ao atualizar vistoriador.' });
   }
 });
 
