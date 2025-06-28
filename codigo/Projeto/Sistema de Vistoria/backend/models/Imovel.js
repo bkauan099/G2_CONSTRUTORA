@@ -49,16 +49,20 @@ router.post('/', upload.single('anexos'), async (req, res) => {
   const { descricao, bloco, numero, idempreendimento } = req.body;
   const arquivoAnexo = req.file ? req.file.filename : null;
 
-  if (!idempreendimento) {
-    return res.status(400).json({ error: 'idempreendimento é obrigatório.' });
-  }
-
   try {
+    // Se idempreendimento for enviado, converte para número. Senão, seta como null
+    const idEmp = idempreendimento ? Number(idempreendimento) : null;
+
     const [novoImovel] = await db`
-      INSERT INTO imovel (descricao, bloco, numero, anexos, idempreendimento, status, vistoriasrealizadas)
-      VALUES (${descricao}, ${bloco}, ${numero}, ${arquivoAnexo}, ${Number(idempreendimento)}, 'Aguardando Vistoria', 0)
+      INSERT INTO imovel (
+        descricao, bloco, numero, anexos, idempreendimento, status, vistoriasrealizadas
+      )
+      VALUES (
+        ${descricao}, ${bloco}, ${numero}, ${arquivoAnexo}, ${idEmp}, 'Aguardando Vistoria', 0
+      )
       RETURNING *
     `;
+
     res.status(201).json(novoImovel);
   } catch (error) {
     console.error('Erro ao cadastrar imóvel:', error);
@@ -79,6 +83,56 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Erro ao excluir imóvel.' });
   }
 });
+
+// PUT - Atualizar imóvel
+router.put('/:idimovel', upload.single('anexos'), async (req, res) => {
+  const { idimovel } = req.params;
+  const { descricao, bloco, numero, idempreendimento, status, vistoriasrealizadas } = req.body;
+  const arquivoAnexo = req.file ? req.file.filename : null;
+
+  try {
+    const idImovelNum = Number(idimovel);
+    if (isNaN(idImovelNum)) {
+      return res.status(400).json({ error: 'ID do imóvel inválido.' });
+    }
+
+    // Recupera o imóvel atual
+    const [imovelExistente] = await db`
+      SELECT * FROM imovel WHERE idimovel = ${idImovelNum}
+    `;
+
+    if (!imovelExistente) {
+      return res.status(404).json({ error: 'Imóvel não encontrado.' });
+    }
+
+    // Atualiza apenas os campos enviados (mantendo os antigos quando ausentes)
+    const novoAnexo = arquivoAnexo || imovelExistente.anexos;
+    const novoDescricao = descricao ?? imovelExistente.descricao;
+    const novoBloco = bloco ?? imovelExistente.bloco;
+    const novoNumero = numero ?? imovelExistente.numero;
+    const novoEmpreendimento = idempreendimento ? Number(idempreendimento) : null;
+    const novoStatus = status ?? imovelExistente.status;
+    const novasVistorias = vistoriasrealizadas ?? imovelExistente.vistoriasrealizadas;
+
+    await db`
+      UPDATE imovel SET
+        descricao = ${novoDescricao},
+        bloco = ${novoBloco},
+        numero = ${novoNumero},
+        anexos = ${novoAnexo},
+        idempreendimento = ${novoEmpreendimento},
+        status = ${novoStatus},
+        vistoriasrealizadas = ${novasVistorias}
+      WHERE idimovel = ${idImovelNum}
+    `;
+
+    res.status(200).json({ message: 'Imóvel atualizado com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao atualizar imóvel:', error);
+    res.status(500).json({ error: 'Erro ao atualizar imóvel.' });
+  }
+});
+
 
 // GET - Buscar todos os imóveis com dados adicionais
 router.get('/todos', async (req, res) => {
@@ -126,7 +180,7 @@ router.get('/cliente/:idcliente', async (req, res) => {
 });
 
 
-// PUT - Agendar Vistoria (atualizar dataagendada da vistoria + status do imóvel)
+// PUT - Agendar Vistoria (atualizar data de agendada da vistoria + status do imóvel)
 
 router.put('/agendar/:idimovel', async (req, res) => {
   const { idimovel } = req.params;
