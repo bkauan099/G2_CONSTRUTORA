@@ -118,22 +118,21 @@ async function gerarRelatorio(req, res) {
         // URL pública manualmente gerada (para bucket público)
         const publicUrl = `https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object/public/${filePath}`;
 
-        // Atualiza URL no banco
+        // Atualiza URL no banco e o Status da Vistoria
         await db`
           UPDATE vistoria
-          SET relatorio_url = ${publicUrl}
+          SET relatorio_url = ${publicUrl} , status = 'Aguardando Validação'
           WHERE idvistoria = ${idVistoria}
         `;
 
-        // Atualiza status do imóvel
-        await db`
-          UPDATE imovel
-          SET status = 'Aguardando Validação da Vistoria'
-          FROM vistoria
-          WHERE vistoria.idvistoria = ${idVistoria}
-          AND vistoria.idimovel = imovel.idimovel
-        `;
-
+        // Incrementa contador de vistorias realizadas no imóvel relacionado
+      await db`
+        UPDATE imovel
+        SET vistoriasrealizadas = vistoriasrealizadas + 1
+        WHERE idimovel = (
+          SELECT idimovel FROM vistoria WHERE idvistoria = ${idVistoria}
+        )
+      `;
         // Envia resposta final
         res.json({
           mensagem: "Relatório gerado, enviado, salvo e status do imóvel atualizado com sucesso",

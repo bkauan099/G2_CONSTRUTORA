@@ -11,9 +11,15 @@ function HomeVistoriador({ onLogout }) {
       try {
         const res = await fetch('http://localhost:3001/api/imoveis/todos');
         const data = await res.json();
-        setImoveis(data);
+        if (Array.isArray(data)) {
+          setImoveis(data);
+        } else {
+          console.error('Resposta inesperada:', data);
+          setImoveis([]);
+        }
       } catch (err) {
         console.error("Erro ao buscar imóveis:", err);
+        setImoveis([]);
       }
     };
 
@@ -53,35 +59,39 @@ function HomeVistoriador({ onLogout }) {
         </div>
 
         <div className="survey-cards-container">
-          {imoveis.map((imovel) => (
-            <div key={imovel.idimovel} className="survey-card">
-              <img
-                src={`http://localhost:3001/uploads/${imovel.anexos}`}
-                alt={`Imagem do imóvel ${imovel.descricao}`}
-                className="survey-image"
-              />
-              <h3>
-                {imovel.nomeempreendimento} - Bloco {imovel.bloco}, Nº {imovel.numero}
-              </h3>
-              <p>
-                Status: {imovel.status} <br />
-                {imovel.datainiciovistoria ? `Data Agendada: ${new Date(imovel.datainiciovistoria).toLocaleDateString()}` : ''}
-              </p>
+          {Array.isArray(imoveis) && imoveis.length > 0 ? (
+            imoveis.map((imovel) => (
+              <div key={imovel.idimovel} className="survey-card">
+                <img
+                  src={`http://localhost:3001/uploads/${imovel.anexos}`}
+                  alt={`Imagem do imóvel ${imovel.descricao}`}
+                  className="survey-image"
+                />
+                <h3>
+                  {imovel.nomeempreendimento} - Bloco {imovel.bloco}, Nº {imovel.numero}
+                </h3>
+                <p>
+                  Status: {imovel.status} <br />
+                  {imovel.dataagendada ? `Data Agendada: ${new Date(imovel.dataagendada).toLocaleDateString()}` : ''}
+                </p>
 
-              <button
-                className="view-survey-button"
-                onClick={() => {
-                  if (imovel.idvistoria) {
-                    navigate(`/vistoriador/vistoria/${imovel.idvistoria}`);
-                  } else {
-                    navigate(`/nova-vistoria-para-imovel/${imovel.idimovel}`);
-                  }
-                }}
-              >
-                {imovel.idvistoria ? "Ver Vistoria" : "Criar Vistoria"}
-              </button>
-            </div>
-          ))}
+                <button
+                  className="view-survey-button"
+                  onClick={() => {
+                    if (imovel.idvistoria) {
+                      navigate(`/vistoriador/vistoria/${imovel.idvistoria}`);
+                    } else {
+                      navigate(`/nova-vistoria-para-imovel/${imovel.idimovel}`);
+                    }
+                  }}
+                >
+                  {imovel.idvistoria ? "Ver Vistoria" : "Criar Vistoria"}
+                </button>
+              </div>
+            ))
+          ) : (
+            <p>Não há imóveis disponíveis ou ocorreu um erro.</p>
+          )}
         </div>
 
         <div className="pagination">

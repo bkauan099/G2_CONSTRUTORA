@@ -14,7 +14,6 @@ function CadastrarImovel() {
     descricao: '',
     bloco: '',
     numero: '',
-    anexos: null,
   });
 
   // Carregar clientes ao iniciar
@@ -32,12 +31,8 @@ function CadastrarImovel() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'anexos') {
-      setFormData({ ...formData, anexos: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
@@ -54,10 +49,6 @@ function CadastrarImovel() {
     formDataToSend.append('numero', formData.numero);
     formDataToSend.append('idcliente', formData.idcliente);
     formDataToSend.append('idempreendimento', empreendimentoid);
-
-    if (formData.anexos) {
-      formDataToSend.append('anexos', formData.anexos);
-    }
 
     try {
       const response = await fetch('http://localhost:3001/api/imoveis', {
@@ -154,16 +145,6 @@ function CadastrarImovel() {
             />
           </div>
 
-          <div className="form-group">
-            <label htmlFor="anexos">Anexos (Imagem):</label>
-            <input
-              type="file"
-              id="anexos"
-              name="anexos"
-              accept="image/*"
-              onChange={handleChange}
-            />
-          </div>
 
           <div className="form-actions">
             <button

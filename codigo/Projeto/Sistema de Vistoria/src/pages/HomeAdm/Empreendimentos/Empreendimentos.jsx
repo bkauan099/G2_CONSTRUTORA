@@ -74,9 +74,7 @@ function Empreendimentos() {
             <thead>
               <tr>
                 <th>Nome</th>
-                <th>Descrição</th>
                 <th>Construtora</th>
-                <th>Observações</th>
                 <th>Rua</th>
                 <th>Cidade</th>
                 <th>Estado</th>
@@ -88,9 +86,7 @@ function Empreendimentos() {
               {empreendimentos.map(emp => (
                 <tr key={emp.idempreendimento}>
                   <td data-label="Nome">{emp.nome}</td>
-                  <td data-label="Descrição">{emp.descricao}</td>
                   <td data-label="Construtora">{emp.construtora}</td>
-                  <td data-label="Observações">{emp.observacoes}</td>
                   <td data-label="Rua">{emp.rua}</td>
                   <td data-label="Cidade">{emp.cidade}</td>
                   <td data-label="Estado">{emp.estado}</td>
