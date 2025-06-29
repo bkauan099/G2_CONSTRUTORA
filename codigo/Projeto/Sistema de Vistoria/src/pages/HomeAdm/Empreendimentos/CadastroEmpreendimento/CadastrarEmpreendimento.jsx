@@ -9,9 +9,7 @@ function CadastrarEmpreendimento() {
 
   const [formData, setFormData] = useState({
     nome: '',
-    descricao: '',
     construtora: '',
-    observacoes: '',
     cidade: '',
     estado: '',
     cep: '',
@@ -84,12 +82,6 @@ function CadastrarEmpreendimento() {
             <div className="form-group full-width-field">
               <label htmlFor="construtora">Construtora:</label>
               <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
-            </div>
-
-
-            <div className="form-group full-width-field">
-              <label htmlFor="observacoes">Observações:</label>
-              <textarea id="observacoes" name="observacoes" value={formData.observacoes} onChange={handleChange} rows="3" />
             </div>
 
             <div className="form-group">
