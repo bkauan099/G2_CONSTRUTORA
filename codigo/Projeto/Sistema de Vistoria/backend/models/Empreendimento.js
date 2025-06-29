@@ -1,29 +1,49 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Garante que a pasta de uploads exista
+const uploadDir = path.join(__dirname, '..', 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+// Configuração do Multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + '-' + file.originalname;
+    cb(null, uniqueName);
+  }
+});
+const upload = multer({ storage });
 
 /* ========== CRUD BÁSICO ========== */
 
 // POST: Criar novo empreendimento
-router.post('/', async (req, res) => {
+router.post('/', upload.single('anexos'), async (req, res) => {
   const {
     nome,
-    descricao,
     construtora,
-    observacoes,
     estado,
     cidade,
     cep,
     rua,
     dataentrega,
   } = req.body;
+  const arquivoAnexo = req.file ? req.file.filename : null;
 
   try {
     const [empreendimento] = await db`
       INSERT INTO empreendimento
-        (nome, descricao, construtora, observacoes, estado, cidade, cep, rua, dataentrega)
+        (nome, construtora, estado, cidade, cep, rua, dataentrega, anexos)
       VALUES
-        (${nome}, ${descricao}, ${construtora}, ${observacoes}, ${estado}, ${cidade}, ${cep}, ${rua}, ${dataentrega || null})
+        (${nome}, ${construtora}, ${estado}, ${cidade}, ${cep}, ${rua}, ${dataentrega || null}, ${arquivoAnexo})
       RETURNING *
     `;
     res.status(201).json(empreendimento);
@@ -79,19 +99,18 @@ router.get('/:id/imoveis', async (req, res) => {
 });
 
 // PUT: Atualizar empreendimento
-router.put('/:id', async (req, res) => {
+router.put('/:id', upload.single('anexos'), async (req, res) => {
   const id = Number(req.params.id);
   const {
     nome,
-    descricao,
     construtora,
-    observacoes,
     estado,
     cidade,
     cep,
     rua,
     dataentrega
   } = req.body;
+  const arquivoAnexo = req.file ? req.file.filename : null;
 
   if (isNaN(id)) return res.status(400).json({ error: 'ID inválido.' });
 
@@ -106,14 +125,13 @@ router.put('/:id', async (req, res) => {
     await db`
       UPDATE empreendimento SET
         nome = ${nome ?? empreendimentoExistente.nome},
-        descricao = ${descricao ?? empreendimentoExistente.descricao},
         construtora = ${construtora ?? empreendimentoExistente.construtora},
-        observacoes = ${observacoes ?? empreendimentoExistente.observacoes},
         estado = ${estado ?? empreendimentoExistente.estado},
         cidade = ${cidade ?? empreendimentoExistente.cidade},
         cep = ${cep ?? empreendimentoExistente.cep},
         rua = ${rua ?? empreendimentoExistente.rua},
-        dataentrega = ${dataentrega ?? empreendimentoExistente.dataentrega}
+        dataentrega = ${dataentrega ?? empreendimentoExistente.dataentrega},
+        anexos = ${arquivoAnexo ?? empreendimentoExistente.anexos}
       WHERE idempreendimento = ${id}
     `;
 

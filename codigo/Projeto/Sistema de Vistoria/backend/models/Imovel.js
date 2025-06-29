@@ -26,19 +26,18 @@ const upload = multer({ storage });
 /* ========== CRUD BÁSICO ========== */
 
 // POST - Cadastrar imóvel
-router.post('/', upload.single('anexos'), async (req, res) => {
+router.post('/', async (req, res) => {
   const { descricao, bloco, numero, idempreendimento } = req.body;
-  const arquivoAnexo = req.file ? req.file.filename : null;
 
   try {
     const idEmp = idempreendimento ? Number(idempreendimento) : null;
 
     const [novoImovel] = await db`
       INSERT INTO imovel (
-        descricao, bloco, numero, anexos, idempreendimento, status, vistoriasrealizadas
+        descricao, bloco, numero, idempreendimento, status, vistoriasrealizadas
       )
       VALUES (
-        ${descricao}, ${bloco}, ${numero}, ${arquivoAnexo}, ${idEmp}, 'Aguardando Vistoria', 0
+        ${descricao}, ${bloco}, ${numero}, ${idEmp}, 'Aguardando Vistoria', 0
       )
       RETURNING *
     `;
@@ -74,7 +73,7 @@ router.get('/todos', async (req, res) => {
   try {
     const imoveis = await db`
       SELECT 
-        i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        i.idimovel, i.descricao, i.bloco, i.numero, i.status,
         e.nome AS nomeempreendimento,
         v.datainicio AS datainiciovistoria,
         v.idvistoria
@@ -96,7 +95,7 @@ router.get('/cliente/:idcliente', async (req, res) => {
   try {
     const imoveis = await db`
       SELECT 
-        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
+        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
         e.nome AS nomeempreendimento,
         v.datainicio AS datainiciovistoria,
         v.idvistoria
@@ -114,10 +113,9 @@ router.get('/cliente/:idcliente', async (req, res) => {
 });
 
 // PUT - Atualizar imóvel
-router.put('/:idimovel', upload.single('anexos'), async (req, res) => {
+router.put('/:idimovel', async (req, res) => {
   const { idimovel } = req.params;
   const { descricao, bloco, numero, idempreendimento, status, vistoriasrealizadas } = req.body;
-  const arquivoAnexo = req.file ? req.file.filename : null;
 
   try {
     const idImovelNum = Number(idimovel);
@@ -132,7 +130,6 @@ router.put('/:idimovel', upload.single('anexos'), async (req, res) => {
       return res.status(404).json({ error: 'Imóvel não encontrado.' });
     }
 
-    const novoAnexo = arquivoAnexo || imovelExistente.anexos;
     const novoDescricao = descricao ?? imovelExistente.descricao;
     const novoBloco = bloco ?? imovelExistente.bloco;
     const novoNumero = numero ?? imovelExistente.numero;
@@ -145,7 +142,6 @@ router.put('/:idimovel', upload.single('anexos'), async (req, res) => {
         descricao = ${novoDescricao},
         bloco = ${novoBloco},
         numero = ${novoNumero},
-        anexos = ${novoAnexo},
         idempreendimento = ${novoEmpreendimento},
         status = ${novoStatus},
         vistoriasrealizadas = ${novasVistorias}
@@ -180,7 +176,7 @@ router.put('/agendar/:idimovel', async (req, res) => {
   const { dataagendada } = req.body;
 
   if (!dataagendada) {
-    return res.status(400).json({ error: 'A dataagendada é obrigatória.' });
+    return res.status(400).json({ error: 'A data agendada é obrigatória.' });
   }
 
   try {
@@ -218,8 +214,8 @@ router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
 
   try {
     const imoveis = await db`
-      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
-        e.nome AS nomeempreendimento
+      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
+        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento
       FROM imovel i
       JOIN vistoria v ON i.idimovel = v.idimovel
       JOIN cliente c ON v.idcliente = c.idcliente
@@ -237,8 +233,8 @@ router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
 router.get('/pendentes-validacao', async (req, res) => {
   try {
     const imoveis = await db`
-      SELECT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
-        e.nome AS nomeempreendimento
+      SELECT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
+        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento
       FROM imovel i
       LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
       WHERE i.status = 'Aguardando Validação da Vistoria'
@@ -256,8 +252,8 @@ router.get('/cliente/:idcliente/pendentes-validacao', async (req, res) => {
 
   try {
     const imoveis = await db`
-      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status, i.anexos,
-        e.nome AS nomeempreendimento, v.relatorio_url
+      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
+        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento, v.relatorio_url
       FROM imovel i
       JOIN vistoria v ON i.idimovel = v.idimovel
       JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
