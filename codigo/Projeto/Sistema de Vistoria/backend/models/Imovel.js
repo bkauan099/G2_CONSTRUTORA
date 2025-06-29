@@ -82,8 +82,6 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
 });
-
-
 // GET - Buscar todos os imóveis com dados adicionais
 router.get('/todos', async (req, res) => {
   try {
