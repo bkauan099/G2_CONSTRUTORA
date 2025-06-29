@@ -27,17 +27,26 @@ const upload = multer({ storage });
 
 // POST - Cadastrar imóvel
 router.post('/', async (req, res) => {
-  const { descricao, bloco, numero, idempreendimento } = req.body;
+  const { descricao, bloco, numero, idcliente, idempreendimento } = req.body;
+
+  if (!descricao || !numero || !idcliente || !idempreendimento) {
+    return res.status(400).json({ error: 'Campos obrigatórios faltando.' });
+  }
 
   try {
-    const idEmp = idempreendimento ? Number(idempreendimento) : null;
+    const idClienteNum = Number(idcliente);
+    const idEmpreendimentoNum = Number(idempreendimento);
+
+    if (isNaN(idClienteNum) || isNaN(idEmpreendimentoNum)) {
+      return res.status(400).json({ error: 'IDs inválidos.' });
+    }
 
     const [novoImovel] = await db`
       INSERT INTO imovel (
-        descricao, bloco, numero, idempreendimento, status, vistoriasrealizadas
+        descricao, bloco, numero, idcliente, idempreendimento, vistoriasrealizadas
       )
       VALUES (
-        ${descricao}, ${bloco}, ${numero}, ${idEmp}, 'Aguardando Vistoria', 0
+        ${descricao}, ${bloco}, ${numero}, ${idClienteNum}, ${idEmpreendimentoNum}, 0
       )
       RETURNING *
     `;
@@ -49,7 +58,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// GET - Buscar imóveis por empreendimento
+// GET - Buscar imóveis por empreendimento que ainda não têm vistoria
 router.get('/', async (req, res) => {
   const { empreendimentoid } = req.query;
 
@@ -59,24 +68,32 @@ router.get('/', async (req, res) => {
 
   try {
     const imoveis = await db`
-      SELECT * FROM imovel WHERE idempreendimento = ${Number(empreendimentoid)}
+      SELECT *
+      FROM imovel i
+      WHERE i.idempreendimento = ${Number(empreendimentoid)}
+        AND NOT EXISTS (
+          SELECT 1 FROM vistoria v
+          WHERE v.idimovel = i.idimovel
+        )
     `;
     res.status(200).json(imoveis);
   } catch (error) {
-    console.error('Erro ao buscar imóveis:', error);
+    console.error('Erro ao buscar imóveis sem vistoria:', error);
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
 });
+
 
 // GET - Buscar todos os imóveis com dados adicionais
 router.get('/todos', async (req, res) => {
   try {
     const imoveis = await db`
       SELECT 
-        i.idimovel, i.descricao, i.bloco, i.numero, i.status,
+        i.idimovel, i.descricao, i.bloco, i.numero,
         e.nome AS nomeempreendimento,
-        v.datainicio AS datainiciovistoria,
-        v.idvistoria
+        v.dataagendada,
+        v.idvistoria, v.status,
+        e.anexos
       FROM imovel i
       LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
       LEFT JOIN vistoria v ON i.idimovel = v.idimovel
@@ -88,34 +105,36 @@ router.get('/todos', async (req, res) => {
   }
 });
 
-// GET - Buscar imóveis de um cliente
+
+// GET - Buscar todas as vistorias dos imóveis de um cliente
 router.get('/cliente/:idcliente', async (req, res) => {
   const { idcliente } = req.params;
 
   try {
-    const imoveis = await db`
+    const vistorias = await db`
       SELECT 
-        DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
-        e.nome AS nomeempreendimento,
-        v.datainicio AS datainiciovistoria,
-        v.idvistoria
-      FROM imovel i
-      JOIN vistoria v ON i.idimovel = v.idimovel
-      JOIN cliente c ON v.idcliente = c.idcliente
+        v.idvistoria, v.status, v.dataagendada, v.datahorafim,
+        i.idimovel, i.descricao, i.bloco, i.numero,
+        e.nome AS nomeempreendimento, e.anexos
+      FROM vistoria v
+      JOIN imovel i ON v.idimovel = i.idimovel
       LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
-      WHERE c.idcliente = ${Number(idcliente)}
+      WHERE v.idcliente = ${Number(idcliente)}
+      ORDER BY v.dataagendada DESC NULLS LAST
     `;
-    res.status(200).json(imoveis);
+
+    res.status(200).json(vistorias);
   } catch (error) {
-    console.error('Erro ao buscar imóveis do cliente:', error);
-    res.status(500).json({ error: 'Erro ao buscar imóveis do cliente.' });
+    console.error('Erro ao buscar vistorias do cliente:', error);
+    res.status(500).json({ error: 'Erro ao buscar vistorias do cliente.' });
   }
 });
+
 
 // PUT - Atualizar imóvel
 router.put('/:idimovel', async (req, res) => {
   const { idimovel } = req.params;
-  const { descricao, bloco, numero, idempreendimento, status, vistoriasrealizadas } = req.body;
+  const { descricao, bloco, numero, idempreendimento, vistoriasrealizadas } = req.body;
 
   try {
     const idImovelNum = Number(idimovel);
@@ -134,7 +153,6 @@ router.put('/:idimovel', async (req, res) => {
     const novoBloco = bloco ?? imovelExistente.bloco;
     const novoNumero = numero ?? imovelExistente.numero;
     const novoEmpreendimento = idempreendimento ? Number(idempreendimento) : null;
-    const novoStatus = status ?? imovelExistente.status;
     const novasVistorias = vistoriasrealizadas ?? imovelExistente.vistoriasrealizadas;
 
     await db`
@@ -143,7 +161,6 @@ router.put('/:idimovel', async (req, res) => {
         bloco = ${novoBloco},
         numero = ${novoNumero},
         idempreendimento = ${novoEmpreendimento},
-        status = ${novoStatus},
         vistoriasrealizadas = ${novasVistorias}
       WHERE idimovel = ${idImovelNum}
     `;
@@ -154,59 +171,6 @@ router.put('/:idimovel', async (req, res) => {
   }
 });
 
-// DELETE - Excluir imóvel
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    await db`
-      DELETE FROM imovel WHERE idimovel = ${Number(id)}
-    `;
-    res.status(200).json({ message: 'Imóvel excluído com sucesso.' });
-  } catch (error) {
-    console.error('Erro ao excluir imóvel:', error);
-    res.status(500).json({ error: 'Erro ao excluir imóvel.' });
-  }
-});
-
-/* ========== ROTAS ESPECIAIS ========== */
-
-// PUT - Agendar vistoria
-router.put('/agendar/:idimovel', async (req, res) => {
-  const { idimovel } = req.params;
-  const { dataagendada } = req.body;
-
-  if (!dataagendada) {
-    return res.status(400).json({ error: 'A data agendada é obrigatória.' });
-  }
-
-  try {
-    await db`
-      UPDATE vistoria SET dataagendada = ${dataagendada} WHERE idimovel = ${Number(idimovel)}
-    `;
-    await db`
-      UPDATE imovel SET status = 'Vistoria Agendada' WHERE idimovel = ${Number(idimovel)}
-    `;
-    res.status(200).json({ message: 'Vistoria agendada com sucesso.' });
-  } catch (error) {
-    console.error('Erro ao agendar vistoria:', error);
-    res.status(500).json({ error: 'Erro ao agendar vistoria.' });
-  }
-});
-
-// PUT - Validar vistoria
-router.put('/validar/:idimovel', async (req, res) => {
-  const { idimovel } = req.params;
-
-  try {
-    await db`
-      UPDATE imovel SET status = 'Vistoria Validada' WHERE idimovel = ${Number(idimovel)}
-    `;
-    res.status(200).json({ message: 'Vistoria validada com sucesso.' });
-  } catch (error) {
-    console.error('Erro ao validar vistoria:', error);
-    res.status(500).json({ error: 'Erro ao validar vistoria.' });
-  }
-});
 
 // GET - Imóveis disponíveis para agendamento
 router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
@@ -214,13 +178,19 @@ router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
 
   try {
     const imoveis = await db`
-      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
-        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento
+      SELECT DISTINCT 
+        v.idvistoria,
+        i.idimovel, 
+        i.descricao, 
+        i.bloco, 
+        i.numero,
+        e.nome AS nomeempreendimento, 
+        e.anexos AS imagemempreendimento
       FROM imovel i
       JOIN vistoria v ON i.idimovel = v.idimovel
       JOIN cliente c ON v.idcliente = c.idcliente
       LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
-      WHERE c.idcliente = ${Number(idcliente)} AND i.status = 'Aguardando Agendamento da Vistoria'
+      WHERE c.idcliente = ${Number(idcliente)} AND v.status = 'Aguardando Agendamento da Vistoria'
     `;
     res.status(200).json(imoveis);
   } catch (error) {
@@ -229,41 +199,6 @@ router.get('/cliente/:idcliente/disponiveis', async (req, res) => {
   }
 });
 
-// GET - Imóveis pendentes de validação
-router.get('/pendentes-validacao', async (req, res) => {
-  try {
-    const imoveis = await db`
-      SELECT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
-        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento
-      FROM imovel i
-      LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
-      WHERE i.status = 'Aguardando Validação da Vistoria'
-    `;
-    res.status(200).json(imoveis);
-  } catch (error) {
-    console.error('Erro ao buscar imóveis pendentes de validação:', error);
-    res.status(500).json({ error: 'Erro ao buscar imóveis.' });
-  }
-});
 
-// GET - Imóveis do cliente pendentes de validação
-router.get('/cliente/:idcliente/pendentes-validacao', async (req, res) => {
-  const { idcliente } = req.params;
-
-  try {
-    const imoveis = await db`
-      SELECT DISTINCT i.idimovel, i.descricao, i.bloco, i.numero, i.status,
-        e.nome AS nomeempreendimento, e.anexos AS imagemempreendimento, v.relatorio_url
-      FROM imovel i
-      JOIN vistoria v ON i.idimovel = v.idimovel
-      JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
-      WHERE v.idcliente = ${Number(idcliente)} AND i.status = 'Aguardando Validação da Vistoria'
-    `;
-    res.status(200).json(imoveis);
-  } catch (error) {
-    console.error('Erro ao buscar imóveis pendentes de validação para o cliente:', error);
-    res.status(500).json({ error: 'Erro ao buscar imóveis.' });
-  }
-});
 
 module.exports = router;

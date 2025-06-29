@@ -1,5 +1,5 @@
 require('dns').setDefaultResultOrder('ipv4first');
-
+process.env.TZ = 'America/Sao_Paulo';
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
