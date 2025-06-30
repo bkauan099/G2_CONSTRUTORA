@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./login.css"; // usa o CSS com grid e responsividade
+import "./Login.css"; // usa o CSS com grid e responsividade
 
 function Login({ onLogin }) {
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ function Login({ onLogin }) {
       {/* Área da logo */}
       <div className="login-logo-section">
         <img
-          src="src/pages/Login/logo.png"
+          src="assets/imagensLogin/logo.png"
           alt="CIVIS Logo"
           className="logo-image"
         />

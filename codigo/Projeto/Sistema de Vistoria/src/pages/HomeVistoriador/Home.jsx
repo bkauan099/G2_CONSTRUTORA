@@ -65,7 +65,19 @@ function HomeVistoriador({ onLogout }) {
               </h3>
               <p>
                 Status: {imovel.status} <br />
-                {imovel.datainiciovistoria ? `Data Agendada: ${new Date(imovel.datainiciovistoria).toLocaleDateString()}` : ''}
+                {imovel.dataagendada && (
+                  <p>
+                    Data Agendada:{" "}
+                    {new Date(imovel.dataagendada).toLocaleString("pt-BR", {
+                      timeZone: "America/Sao_Paulo",
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit"
+                    })}
+                  </p>
+                )}
               </p>
 
               <button
@@ -83,6 +95,7 @@ function HomeVistoriador({ onLogout }) {
             </div>
           ))}
         </div>
+
 
         <div className="pagination">
           <a href="#">&lt;</a>

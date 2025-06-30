@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../home.css';
-import './imoveis.css';
+import './Imoveis.css';
 
 function ListagemImoveis() {
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ function ListagemImoveis() {
   useEffect(() => {
     const fetchImoveis = async () => {
       try {
-        const url = `http://localhost:3001/api/imoveis?empreendimentoid=${empreendimentoid}`;
+        const url = `http://localhost:3001/api/empreendimentos/${empreendimentoid}/imoveis`;
         const response = await fetch(url);
         if (!response.ok) throw new Error('Erro ao buscar imóveis');
 

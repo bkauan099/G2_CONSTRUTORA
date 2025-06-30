@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './funcionarios.css'; // Ajuste o caminho se seu home.css estiver em outro lugar
+import './Funcionarios.css'; // Ajuste o caminho se seu home.css estiver em outro lugar
 
 function Funcionarios() { // O nome da função é Funcionarios
   const navigate = useNavigate();

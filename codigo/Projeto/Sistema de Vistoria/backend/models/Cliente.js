@@ -36,6 +36,27 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT: Atualiza um client pelo ID
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { cpf, email, nome, senha, telefone } = req.body;
+  try {
+    const [cliente] = await db`
+      UPDATE cliente
+      SET cpf = ${cpf}, email = ${email}, nome = ${nome}, senha = ${senha}, telefone = ${telefone}
+      WHERE idcliente = ${id}
+      RETURNING *`;
+
+    if (!cliente) {
+      return res.status(404).json({ error: 'cliente não encontrado' });
+    }
+
+    res.json(cliente);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // DELETE: Excluir cliente por ID
 router.delete('/:id', async (req, res) => {
   const { id } = req.params;

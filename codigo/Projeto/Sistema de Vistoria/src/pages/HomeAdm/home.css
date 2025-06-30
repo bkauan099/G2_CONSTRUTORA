@@ -68,7 +68,7 @@ body {
 
 .texto p {
   margin: 20px 0;
-  color: #333;
+  color: #2a27cc;
   font-size: 1.1rem;
 }
 
@@ -129,3 +129,12 @@ body {
   font-size: 1rem;
   width: 100%;
 }
+/* Centralização de título */
+.titulo-centralizado {
+  text-align: center;
+  font-size: 2rem;
+  color: #3e7cbe;
+  margin-bottom: 30px;
+}
+
+
