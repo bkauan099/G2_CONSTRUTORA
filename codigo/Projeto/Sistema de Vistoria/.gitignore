@@ -1,3 +1,18 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# Build artifacts
+/dist
+/dist-ssr
+.vite/ # Pasta de cache do Vite
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # Logs
 logs
 *.log
@@ -7,16 +22,10 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-dist
-dist-ssr
-*.local
-
-
 # Editor directories and files
-.vscode/*
+.vscode/
 !.vscode/extensions.json
-.env
-.idea
+.idea/
 .DS_Store
 *.suo
 *.ntvs*

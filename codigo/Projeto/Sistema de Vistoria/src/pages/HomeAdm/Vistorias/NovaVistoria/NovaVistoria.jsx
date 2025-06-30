@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../Home.css';
+import './NovaVistoria.css';
+
 
 function NovaVistoria() {
   const navigate = useNavigate();
-
   const [empreendimentos, setEmpreendimentos] = useState([]);
   const [imoveis, setImoveis] = useState([]);
   const [clientes, setClientes] = useState([]);
@@ -88,23 +88,44 @@ function NovaVistoria() {
       alert('Erro ao agendar vistoria.');
     }
   };
+  const handleLogout = () => {
+    alert('Usuário deslogado!'); 
+    //onLogout();
+    navigate('/login'); 
+  };
 
   return (
-    <div className="home-container">
-      <header className="navbar">
-        <div className="logo">CIVIS (Admin)</div>
-        <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/home")}>Home</a>
-        </nav>
-        <button className="logout-button" onClick={() => navigate("/login")}>Sair</button>
+    
+    <body>
+      <header className="header">
+        <div className="logo"> 
+           <a href="#" onClick={() => navigate("/home")}>
+            <img src="src\pages\HomeAdm\logo.png" >
+            </img> 
+          </a>
+          </div>
+           <input type="checkbox" id="check" style={{ display: 'none' }} />
+            <label htmlFor="check" className="icons"> 
+                <i className='bx bx-menu' id="icone-menu"></i>
+                <i className='bx bx-x' id="fechar-menu"></i>
+            </label>
+        
+            <nav className="navbar"> 
+                <a href="#" onClick={() => navigate("/home")}>Início</a> 
+                <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
+                <a href="#" onClick={() => navigate("/clientes")}>Clientes</a> 
+                <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a> 
+                <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+                <a href="#" className="logout" onClick={handleLogout}>Sair</a> 
+            </nav>
       </header>
-
-      <main className="admin-page-container">
-        <h1 style={{ textAlign: 'center' }}>Agendar Nova Vistoria</h1>
-
+    
+    <div className="container-main">
+      <main className="main-content">
+        <h1 style={{ textAlign: 'center' }}>Agendar<br/> <span>Nova Vistoria </span>
+        </h1>
         <form onSubmit={handleSubmit} className="form-container">
           
-          {/* Cliente (primeiro) */}
           <div className="form-group">
             <label>Selecione o Cliente:</label>
             <select name="idcliente" value={formData.idcliente} onChange={handleChange} required>
@@ -117,7 +138,6 @@ function NovaVistoria() {
             </select>
           </div>
 
-          {/* Empreendimento */}
           <div className="form-group">
             <label>Selecione o Empreendimento:</label>
             <select value={selectedEmpreendimentoId} onChange={handleEmpreendimentoChange} required>
@@ -128,7 +148,6 @@ function NovaVistoria() {
             </select>
           </div>
 
-          {/* Imóvel */}
           <div className="form-group">
             <label>Selecione o Imóvel:</label>
             <select name="idimovel" value={formData.idimovel} onChange={handleChange} required>
@@ -139,7 +158,6 @@ function NovaVistoria() {
             </select>
           </div>
 
-          {/* Vistoriador */}
           <div className="form-group">
             <label>Selecione o Vistoriador:</label>
             <select name="idvistoriador" value={formData.idvistoriador} onChange={handleChange} required>
@@ -152,7 +170,6 @@ function NovaVistoria() {
             </select>
           </div>
 
-          {/* Observações */}
           <div className="form-group">
             <label>Observações:</label>
             <textarea name="observacoes" value={formData.observacoes} onChange={handleChange}></textarea>
@@ -164,7 +181,8 @@ function NovaVistoria() {
           </div>
         </form>
       </main>
-    </div>
+      </div>
+    </body>
   );
 }
 

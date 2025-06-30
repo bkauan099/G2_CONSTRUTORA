@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Funcionarios.css'; // Ajuste o caminho se seu home.css estiver em outro lugar
+import './Funcionarios.css'; // Importa o CSS específico para Funcionarios
 
 function Funcionarios() { // O nome da função é Funcionarios
   const navigate = useNavigate();
@@ -16,6 +16,36 @@ function Funcionarios() { // O nome da função é Funcionarios
     ];
   });
 
+  // Estado para controlar a visualização mobile
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Efeito para atualizar o estado isMobile ao redimensionar a janela
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // useEffect para controlar a classe do body com base no checkbox (copiado de outros componentes de admin)
+  useEffect(() => {
+    const checkbox = document.getElementById('check');
+    if (!checkbox) return;
+
+    const handleCheckboxChange = () => {
+      if (checkbox.checked) {
+        document.body.classList.add('menu-aberto');
+      } else {
+        document.body.classList.remove('menu-aberto');
+      }
+    };
+    checkbox.addEventListener('change', handleCheckboxChange);
+    return () => {
+      checkbox.removeEventListener('change', handleCheckboxChange);
+    };
+  }, []);
+
   // Salva os funcionários no localStorage sempre que o estado 'funcionarios' muda
   useEffect(() => {
     localStorage.setItem('funcionariosMock', JSON.stringify(funcionarios));
@@ -30,65 +60,88 @@ function Funcionarios() { // O nome da função é Funcionarios
     }
   };
 
+  // Função de logout para o navbar (copiado de outros componentes de admin)
+  const handleLogout = () => {
+    alert('Usuário deslogado!'); // Apenas um alerta de exemplo
+    navigate('/login');
+  };
+
   return (
-    <div className="home-container">
-      <header className="navbar">
-        <div className="logo">CIVIS Administrador</div>
-        <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+    <div>
+      <header className="header"> {/* Usa a classe global de navbar */}
+        <div className="logo">
+           <a href="#" onClick={() => navigate("/home")}>
+            <img src="src\pages\HomeAdm\logo.png" alt="Logo CIVIS" />
+          </a>
+        </div>
+        <input type="checkbox" id="check" /> {/* input#check sem style para JS controlar */}
+        <label htmlFor="check" className="icons">
+            <i className='bx bx-menu' id="icone-menu"></i>
+            <i className='bx bx-x' id="fechar-menu"></i>
+        </label>
+        <nav className="navbar"> {/* Usa a classe global de navbar */}
+            <a href="#" onClick={() => navigate("/home")}>Início</a>
+            <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a> 
+            <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
+            <a href="#" onClick={() => navigate("/clientes")}>Clientes</a> 
+            <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a> 
+            <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+            <a href="#" className="logout" onClick={handleLogout}>Sair</a>
         </nav>
-        <button className="logout-button" onClick={() => { navigate("/login"); }}>
-          Sair
-        </button>
       </header>
 
-      <main className="admin-page-container">
-        <div className="admin-header">
-          <h1>Gestão de Funcionários</h1>
-          <button className="admin-action-button" onClick={() => navigate('/cadastrar-funcionario')}>
-            + Adicionar Funcionário
-          </button>
-        </div>
+      <div className="container-main"> {/* Usa a classe global de container */}
+        <main className="admin-list-content"> {/* Classe de conteúdo de listagem */}
+          <div className="admin-header"> {/* Cabeçalho da seção */}
+            <h1>Gestão de <span>Funcionários</span></h1> {/* Título consistente com outros admin pages */}
+         
+          </div>
 
-        {funcionarios.length === 0 ? (
-          <p style={{ textAlign: 'center', marginTop: '50px', color: '#555' }}>Nenhum funcionário cadastrado.</p>
-        ) : (
-          <table className="lista-tabela">
-            <thead>
-              <tr>
-                <th>ID Interno</th> {/* ID interno do localStorage para referência */}
-                <th>Nome</th>
-                <th>CPF</th> {/* ADICIONADO */}
-                <th>Email</th>
-                <th>Telefone</th> {/* ADICIONADO */}
-                <th>Senha</th> {/* ADICIONADO (Lembre-se: em prod, não mostre nem edite senha aqui!) */}
-                <th>Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {funcionarios.map(func => (
-                <tr key={func.id}>
-                  <td data-label="ID Interno">{func.id}</td> {/* data-label para responsividade */}
-                  <td data-label="Nome">{func.nome}</td>
-                  <td data-label="CPF">{func.cpf}</td> {/* data-label para responsividade */}
-                  <td data-label="Email">{func.email}</td>
-                  <td data-label="Telefone">{func.telefone}</td> {/* data-label para responsividade */}
-                  <td data-label="Senha">{func.senha}</td> {/* data-label para responsividade */}
-                  <td data-label="Ações" className="acoes-botoes">
-                    <button className="btn-editar" onClick={() => navigate(`/editar-funcionario/${func.id}`)}>
-                      Editar
-                    </button>
-                    <button className="btn-excluir" onClick={() => handleExcluir(func.id, func.nome)}>
-                      Excluir
-                    </button>
-                  </td>
+          {funcionarios.length === 0 ? (
+            <p className="no-data-message">Nenhum funcionário cadastrado.</p> 
+          ) : (
+            <table className="lista-tabela"> {/* Tabela (classe global com responsividade via CSS específico) */}
+              <thead>
+                <tr>
+                  <th>ID Interno</th>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                  <th>Senha</th>
+                  <th>Ações</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </main>
+              </thead>
+              <tbody>
+                {funcionarios.map(func => (
+                  <tr key={func.id}>
+                    {/* ATRIBUTOS data-label SÃO CRUCIAIS PARA A RESPONSIVIDADE DA TABELA */}
+                    <td data-label="ID Interno">{func.id}</td>
+                    <td data-label="Nome">{func.nome}</td>
+                    <td data-label="CPF">{func.cpf}</td>
+                    <td data-label="Email">{func.email}</td>
+                    <td data-label="Telefone">{func.telefone}</td>
+                    <td data-label="Senha">{func.senha}</td>
+                    <td data-label="Ações" className="acoes-botoes"> {/* data-label para Ações */}
+                      <button className="btn-editar" onClick={() => navigate(`/editar-funcionario/${func.id}`)}>
+                        Editar
+                      </button>
+                      <button className="btn-excluir" onClick={() => handleExcluir(func.id, func.nome)}>
+                        Excluir
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </main>
+      </div>
+
+      {/* ADICIONADO: Botão "Adicionar Funcionário" fixo na parte inferior */}
+      <button className="admin-action-button-fixed" onClick={() => navigate('/cadastrar-funcionario')}>
+        + Adicionar Funcionário
+      </button>
     </div>
   );
 }

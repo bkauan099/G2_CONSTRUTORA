@@ -1,4 +1,4 @@
-
+/* Estilos específicos para a visualização em cards de empreendimento em mobile */
 .empreendimento-card-list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -34,212 +34,204 @@
     margin-top: 15px;
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: 3px; /* Mantém o espaçamento dos botões nos cards igual ao da tabela */
 }
 
-.empreendimento-card .card-actions button {
-    padding: 8px 15px;
-    border-radius: 6px;
+/* Os estilos para input[type="file"], .file-upload-wrapper, etc.,
+   são específicos para formulários. Se estes inputs
+   são usados APENAS na página de cadastro/edição de empreendimentos,
+   você pode mantê-los aqui. Caso contrário, se forem globais para formulários,
+   eles deveriam estar no index.css ou em um arquivo CSS de formulários à parte.
+   Assumindo que são específicos para empreendimentos por enquanto: */
+
+.form-group input[type="file"] {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
     cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-    border: 1px solid;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.empreendimento-card .card-actions .btn-editar {
-    background-color: #007bff;
-    color: white;
+.form-group input[type="file"]:hover {
+    background-color: #e2e6ea;
     border-color: #007bff;
 }
 
-.empreendimento-card .card-actions .btn-editar:hover {
-    background-color: #0056b3;
-}
-
-.empreendimento-card .card-actions .btn-excluir {
-    background-color: #dc3545;
-    color: white;
-    border-color: #dc3545;
-}
-
-.empreendimento-card .card-actions .btn-excluir:hover {
-    background-color: #c82333;
-}
-
-.empreendimento-card .card-actions .btn-ver-imoveis {
-    background-color: #28a745; 
-    color: white;
-    border-color: #28a745;
-}
-
-.empreendimento-card .card-actions .btn-ver-imoveis:hover {
-    background-color: #218838;
-}
-
-/* No seu home.css, adicione estas novas regras de grid para formulários,
-   preferencialmente perto dos estilos de .form-container ou .form-group */
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
-    gap: 15px 30px; /* Espaço vertical e horizontal */
-}
-
-/* Para telas médias e grandes, 2 colunas */
-@media (min-width: 768px) {
-    .form-grid {
-        grid-template-columns: 1fr 1fr; /* Duas colunas */
-    }
-
-    /* Para fazer um campo ocupar a largura total em um grid de 2 colunas */
-    .form-grid .full-width-field {
-        grid-column: 1 / -1; /* Ocupa da primeira à última coluna */
+@media (max-width: 600px) {
+    .form-group input[type="file"] {
+        font-size: 0.9rem;
+        padding: 10px;
     }
 }
 
-/* Estilo para sub-títulos dentro de formulários (ex: para "Endereço") */
-.form-section-title {
-    grid-column: 1 / -1; /* Ocupa a largura total */
-    text-align: left;
-    color: #004080;
-    font-size: 1.5rem;
-    margin-top: 20px;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e0e0e0;
-    padding-bottom: 10px;
-}
-
-.form-group {
+.file-upload-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-}
-
-.form-group label {
-    font-weight: bold;
-    color: white;
-}
-
-.form-group textarea {
-    background-color: white;
-    font-weight: bold;
-    color: white !important;
-}
-
-.form-group textarea:focus {
-    background-color: white;
-    font-weight: bold;
-    color: white !important;
-}
-
-/* NOVO BLOCO PARA SELECT */
-.form-group select {
-  color: white;
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.form-group select {
-  color: white !important;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-}
-
-.form-group textarea {
-  background-color: #222 !important; /* fundo preto */
-  color: white !important;           /* texto branco */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 10px;
-  border-radius: 4px;
-  resize: vertical;
-}
-
-.form-group input[type="date"] {
-  background-color: #222 !important; /* fundo escuro */
-  color: white !important;           /* texto branco */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
-}
-.form-group input[type="text"] {
-  background-color: #222 !important;  /* fundo preto */
-  color: white !important;            /* texto branco */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 8px;
-  border-radius: 4px;
-}
-/* Campo de Anexo (Imagem) Responsivo e Estilizado */
-.form-group input[type="file"] {
-  background-color: #f8f9fa;         /* Fundo claro para contraste */
-  color: #333;                       /* Texto escuro */
-  font-weight: bold;
-  border: 1px solid #ccc;
-  padding: 10px 12px;
-  border-radius: 8px;
-  width: 100%;
-  box-sizing: border-box;
-  cursor: pointer;
-  font-size: 0.95rem;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Hover para dar feedback visual */
-.form-group input[type="file"]:hover {
-  background-color: #e2e6ea;
-  border-color: #007bff;
-}
-
-/* Responsividade para telas menores */
-@media (max-width: 600px) {
-  .form-group input[type="file"] {
-    font-size: 0.9rem;
-    padding: 10px;
-  }
-}
-.file-upload-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  width: 100%;
+    gap: 8px;
+    width: 100%;
 }
 
 .file-upload-label {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 6px;
-  text-align: center;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
 .file-upload-label:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
 }
 
 .file-upload-input {
-  display: none; /* Esconde o input original */
+    display: none;
 }
 
 .file-upload-filename {
-  font-size: 0.95rem;
-  color: white;
-  word-break: break-all;
-  background-color: #222;
-  padding: 8px 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
+    font-size: 0.95rem;
+    color: white;
+    word-break: break-all;
+    background-color: #222;
+    padding: 8px 10px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+
+/*-- Media Queries para Responsividade da TABELA --*/
+@media (max-width: 767px) {
+    /* Regras para TORNAR a tabela responsiva (transformar em "cartões") */
+    /* Essas regras são a base para a transformação da tabela em mobile.
+       Elas DEVEM estar no index.css se quiser consistência em todas as tabelas.
+       Estou replicando-as aqui para garantir o funcionamento com o seu pedido específico. */
+    .lista-tabela {
+        border: 0;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .lista-tabela thead {
+        display: none; /* Oculta completamente o cabeçalho original da tabela */
+    }
+
+    .lista-tabela tr {
+        display: block;
+        margin-bottom: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .lista-tabela td {
+        display: block;
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+        border-bottom: 1px solid #eee;
+    }
+
+    .lista-tabela td:last-child {
+        border-bottom: 0;
+    }
+
+    .lista-tabela td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 15px;
+        width: calc(50% - 30px);
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: bold;
+        color: #004080;
+    }
+
+    /* Regras para OCULTAR COLUNAS ESPECÍFICAS: MANTER APENAS NOME E AÇÕES */
+    .lista-tabela td[data-label="Descrição"],
+    .lista-tabela td[data-label="Construtora"],
+    .lista-tabela td[data-label="Observações"],
+    .lista-tabela td[data-label="Rua"],
+    .lista-tabela td[data-label="Cidade"],
+    .lista-tabela td[data-label="Estado"],
+    .lista-tabela td[data-label="CEP"] {
+        display: none;
+    }
+
+    /* Ajustes específicos para a coluna "Nome" (principal visível) */
+    .lista-tabela td[data-label="Nome"] {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: #333;
+        text-align: left; /* Nome geralmente alinhado à esquerda */
+        padding-left: 15px; /* Remove o padding extra que cria espaço para o data-label */
+        background-color: #f0f0f0; /* Um leve destaque no fundo do nome */
+        border-bottom: 1px solid #ddd; /* Adiciona uma borda inferior */
+        padding-top: 15px; /* Mais padding em cima */
+        padding-bottom: 15px; /* Mais padding em baixo */
+    }
+    .lista-tabela td[data-label="Nome"]::before {
+        display: none; /* Não exibe o rótulo "Nome" se o próprio nome já é o título principal */
+    }
+
+    /* Ajuste para a célula de Ações: centraliza os botões */
+    .lista-tabela td[data-label="Ações"] {
+        text-align: center;
+        padding: 15px;
+        border-bottom: none;
+    }
+    .lista-tabela td[data-label="Ações"]::before {
+        display: none; /* Remove o rótulo "Ações" para não duplicar com os botões */
+    }
+
+    /* Estilos para os botões dentro da célula de ações em mobile */
+    .acoes-botoes {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        padding-top: 15px;
+        padding-bottom: 5px;
+    }
+    .acoes-botoes button {
+        width: 100%;
+        padding: 10px 15px;
+        font-size: 0.95em;
+    }
+
+    /* Responsividade para o botão fixo */
+    .admin-action-button-fixed {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ajustes menores para telas muito pequenas */
+    .acoes-botoes {
+        gap: 6px;
+    }
+    .acoes-botoes button {
+        padding: 8px 12px;
+        font-size: 0.8em;
+    }
+
+    /* Ajuste para o botão fixo em telas muito pequenas */
+    .admin-action-button-fixed {
+        padding: 8px 15px;
+        font-size: 0.8em;
+        bottom: 15px;
+        right: 15px;
+    }
 }
