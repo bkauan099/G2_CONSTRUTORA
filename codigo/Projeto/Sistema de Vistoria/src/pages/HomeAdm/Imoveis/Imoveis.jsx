@@ -101,6 +101,7 @@ function ListagemImoveis() {
             <thead>
               <tr>
                 <th>Descrição</th>
+                <th>Status</th>
                 <th>Vistorias Realizadas</th>
                 <th>Bloco</th>
                 <th>Número</th>
@@ -112,6 +113,7 @@ function ListagemImoveis() {
               {imoveis.map((imovel) => (
                 <tr key={imovel.idimovel}>
                   <td>{imovel.descricao}</td>
+                  <td>{imovel.status}</td>
                   <td>{imovel.vistoriasrealizadas}</td>
                   <td>{imovel.bloco}</td>
                   <td>{imovel.numero}</td>

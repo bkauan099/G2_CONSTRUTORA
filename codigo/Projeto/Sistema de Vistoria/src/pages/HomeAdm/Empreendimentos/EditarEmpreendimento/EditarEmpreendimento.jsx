@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../Home.css';
-import '../empreendimentos.css'; // Assume que empreendimentos.css ou home.css tem estilos para form-grid e form-section-title
+import './EditarEmpreendimento.css'; // Assume que empreendimentos.css ou home.css tem estilos para form-grid e form-section-title
 
 function EditarEmpreendimento() {
   const { id } = useParams();
@@ -10,8 +9,10 @@ function EditarEmpreendimento() {
   const [formData, setFormData] = useState({
     // Campos da classe Empreendimento conforme o diagrama:
     nome: '',
+    descricao: '',
     construtora: '',
     dataEntrega: '',
+    observacoes: '',
     cidade: '',
     estado: '',
     cep: '',
@@ -20,7 +21,6 @@ function EditarEmpreendimento() {
     condominio: '',
     bloco: '',
     numero: '',
-    anexos: null
     // idEmpreendimento e idEndereco seriam IDs gerenciados pelo backend, não editáveis no form.
   });
 
@@ -33,8 +33,10 @@ function EditarEmpreendimento() {
       // Saneamento para garantir que todos os campos são strings para evitar "controlled to uncontrolled"
       const sanitizedData = {
         nome: empreendimentoEncontrado.nome || '',
+        descricao: empreendimentoEncontrado.descricao || '',
         construtora: empreendimentoEncontrado.construtora || '',
         dataEntrega: empreendimentoEncontrado.dataEntrega || '',
+        observacoes: empreendimentoEncontrado.observacoes || '',
         cidade: empreendimentoEncontrado.cidade || '',
         estado: empreendimentoEncontrado.estado || '',
         cep: empreendimentoEncontrado.cep || '',
@@ -51,47 +53,26 @@ function EditarEmpreendimento() {
   }, [id, navigate]);
 
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-
-    if (name === 'anexos') {
-      setFormData({ ...formData, anexos: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
   };
 
-  const handleUpdate = async (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
 
-    const formDataToSend = new FormData();
-    formDataToSend.append('nome', formData.nome);
-    formDataToSend.append('construtora', formData.construtora);
-    formDataToSend.append('dataEntrega', formData.dataEntrega);
-    formDataToSend.append('cidade', formData.cidade);
-    formDataToSend.append('estado', formData.estado);
-    formDataToSend.append('cep', formData.cep);
-    formDataToSend.append('rua', formData.rua);
-    formDataToSend.append('condominio', formData.condominio);
-    formDataToSend.append('bloco', formData.bloco);
-    formDataToSend.append('numero', formData.numero);
-    if (formData.anexos) {
-      formDataToSend.append('anexos', formData.anexos);
-    }
+    const storedEmpreendimentos = localStorage.getItem('empreendimentosMock');
+    let empreendimentos = storedEmpreendimentos ? JSON.parse(storedEmpreendimentos) : [];
 
-    try {
-      const response = await fetch(`http://localhost:3001/api/empreendimentos/${id}`, {
-        method: 'PUT',
-        body: formDataToSend,
-      });
+    const updatedEmpreendimentos = empreendimentos.map(emp =>
+      emp.id === parseInt(id) ? {
+        ...formData,
+        id: parseInt(id) // Mantém o ID interno, que não é editável
+      } : emp
+    );
+    localStorage.setItem('empreendimentosMock', JSON.stringify(updatedEmpreendimentos));
 
-      if (!response.ok) throw new Error('Erro ao atualizar empreendimento');
-
-      alert('Empreendimento atualizado com sucesso!');
-      navigate('/empreendimentos');
-    } catch (err) {
-      console.error('Erro ao atualizar:', err);
-      alert('Erro ao atualizar empreendimento');
-    }
+    alert('Empreendimento atualizado com sucesso!');
+    navigate('/empreendimentos');
   };
 
   const handleDelete = () => {
@@ -139,6 +120,11 @@ function EditarEmpreendimento() {
               <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
             </div>
 
+            <div className="form-group full-width-field">
+              <label htmlFor="descricao">Descrição:</label>
+              <textarea id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} rows="4"></textarea>
+            </div>
+
             <div className="form-group">
               <label htmlFor="construtora">Construtora:</label>
               <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
@@ -150,8 +136,8 @@ function EditarEmpreendimento() {
             </div>
 
             <div className="form-group full-width-field">
-              <label htmlFor="anexos">Anexos (Imagem):</label>
-              <input type="file" id="anexos" name="anexos" accept="image/*" onChange={handleChange} />
+              <label htmlFor="observacoes">Observações:</label>
+              <textarea id="observacoes" name="observacoes" value={formData.observacoes} onChange={handleChange} rows="3"></textarea>
             </div>
 
             {/* Subtítulo para a seção de Endereço */}

@@ -1,3 +1,7 @@
+/*--CSS GLOBAL*/
+
+
+/*-- Reset Universal e Estilos Base --*/
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -13,56 +17,741 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Essencial para layouts responsivos */
+  font-family: "Poppins", sans-serif; /* Consistência de fonte em todo o app */
 }
 
+/*-- CORPO TOTAL DA PAGINA --*/
 body {
+  min-height: 100vh;
   margin: 0;
   display: flex;
-  place-items: center;
+  flex-direction: column;
   min-width: 320px;
+}
+
+#root {
+  width: 100%;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #1a2a41 !important; /* Cor de fundo principal da aplicação */
+}
+.main-content{
+  padding-top: 50px !important;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+/*-- NAVBAR GLOBAL: GERAL EM TODOS OS NAVBAR!!!! --*/
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1% 10%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(50px);
+  z-index: 100;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
+.header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(50px);
+  z-index: -1;
+  transition: background-color 0.3s ease;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  height: 80px;
+  width: auto;
+  vertical-align: middle;
+  max-width: 100%;
+}
+
+.navbar {
+  background-color: transparent !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 1.5rem;
+}
+
+.navbar a {
+  font-size: 1.15rem;
+  color: aliceblue;
+  text-decoration: none;
+  margin: 0 0.5rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+  color: #ffa034;
+}
+
+#check {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.icons {
+  font-size: 2.8rem;
+  color: #fff;
+  cursor: pointer;
+  display: none;
+  line-height: 1;
+}
+
+.logout {
+  color: rgb(255, 255, 255) !important;
+  background-color: rgb(134, 53, 53);
+  border: rgba(0, 0, 0, 0.1);
+  padding: 10px 40px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background-color 0.3s ease;
+}
+
+.logout:hover {
+  color: #ffa034 !important;
+}
+
+/*-- Media Queries para o Navbar --*/
+@media (max-width: 992px) {
+  .header {
+    padding: 1.3rem 5%;
+  }
+
+  .navbar {
+    gap: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .logo img {
+    height: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 10px;
+    justify-content: space-between;
+  }
+
+  #check:checked ~ .header {
+    justify-content: space-between;
+  }
+
+  .logo img {
+    height: 50px;
+  }
+
+  .icons {
+    display: inline-flex;
+    order: 3;
+    margin-left: auto;
+  }
+
+  #icone-menu {
+    display: block;
+  }
+
+  #check:checked ~ .icons #icone-menu {
+    display: none;
+  }
+
+  #fechar-menu {
+    display: none;
+  }
+
+  #check:checked ~ .icons #fechar-menu {
+    display: block;
+  }
+
+  .navbar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 0 !important;
+    height: 0;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(50px);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, 0.1);
+    transition: height .5s ease, padding .5s ease;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  #check:checked ~ .navbar {
+    height: auto;
+  }
+
+  .navbar a {
+    content: '';
+    display: block;
+    font-size: 20px;
+    margin: 1.5rem 0;
+    text-align: center;
+    transform: translateY(0);
+    opacity: 0;
+    transition: transform .5s ease, opacity .5s ease;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+    width: 70%;
+  }
+
+  #check:checked ~ .navbar a {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  #check:checked ~ .navbar a:nth-child(1) { transition-delay: 0.1s; }
+  #check:checked ~ .navbar a:nth-child(2) { transition-delay: 0.2s; }
+  #check:checked ~ .navbar a:nth-child(3) { transition-delay: 0.3s; }
+  #check:checked ~ .navbar a:nth-child(4) { transition-delay: 0.4s; }
+  #check:checked ~ .navbar a:nth-child(5) { transition-delay: 0.5s; }
+  #check:checked ~ .navbar a:nth-child(6) { transition-delay: 0.6s; }
+  #check:checked ~ .navbar a:nth-child(7) { transition-delay: 0.7s; }
+
+  .container-main {
+    padding-top: 50px !important;
+  }
+}
+
+/*-- ESTILOS GLOBAIS PARA CONTEINERS DE PÁGINA (container-main) --*/
+.container-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex-grow: 1;
+  padding-top: 100px;
+  padding-bottom: 50px;
+  width: 100%;
+}
+
+/* Estilos de layout para o conteúdo principal de listagens/administração */
+.admin-list-content {
+  width: 100%;
+  max-width: 1200px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Cabeçalho da seção de administração (Título + Botão Adicionar) */
+.admin-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.admin-header h1 {
+  font-size: 2.5rem;
+  color: white !important;
+  margin: 0;
+  flex-grow: 1;
+  text-align: left;
+}
+
+.admin-header h1 span {
+  color: #ff9900 !important;
+}
+
+/* NOVO: Estilos de layout para o conteúdo principal de formulários de edição */
+.editar-item-content { /* Classe para o container principal da página de edição/cadastro de item */
+  width: 100%;
+  max-width: 700px; /* Largura máxima para o formulário */
+  padding: 30px; /* Padding interno */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o conteúdo (título e formulário) */
+  /* box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); */ /* Se quiser sombra no container da página, não apenas no form */
+  /* background-color: white; */ /* Se quiser fundo branco para a página de edição inteira */
+  /* border-radius: 10px; */ /* Se quiser borda arredondada para o container da página */
+}
+
+/* NOVO: Cabeçalho de seção para páginas de edição (Botão Voltar + Título) */
+.editar-item-header { /* Classe para o cabeçalho específico de uma página de edição */
+    width: 100%; /* Ocupa a largura total do seu pai */
+    display: flex;
+    justify-content: space-between; /* Espaço entre o botão e o título */
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+}
+
+.editar-item-header h1 {
+    font-size: 2.5rem;
+    color: white !important;
+    margin: 0;
+    flex-grow: 1;
+    text-align: right; /* Alinha o título à direita */
+}
+
+.editar-item-header h1 span {
+    color: #ff9900 !important;
+}
+
+
+/* NOVO: Estilos para a tabela de listagem (genérico) */
+.lista-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.lista-tabela th,
+.lista-tabela td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #4a5a73;
+  color: black;
+  font-size: 1rem !important;
+}
+
+.lista-tabela th {
+  background-color: #1f2d3d;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 1em;
+}
+
+.lista-tabela tr:last-child td {
+  border-bottom: none;
+}
+
+.lista-tabela tbody tr:hover {
+  background-color: #3e4d66;
+}
+
+/* NOVO: Estilos para os contêineres de botões de ação na tabela/cards */
+.acoes-botoes {
+  text-align: center;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 3px;
+}
+
+/* NOVO: Mensagem de "Nenhum dado cadastrado." (genérico) */
+.no-data-message {
+  text-align: center;
+  margin-top: 50px;
+  color: #e0e0e0;
+  font-size: 1.1em;
+}
+
+
+/*-- ESTILOS GLOBAIS PARA FORMULÁRIOS E SEUS ELEMENTOS --*/
+.form-container {
+  background-color: white !important;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  color: black; /* Ajustado para legibilidade em fundo branco do form-container */
+  margin-bottom: 5px;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 10px;
+  border: 1px solid #4a5a73;
+  border-radius: 6px;
+  background-color: #222 !important;
+  color: #ffffff;
+  font-size: 0.95em;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #ff9900;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-group input[readOnly] {
+    background-color: #3a4a63;
+    cursor: not-allowed;
+}
+
+.form-group p {
+  color: black; /* Ajustado para legibilidade em fundo branco do form-container */
+  font-size: 0.95em;
+  padding: 5px 0;
+  margin: 0;
+  word-wrap: break-word;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+/* NOVO: Estilos para sub-títulos dentro de formulários (ex: para "Endereço") */
+.form-section-title {
+    grid-column: 1 / -1; /* Ocupa a largura total no grid */
+    text-align: left;
+    color: #004080; /* Cor do título da seção */
+    font-size: 1.5rem;
+    margin-top: 20px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 10px;
+}
+
+/* NOVO: Regras de grid para formulários */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Padrão mobile: uma coluna */
+    gap: 15px 30px; /* Espaço vertical e horizontal */
+}
+
+/* NOVO: Para fazer um campo ocupar a largura total em um grid de 2 colunas */
+.form-grid .full-width-field {
+    grid-column: 1 / -1; /* Ocupa da primeira à última coluna */
+}
+
+/*-- ESTILOS GLOBAIS PARA BOTÕES --*/
+.btn-salvar,
+.btn-cancelar,
+.btn-voltar,
+.btn-editar,
+.btn-excluir,
+.btn-visualizar,
+.btn-excluir-form,
+.admin-action-button-fixed,
+.admin-action-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem !important;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  color: white;
+}
+
+.btn-salvar {
+  background-color: #4CAF50;
+}
+
+.btn-salvar:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+}
+
+.btn-cancelar {
+  background-color: #f44336;
+}
+
+.btn-cancelar:hover {
+  background-color: #d32f2f;
+  transform: translateY(-2px);
+}
+
+.btn-voltar {
+  background-color: #555;
+}
+
+.btn-voltar:hover {
+  background-color: #777;
+  transform: translateY(-2px);
+}
+
+.btn-editar {
+  background-color: transparent;
+  color: #0056b3;
+}
+
+.btn-editar:hover {
+  transform: translateY(-2px);
+}
+
+.btn-visualizar {
+  background-color: transparent;
+  color: #ffa034;
+}
+
+.btn-visualizar:hover {
+  transform: translateY(-2px);
+}
+
+.btn-excluir{
+  color: #f44336;
+  background-color: transparent; 
+}
+.btn-excluir-form {
+    background-color: transparent;
+}
+
+.btn-excluir-form:hover {
+    transform: translateY(-2px);
+}
+
+.admin-action-button {
+    background-color: #ffa034;
+    color: #1a2a41;
+}
+
+.admin-action-button:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px);
+}
+
+.admin-action-button-fixed {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffa034;
+    color: #1a2a41;
+    padding: 15px 25px;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    font-weight: 600;
+    font-size: 1.1rem;
+    z-index: 1000;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.admin-action-button-fixed:hover {
+    background-color: #e68a00;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+/*-- Media Queries Globais --*/
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr 1fr; /* Duas colunas */
+    }
+}
+
+@media (max-width: 768px) {
+  .container-main {
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-bottom: 80px;
   }
-  a:hover {
-    color: #747bff;
+
+  .admin-list-content {
+    padding: 20px 0;
+    max-width: 100%;
+    overflow-x: auto;
   }
-  button {
-    background-color: #f9f9f9;
+
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0;
+    margin-bottom: 20px;
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  /* NOVO/AJUSTADO: Media Queries para o header de edição */
+  .editar-item-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0;
+      margin-bottom: 20px; /* Consistente com admin-header */
+  }
+
+  .editar-item-header h1 {
+      font-size: 2rem; /* Tamanho do título em mobile */
+      text-align: center;
+      width: 100%;
+      margin-top: 15px; /* Espaçamento após o botão em mobile */
+  }
+
+  .lista-tabela th:nth-child(1),
+  .lista-tabela td:nth-child(1),
+  .lista-tabela th:nth-child(4),
+  .lista-tabela td:nth-child(4),
+  .lista-tabela th:nth-child(5),
+  .lista-tabela td:nth-child(5) {
+      display: none;
+  }
+
+  .lista-tabela th,
+  .lista-tabela td {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+
+  .acoes-botoes {
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+  }
+  .acoes-botoes:hover{
+    background: transparent;
+  }
+
+
+  .form-container {
+    padding: 20px;
+    max-width: 100%;
+  }
+
+  .form-group label {
+    color: black;
+    font-size: 0.9em;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+
+  .form-group p {
+    font-size: 0.9em;
+  }
+
+  .form-actions {
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-salvar,
+  .btn-cancelar,
+  .btn-voltar,
+  .btn-editar,
+  .btn-visualizar,
+  .btn-excluir-form,
+  .admin-action-button {
+    padding: 8px 15px;
+    font-size: 0.9em;
+    width: 100%;
+  }
+
+  .admin-action-button-fixed {
+      padding: 10px 20px;
+      font-size: 0.9em;
+  }
+
+  body.menu-aberto .admin-action-button-fixed {
+      display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-main {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .admin-header h1 { /* Para admin-list-content, já está */
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+
+  /* NOVO/AJUSTADO: Media Query para o h1 do header de edição em telas muito pequenas */
+  .editar-item-header h1 {
+    font-size: 1.6rem;
+    /* margin-bottom: 15px; */ /* Já deve ser coberto pelo margin-top do h1 acima */
+  }
+
+  .lista-tabela th,
+  .lista-tabela td {
+    padding: 8px;
+    font-size: 0.75em;
+  }
+
+  .acoes-botoes {
+      gap: 6px;
+  }
+
+  .form-container {
+    padding: 15px;
+  }
+
+  .form-actions {
+    gap: 8px;
+  }
+
+  .btn-salvar,
+  .btn-cancelar,
+  .btn-voltar,
+  .btn-editar,
+  .btn-visualizar,
+  .btn-excluir-form,
+  .admin-action-button {
+    padding: 8px 12px;
+    font-size: 0.8em;
+  }
+
+  .admin-action-button-fixed {
+      padding: 8px 15px;
+      font-size: 0.8em;
+      bottom: 15px;
+      right: 15px;
   }
 }

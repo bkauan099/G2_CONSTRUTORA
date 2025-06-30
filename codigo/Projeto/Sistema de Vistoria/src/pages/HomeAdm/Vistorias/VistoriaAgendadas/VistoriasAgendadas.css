@@ -1,0 +1,172 @@
+/*-- Estilos de layout para a página de Vistorias Agendadas (listagem) --*/
+/* Container principal - Reutiliza estilos globais de espaçamento e background,
+   mas ainda o incluímos aqui para responsividade ou se houver padding extra.
+   Idealmente, o background-color e padding-top já viriam do GlobalStyles.css
+   e o body/root. */
+.container-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  flex-grow: 1;
+  padding-top: 100px; /* Espaço para o header fixo */
+  padding-bottom: 50px;
+  width: 100%;
+  background-color: #1a2a41; /* Mantém a cor de fundo */
+}
+
+/* Conteúdo principal da página de Vistorias Agendadas (aqui vai a tabela) */
+.vistorias-agendadas-content {
+  width: 100%;
+  max-width: 1200px; /* Largura máxima para a tabela em telas maiores */
+  padding: 30px; /* Padding interno para o conteúdo */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o conteúdo (título, botão, tabela) */
+}
+
+.vistorias-agendadas-content h1 {
+  font-size: 2.5rem;
+  color: white !important;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.vistorias-agendadas-content h1 span {
+  color: #ff9900 !important;
+}
+
+/*-- Estilos para a tabela de vistorias --*/
+.tabela-vistorias {
+  width: 100%;
+  border-collapse: collapse; /* Remove espaçamento entre bordas da célula */
+  margin-top: 20px;
+  background-color: #2b3b52;
+  border-radius: 10px;
+  overflow: hidden; /* Garante que borda arredondada seja aplicada */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.tabela-vistorias th,
+.tabela-vistorias td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #4a5a73; /* Cor da borda interna */
+  color: #e0e0e0;
+}
+
+.tabela-vistorias th {
+  background-color: #1f2d3d; /* Fundo do cabeçalho */
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9em;
+}
+
+.tabela-vistorias tr:last-child td {
+  border-bottom: none; /* Remove borda da última linha */
+}
+
+.tabela-vistorias tbody tr:hover {
+  background-color: #3e4d66; /* Cor ao passar o mouse */
+  cursor: pointer;
+}
+
+/* Estilos para o status da vistoria (pill) */
+.status-pill {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.85em;
+    display: inline-block; /* Para que o padding funcione */
+}
+
+.status-criada { background-color: #007bff; color: white; } /* Azul */
+.status-iniciada { background-color: #ffc107; color: #333; } /* Amarelo */
+.status-concluida { background-color: #28a745; color: white; } /* Verde */
+.status-cancelada { background-color: #dc3545; color: white; } /* Vermelho */
+
+
+/*-- Estilos para o botão Nova Vistoria --*/
+.btn-nova-vistoria {
+    background-color: #ffa034;
+    color: #1a2a41;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-bottom: 20px; /* Espaço abaixo do botão */
+}
+
+.btn-nova-vistoria:hover {
+    background-color: #e68a00;
+    transform: translateY(-2px);
+}
+
+
+/*-- Media Queries para Responsividade --*/
+
+@media (max-width: 768px) {
+  .container-main {
+    padding-top: 70px;
+    padding-left: 15px; /* Adiciona padding lateral para telas menores */
+    padding-right: 15px;
+  }
+  
+  .vistorias-agendadas-content {
+    padding: 20px 0; /* Remove padding lateral interno, já coberto pelo container-main */
+    max-width: 100%; /* Ocupa largura total */
+    overflow-x: auto; /* Adiciona scroll horizontal para a tabela */
+  }
+
+  .vistorias-agendadas-content h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+
+  .tabela-vistorias {
+    display: block; /* Permite que a tabela seja "enrolada" */
+    width: 100%;
+    white-space: nowrap; /* Impede que o conteúdo da tabela quebre */
+  }
+
+  .tabela-vistorias th,
+  .tabela-vistorias td {
+    padding: 10px;
+    font-size: 0.8em;
+  }
+
+  .btn-nova-vistoria {
+      padding: 10px 20px;
+      font-size: 0.9em;
+      width: 100%; /* Ocupa a largura total */
+      text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .container-main {
+    padding-top: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .vistorias-agendadas-content h1 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+
+  .tabela-vistorias th,
+  .tabela-vistorias td {
+    padding: 8px;
+    font-size: 0.75em;
+  }
+
+  .btn-nova-vistoria {
+      padding: 8px 15px;
+      font-size: 0.85em;
+  }
+}

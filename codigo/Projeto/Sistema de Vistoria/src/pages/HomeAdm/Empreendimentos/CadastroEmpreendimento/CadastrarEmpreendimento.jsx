@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { estadosECidades } from '../../../../utils/estadosECidades';
-import '../../Home.css';
-import '../empreendimentos.css';
-
+import './CadastrarEmpreendimento.css';
 function CadastrarEmpreendimento() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nome: '',
+    descricao: '',
     construtora: '',
+    observacoes: '',
     cidade: '',
     estado: '',
     cep: '',
@@ -67,8 +67,7 @@ function CadastrarEmpreendimento() {
         <button className="back-arrow" onClick={() => navigate('/empreendimentos')} style={{ marginBottom: '20px' }}>
           &#8592; Voltar
         </button>
-        <h1 className="titulo-centralizado">Cadastrar Novo Empreendimento</h1>
-
+        <h1 style={{ marginBottom: '30px', color: '#004080' }}>Cadastrar Novo Empreendimento</h1>
 
         <form onSubmit={handleSubmit} className="form-container">
           <div className="form-grid">
@@ -77,23 +76,21 @@ function CadastrarEmpreendimento() {
               <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
             </div>
 
-            
+            <div className="form-group full-width-field">
+              <label htmlFor="descricao">Descrição:</label>
+              <textarea id="descricao" name="descricao" value={formData.descricao} onChange={handleChange} rows="4" />
+            </div>
 
             <div className="form-group full-width-field">
               <label htmlFor="construtora">Construtora:</label>
               <input type="text" id="construtora" name="construtora" value={formData.construtora} onChange={handleChange} />
             </div>
 
-            <div className="form-group">
-            <label htmlFor="anexos">Anexos (Imagem):</label>
-            <input
-              type="file"
-              id="anexos"
-              name="anexos"
-              accept="image/*"
-              onChange={handleChange}
-            />
-          </div>
+
+            <div className="form-group full-width-field">
+              <label htmlFor="observacoes">Observações:</label>
+              <textarea id="observacoes" name="observacoes" value={formData.observacoes} onChange={handleChange} rows="3" />
+            </div>
 
             <h2 className="form-section-title">Endereço</h2>
 

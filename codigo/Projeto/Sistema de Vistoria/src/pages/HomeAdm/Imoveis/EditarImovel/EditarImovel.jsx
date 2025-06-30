@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'; // <-- Corrigido aqui
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../home.css'; 
-import '../Imoveis.css';
+import './EditarImovel.css';
 
 // ... o restante do seu componente EditarImovel
 
@@ -15,6 +14,7 @@ function EditarImovel() {
     descricao: '',
     tipo: '',
     observacao: '',
+    anexos: '',
     numeroUnidade: '',
     idEmpreendimento: '',
     // idCliente: '', //nao sei quando implementar
@@ -148,6 +148,16 @@ function EditarImovel() {
             ></textarea>
           </div>
 
+          <div className="form-group">
+            <label htmlFor="anexos">Anexos (URL/Caminho):</label>
+            <input
+              type="text"
+              id="anexos"
+              name="anexos"
+              value={formData.anexos}
+              onChange={handleChange}
+            />
+          </div>
 
           <div className="form-group">
             <label htmlFor="numeroUnidade">Número da Unidade:</label>
@@ -171,6 +181,7 @@ function EditarImovel() {
               required
             />
           </div>
+
 
           <div className="form-actions">
             <button type="button" className="btn-cancelar" onClick={() => navigate('/imoveis')}>

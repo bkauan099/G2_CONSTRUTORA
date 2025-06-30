@@ -1,144 +1,160 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../../Home.css'; 
-import '../Clientes.css'; 
+// import '../../Home.css'; // REMOVIDO: Não deve ser importado aqui
+// import '../Clientes.css'; // REMOVIDO: Não deve ser importado aqui
+import './EditarCliente.css'; // IMPORTA O NOVO CSS ESPECÍFICO
 
-
-//essa função é para editar o cliente, ela pega o id do cliente que foi clicado na listagem e preenche o formulario com os dados dele
 function EditarCliente() {
-  const { id } = useParams(); 
-  const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    idCliente: '', // idCliente será exibido, mas não editável
-    nome: '',
-    cpf: '',
-    telefone: '',
-    email: '',
-  });
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    idCliente: '',
+    nome: '',
+    cpf: '',
+    telefone: '',
+    email: '',
+  });
 
-  useEffect(() => {
-    const storedClientes = localStorage.getItem('clientesMock');
-    const clientes = storedClientes ? JSON.parse(storedClientes) : [];
-    
-    //busca o cliente pelo id interno
-    const clienteEncontrado = clientes.find(cliente => cliente.id === parseInt(id));
+  useEffect(() => {
+    const storedClientes = localStorage.getItem('clientesMock');
+    const clientes = storedClientes ? JSON.parse(storedClientes) : [];
+    
+    const clienteEncontrado = clientes.find(cliente => cliente.id === parseInt(id));
 
-    if (clienteEncontrado) {
-      // Preenchimento dos dados no formulario, garantindo que sejam strings
-      const sanitizedData = {
-        idCliente: clienteEncontrado.idCliente || '',
-        nome: clienteEncontrado.nome || '',
-        cpf: clienteEncontrado.cpf || '',
-        telefone: clienteEncontrado.telefone || '',
-        email: clienteEncontrado.email || '',
-      };
-      setFormData(sanitizedData);
-    } else {
-      alert('Cliente não encontrado!');
-      navigate('/clientes');
-    }
-  }, [id, navigate]);
+    if (clienteEncontrado) {
+      const sanitizedData = {
+        idCliente: clienteEncontrado.idCliente || '',
+        nome: clienteEncontrado.nome || '',
+        cpf: clienteEncontrado.cpf || '',
+        telefone: clienteEncontrado.telefone || '',
+        email: clienteEncontrado.email || '',
+      };
+      setFormData(sanitizedData);
+    } else {
+      alert('Cliente não encontrado!');
+      navigate('/clientes');
+    }
+  }, [id, navigate]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleUpdate = (e) => {
+    e.preventDefault();
 
-    const storedClientes = localStorage.getItem('clientesMock');
-    let clientes = storedClientes ? JSON.parse(storedClientes) : [];
+    const storedClientes = localStorage.getItem('clientesMock');
+    let clientes = storedClientes ? JSON.parse(storedClientes) : [];
 
-    const updatedClientes = clientes.map(cliente =>
-      cliente.id === parseInt(id) ? { 
-        ...formData, 
-        id: parseInt(id), //mantem o id do cliente original (id interno do localStorage)
-        // NÃO ALTERA O idCliente do cliente, usa o idCliente ORIGINAL do cliente encontrado
-        // Isso garante que mesmo que o campo readOnly seja manipulado, o ID não será atualizado.
+    const updatedClientes = clientes.map(cliente =>
+      cliente.id === parseInt(id) ? { 
+        ...formData, 
+        id: parseInt(id),
         idCliente: cliente.idCliente // Garante que o idCliente permanece o original
-      } : cliente
-    );
-    localStorage.setItem('clientesMock', JSON.stringify(updatedClientes));
+      } : cliente
+    );
+    localStorage.setItem('clientesMock', JSON.stringify(updatedClientes));
 
-    alert('Cliente atualizado com sucesso!');
-    navigate('/clientes');
-  };
+    alert('Cliente atualizado com sucesso!');
+    navigate('/clientes');
+  };
 
-  const handleDelete = () => {
-    if (window.confirm(`ATENÇÃO: Tem certeza que deseja EXCLUIR o cliente(a) "${formData.nome}" permanentemente? Esta ação não pode ser desfeita.`)) {
-      const confirmacaoFinal = prompt("Para confirmar a exclusão, digite 'EXCLUIR' no campo abaixo:");
-      if (confirmacaoFinal === "EXCLUIR") {
-        const storedClientes = localStorage.getItem('clientesMock');
-        let clientes = storedClientes ? JSON.parse(storedClientes) : [];
+  const handleDelete = () => {
+    if (window.confirm(`ATENÇÃO: Tem certeza que deseja EXCLUIR o cliente(a) "${formData.nome}" permanentemente? Esta ação não pode ser desfeita.`)) {
+      const confirmacaoFinal = prompt("Para confirmar a exclusão, digite 'EXCLUIR' no campo abaixo:");
+      if (confirmacaoFinal === "EXCLUIR") {
+        const storedClientes = localStorage.getItem('clientesMock');
+        let clientes = storedClientes ? JSON.parse(storedClientes) : [];
 
-        const updatedClientes = clientes.filter(cliente => cliente.id !== parseInt(id));
-        localStorage.setItem('clientesMock', JSON.stringify(updatedClientes));
+        const updatedClientes = clientes.filter(cliente => cliente.id !== parseInt(id));
+        localStorage.setItem('clientesMock', JSON.stringify(updatedClientes));
 
-        alert(`Cliente(a) "${formData.nome}" excluído(a) com sucesso!`);
-        navigate('/clientes');
-      } else {
-        alert("Exclusão cancelada ou confirmação incorreta.");
-      }
-    }
-  };
+        alert(`Cliente(a) "${formData.nome}" excluído(a) com sucesso!`);
+        navigate('/clientes');
+      } else {
+        alert("Exclusão cancelada ou confirmação incorreta.");
+      }
+    }
+  };
 
-  return (
-    <div className="home-container">
-      <header className="navbar">
-        <div className="logo">CIVIS (Admin)</div>
-        <nav className="nav-links">
-          <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
-        </nav>
-        <button className="logout-button" onClick={() => {navigate("/login"); }}> {/*logout */ }
-          Sair
-        </button>
-      </header>
+  const handleLogout = () => { // Função de logout para o navbar
+    alert('Usuário deslogado!');
+    navigate('/login');
+  };
 
-      <main className="admin-page-container">
-        <button className="back-arrow" onClick={() => navigate('/clientes')} style={{ marginBottom: '20px' }}>
-          &#8592; Voltar
-        </button>
-        <h1 style={{ marginBottom: '30px', color: '#004080' }}>Editar Cliente: {formData.nome}</h1>
+  return (
+    <body> {/* Remove home-container, body é filho direto do root */}
+      <header className="header"> {/* Usa a classe global de navbar */}
+        <div className="logo">
+           <a href="#" onClick={() => navigate("/home")}>
+            <img src="src\pages\HomeAdm\logo.png" alt="Logo CIVIS" />
+          </a>
+        </div>
+        <input type="checkbox" id="check" /> {/* input#check sem style para JS controlar */}
+        <label htmlFor="check" className="icons">
+            <i className='bx bx-menu' id="icone-menu"></i>
+            <i className='bx bx-x' id="fechar-menu"></i>
+        </label>
+        <nav className="navbar"> {/* Usa a classe global de navbar */}
+            <a href="#" onClick={() => navigate("/home")}>Início</a>
+            {/* Ajustei o menu para refletir o que parece ser seu padrão global */}
+            <a href="#" onClick={() => navigate("/nova-vistoria")}>Nova Vistoria</a> 
+            <a href="#" onClick={() => navigate("/vistorias-agendadas")}>Vistorias Agendadas</a>
+            <a href="#" onClick={() => navigate("/clientes")}>Clientes</a> 
+            <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a> 
+            <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+            <a href="#" className="logout" onClick={handleLogout}>Sair</a>
+        </nav>
+      </header>
 
-        <form onSubmit={handleUpdate} className="form-container">
-          <div className="form-group">
-            <label htmlFor="idCliente">ID Cliente:</label>
-            <input type="number" id="idCliente" name="idCliente" value={formData.idCliente} onChange={handleChange} readOnly /> {/* Adicionado readOnly */}
-          </div>
-          <div className="form-group">
-            <label htmlFor="nome">Nome Completo:</label>
-            <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf" value={formData.cpf} onChange={handleChange} required />
-          </div>
-          <div className="form-group">
-            <label htmlFor="telefone">Telefone:</label>
-            <input type="tel" id="telefone" name="telefone" value={formData.telefone} onChange={handleChange} />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
-          </div>
+      <div className="container-main"> {/* Usa a classe global de container */}
+        <main className="editar-cliente-content"> {/* Nova classe específica para o conteúdo do editar */}
+          <div className="editar-cliente-header"> {/* Container para botão voltar e título */}
+            <button className="btn-voltar" onClick={() => navigate('/clientes')}>
+              &#8592; Voltar
+            </button>
+            <h1>Editar Cliente: <span>{formData.nome}</span></h1> {/* Adicionado span para consistência de estilo */}
+          </div>
 
-          <div className="form-actions">
-            <button type="button" className="btn-cancelar" onClick={() => navigate('/clientes')}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn-salvar">
-              Atualizar Cliente
-            </button>
-            <button type="button" className="btn-excluir-form" onClick={handleDelete}>
-              Excluir Cliente
-            </button>
-          </div>
-        </form>
-      </main>
-    </div>
-  );
+          <form onSubmit={handleUpdate} className="form-container"> {/* Usa classes globais para o formulário */}
+            <div className="form-group">
+              <label htmlFor="idCliente">ID Cliente:</label>
+              <input type="number" id="idCliente" name="idCliente" value={formData.idCliente} onChange={handleChange} readOnly />
+            </div>
+            <div className="form-group">
+              <label htmlFor="nome">Nome Completo:</label>
+              <input type="text" id="nome" name="nome" value={formData.nome} onChange={handleChange} required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="cpf">CPF:</label>
+              <input type="text" id="cpf" name="cpf" value={formData.cpf} onChange={handleChange} required />
+            </div>
+            <div className="form-group">
+              <label htmlFor="telefone">Telefone:</label>
+              <input type="tel" id="telefone" name="telefone" value={formData.telefone} onChange={handleChange} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email:</label>
+              <input type="email" id="email" name="email" value={formData.email} onChange={handleChange} required />
+            </div>
+
+            <div className="form-actions"> {/* Usa classes globais para as ações do formulário */}
+              <button type="button" className="btn-cancelar" onClick={() => navigate('/clientes')}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn-salvar">
+                Atualizar Cliente
+              </button>
+              <button type="button" className="btn-excluir-form" onClick={handleDelete}> {/* Classe específica para este botão de excluir */}
+                Excluir Cliente
+              </button>
+            </div>
+          </form>
+        </main>
+      </div>
+    </body>
+  );
 }
 
 export default EditarCliente;

@@ -1,0 +1,69 @@
+
+.editar-cliente-content { /* Classe específica para o conteúdo do Editar Cliente */
+  width: 100%;
+  max-width: 700px; /* Largura máxima para o formulário em telas maiores */
+  padding: 30px; /* Padding interno para o conteúdo geral */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza o título e o formulário */
+}
+
+/* Cabeçalho da seção (Botão Voltar + Título) */
+.editar-cliente-header {
+    width: 100%; /* Ocupa a largura do seu pai (.editar-cliente-content) */
+    display: flex;
+    justify-content: space-between; /* Espaço entre o botão e o título */
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap; /* Permite quebrar em telas menores */
+}
+
+.editar-cliente-header h1 {
+    font-size: 2.5rem;
+    color: white !important; /* Mantém a cor branca do título */
+    margin: 0; /* Remove margem padrão do h1 */
+    flex-grow: 1; /* Permite que o h1 cresça */
+    text-align: right; /* Alinha o título à direita inicialmente */
+}
+
+.editar-cliente-header h1 span {
+    color: #ff9900 !important; /* Cor para a parte destacada do título, se usar */
+}
+
+@media (max-width: 768px) {
+  /* .container-main padding - REMOVIDO: Estilos de padding para container-main em media queries agora no GlobalStyles.css */
+  
+  .editar-cliente-content {
+    padding: 20px 0; /* Remove padding lateral interno, já coberto pelo container-main */
+    max-width: 100%; /* Ocupa largura total disponível */
+  }
+
+  .editar-cliente-header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 0;
+      margin-bottom: 20px;
+  }
+
+  .editar-cliente-header h1 {
+      font-size: 2rem;
+      text-align: center;
+      width: 100%;
+      margin-top: 15px;
+  }
+
+  
+}
+
+@media (max-width: 480px) {
+  /* .container-main padding - REMOVIDO: Estilos de padding para container-main em media queries agora no GlobalStyles.css */
+
+  .editar-cliente-content h1 {
+    font-size: 1.6rem;
+    margin-bottom: 15px;
+  }
+
+  .editar-cliente-header h1 {
+      font-size: 1.6rem;
+  }
+}
