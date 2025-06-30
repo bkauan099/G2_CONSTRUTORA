@@ -11,25 +11,36 @@ const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function gerarRelatorio(req, res) {
   const {
+    idVistoria,
     nomeVistoriador,
     localizacao,
     dataVistoria,
-    idVistoria,
-    ...dadosTecnicos
+    horaVistoria,
+    comodos
   } = req.body;
 
   try {
-    const prompt = `Gere um relatório técnico claro e objetivo com base nas informações técnicas a seguir e as deixe enumeradas, organizadas e explicadas detalhadamente e no final coloque a conclusão e as recomendações e também análise e responda o que se pode no campo de observações gerais: ${JSON.stringify(dadosTecnicos)}. Não inclua assinatura, nem nome do vistoriador, nem localização, nem data de vistoria, nem o nome Relatório Técnico de Vistoria.`;
+    const prompt = `
+Gere um relatório técnico claro e objetivo com base nas informações abaixo:
+
+Informações dos cômodos vistoriados:
+${JSON.stringify(comodos, null, 2)}
+
+Organize as informações por cômodo, detalhe cada aspecto técnico (estrutura, pintura, instalações, piso, telhado, etc.), enumere e explique objetivamente.
+
+No final, inclua uma conclusão com observações gerais, recomendações técnicas e considerações relevantes com base no estado geral do imóvel.
+
+Não inclua assinatura, cabeçalho ou rodapé.`;
 
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
           role: "system",
-          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados.",
+          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados."
         },
-        { role: "user", content: prompt },
-      ],
+        { role: "user", content: prompt }
+      ]
     });
 
     const texto = response.choices[0].message.content;
@@ -58,6 +69,7 @@ async function gerarRelatorio(req, res) {
     doc.fontSize(14).text("Relatório Técnico de Vistoria", { align: "center" });
     doc.moveDown();
     doc.fontSize(12).text(`Data da Vistoria: ${dataVistoria}`);
+    doc.text(`Hora da Vistoria: ${horaVistoria}`);
     doc.text(`Localização do Imóvel: ${localizacao}`);
     doc.text(`Responsável Técnico: ${nomeVistoriador}`);
     doc.moveDown();
@@ -74,7 +86,6 @@ async function gerarRelatorio(req, res) {
 
     stream.on("finish", async () => {
       try {
-        // Envio de e-mail
         const destino = process.env.EMAIL_DESTINO;
 
         const transporter = nodemailer.createTransport({
@@ -95,7 +106,7 @@ async function gerarRelatorio(req, res) {
 
         console.log("Relatório enviado para:", destino);
 
-        // Upload manual para Supabase com fetch
+        // Upload manual para Supabase
         const storageUrl = 'https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object';
         const bucketName = 'relatorios';
         const filePath = `relatorios/${nomeArquivo}`;
@@ -115,25 +126,22 @@ async function gerarRelatorio(req, res) {
           return res.status(500).json({ erro: "Erro ao subir PDF para Supabase Storage" });
         }
 
-        // URL pública manualmente gerada (para bucket público)
         const publicUrl = `https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object/public/${filePath}`;
 
-        // Atualiza URL no banco e o Status da Vistoria
         await db`
           UPDATE vistoria
-          SET relatorio_url = ${publicUrl} , status = 'Aguardando Validação'
+          SET relatorio_url = ${publicUrl}, status = 'Aguardando Validação'
           WHERE idvistoria = ${idVistoria}
         `;
 
-        // Incrementa contador de vistorias realizadas no imóvel relacionado
-      await db`
-        UPDATE imovel
-        SET vistoriasrealizadas = vistoriasrealizadas + 1
-        WHERE idimovel = (
-          SELECT idimovel FROM vistoria WHERE idvistoria = ${idVistoria}
-        )
-      `;
-        // Envia resposta final
+        await db`
+          UPDATE imovel
+          SET vistoriasrealizadas = vistoriasrealizadas + 1
+          WHERE idimovel = (
+            SELECT idimovel FROM vistoria WHERE idvistoria = ${idVistoria}
+          )
+        `;
+
         res.json({
           mensagem: "Relatório gerado, enviado, salvo e status do imóvel atualizado com sucesso",
           arquivo: nomeArquivo,
