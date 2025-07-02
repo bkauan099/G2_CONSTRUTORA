@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: sistema-vistoria
-    env: node
-    buildCommand: npm install
-    startCommand: npm run start
-    plan: free
-    rootDir: codigo/Projeto/Sistema de Vistoria

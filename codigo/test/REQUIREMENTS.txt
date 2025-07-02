@@ -1,0 +1,13 @@
+--> É necessário a criação de um arquivo ".env" na pasta de "backend" com os seguintes dados abaixo:
+
+"DATABASE_URL=postgresql://postgres:IfejFxhbTkme91pI@db.sictbgrpkhacrukvpopz.supabase.co:5432/postgres
+PORT=3001
+
+OPENAI_KEY=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
+EMAIL_USER=bkauan099@gmail.com
+EMAIL_PASS=ntfzvjptmkooutvb 
+EMAIL_DESTINO=bruno.kauan@discente.ufma.br 
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpY3RiZ3Jwa2hhY3J1a3Zwb3B6Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1MDM0MzgwNSwiZXhwIjoyMDY1OTE5ODA1fQ.fzOJ0fpwQimSH7mwnIpBrOrXlenx4t5zbCZ_CZgo3zA"
+
+
+--> É ter o node.js instalado e colocar no terminal "npm install" para instalar as dependências como estão nos manuais.
