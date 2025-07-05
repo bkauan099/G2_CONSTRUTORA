@@ -1,0 +1,99 @@
+/* src/components/Navbar/Navbar.css */
+
+/* Navbar */
+.navbar {
+  background-color: #004080;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  position: relative;
+  z-index: 1000; 
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+}
+
+.menu-toggle {
+  display: none; /* Escondido por padrão em desktop */
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+.mobile-logout {
+  display: none; /* Escondido por padrão em desktop */
+}
+.desktop-logout {
+  display: inline-block; /* Visível por padrão em desktop */
+}
+
+/* RESPONSIVO - MOBILE */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Visível em mobile */
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px; /* Ajuste conforme a altura do seu header */
+    right: 0;
+    background-color: #004080;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+    max-height: 0; /* Começa fechado */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    gap: 10px;
+    padding: 0 15px;
+    z-index: 99; /* Abaixo do navbar, mas acima do conteúdo */
+  }
+
+  .nav-links.open {
+    max-height: 500px; /* Altura suficiente para mostrar todos os links */
+    padding: 15px;
+  }
+
+  .desktop-logout {
+    display: none; /* Escondido em mobile */
+  }
+  .mobile-logout {
+    display: block; /* Visível em mobile */
+    margin-top: 10px;
+  }
+}

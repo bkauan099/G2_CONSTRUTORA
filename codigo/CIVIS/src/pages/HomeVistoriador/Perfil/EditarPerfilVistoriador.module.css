@@ -1,0 +1,354 @@
+/*
+ * Arquivo: EditarPerfilVistoriador.module.css
+ * Descrição: Estilos para o componente EditarPerfilVistoriador (formulário de edição do perfil do vistoriador).
+ * Utiliza CSS Modules para isolamento de escopo.
+ */
+
+
+:root {
+  /* Cores */
+  --edit-perfil-vistoriador-bg-color: #ebf2f7; /* Fundo muito claro para a página */
+  --edit-perfil-vistoriador-card-bg: #ffffff; /* Fundo branco para o formulário */
+  --edit-perfil-vistoriador-text-dark: #36454f; /* Texto escuro (azul ardósia) */
+  --edit-perfil-vistoriador-text-light: #8899a6; /* Texto secundário */
+  --edit-perfil-vistoriador-accent-color: #3498db; /* Roxo escuro de destaque (primário) */
+  --edit-perfil-vistoriador-accent-hover: #217dbb; /* Roxo mais escuro hover */
+  --edit-perfil-vistoriador-danger-color: #f44336; /* Vermelho para ações de perigo/erro */
+  --edit-perfil-vistoriador-danger-hover: #d32f2f; /* Vermelho mais escuro hover */
+  --edit-perfil-vistoriador-header-bg: #004080; /* Azul quase preto para o nav */
+  --edit-perfil-vistoriador-header-text: #ffffff; /* Texto branco para o cabeçalho */
+  --edit-perfil-vistoriador-input-bg-disabled: #f0f0f0; /* Fundo para inputs desabilitados */
+  --edit-perfil-vistoriador-error-color: #f44336; /* Cor para mensagens de erro */
+
+  /* Espaçamentos (em rem) */
+  --edit-perfil-vistoriador-spacing-xxs: 0.25rem; /* 4px */
+  --edit-perfil-vistoriador-spacing-xs: 0.5rem;   /* 8px */
+  --edit-perfil-vistoriador-spacing-sm: 0.75rem;  /* 12px */
+  --edit-perfil-vistoriador-spacing-md: 1rem;     /* 16px */
+  --edit-perfil-vistoriador-spacing-lg: 1.5rem;   /* 24px */
+  --edit-perfil-vistoriador-spacing-xl: 2rem;     /* 32px */
+  --edit-perfil-vistoriador-spacing-2xl: 3rem;    /* 48px */
+  --edit-perfil-vistoriador-spacing-3xl: 4rem;    /* 64px */
+
+  /* Bordas */
+  --edit-perfil-vistoriador-border-radius: 8px;
+  --edit-perfil-vistoriador-input-border-radius: 4px;
+  --edit-perfil-vistoriador-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --edit-perfil-vistoriador-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * Layout Principal da Página de Edição
+ */
+.editPerfilVistoriadorContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--edit-perfil-vistoriador-bg-color);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--edit-perfil-vistoriador-text-dark);
+}
+
+/*
+ * Estilos do Cabeçalho (Navbar)
+ */
+.editPerfilVistoriadorNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--edit-perfil-vistoriador-spacing-md) var(--edit-perfil-vistoriador-spacing-lg);
+  background-color: var(--edit-perfil-vistoriador-header-bg);
+  color: var(--edit-perfil-vistoriador-header-text);
+  box-shadow: var(--edit-perfil-vistoriador-shadow-sm);
+}
+
+.editPerfilVistoriadorLogo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.editPerfilVistoriadorNavLinks {
+  display: flex;
+  gap: var(--edit-perfil-vistoriador-spacing-lg);
+}
+
+.editPerfilVistoriadorNavLinks a {
+  color: var(--edit-perfil-vistoriador-header-text);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: var(--edit-perfil-vistoriador-spacing-xs) var(--edit-perfil-vistoriador-spacing-sm);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.editPerfilVistoriadorNavLinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.editPerfilVistoriadorLogoutButton {
+  background-color: var(--edit-perfil-vistoriador-danger-color);
+  color: var(--edit-perfil-vistoriador-header-text);
+  border: none;
+  padding: var(--edit-perfil-vistoriador-spacing-xs) var(--edit-perfil-vistoriador-spacing-md);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.editPerfilVistoriadorLogoutButton:hover {
+  background-color: var(--edit-perfil-vistoriador-danger-hover);
+}
+
+/*
+ * Conteúdo Principal do Formulário
+ */
+.editPerfilVistoriadorMainContent {
+  flex-grow: 1;
+  padding: var(--edit-perfil-vistoriador-spacing-xl);
+  max-width: 800px;
+  margin: var(--edit-perfil-vistoriador-spacing-xl) auto;
+  background-color: var(--edit-perfil-vistoriador-card-bg);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  box-shadow: var(--edit-perfil-vistoriador-shadow-md);
+}
+
+.editPerfilVistoriadorTitle {
+  font-size: 2rem;
+  color: var(--edit-perfil-vistoriador-accent-color);
+  margin-bottom: var(--edit-perfil-vistoriador-spacing-xl);
+  text-align: center;
+  border-bottom: 1px solid var(--edit-perfil-vistoriador-border-color);
+  padding-bottom: var(--edit-perfil-vistoriador-spacing-md);
+}
+
+.editPerfilVistoriadorLoadingText,
+.editPerfilVistoriadorErrorText {
+  text-align: center;
+  margin-top: var(--edit-perfil-vistoriador-spacing-lg);
+  font-size: 1.1rem;
+}
+
+.editPerfilVistoriadorErrorText {
+  color: var(--edit-perfil-vistoriador-danger-color);
+  font-weight: 600;
+}
+
+/* Botão de Voltar */
+.editPerfilVistoriadorBackButton {
+  background: none;
+  border: none;
+  color: var(--edit-perfil-vistoriador-text-light);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: var(--edit-perfil-vistoriador-spacing-xs) 0;
+  margin-bottom: var(--edit-perfil-vistoriador-spacing-md);
+  display: flex;
+  align-items: center;
+  gap: var(--edit-perfil-vistoriador-spacing-xxs);
+  transition: color 0.2s ease;
+}
+
+.editPerfilVistoriadorBackButton:hover {
+  color: var(--edit-perfil-vistoriador-text-dark);
+}
+
+/*
+ * Seção de Upload de Imagem de Perfil - Adicionado
+ */
+.profileImageUploadSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--edit-perfil-vistoriador-spacing-md);
+  margin-bottom: var(--edit-perfil-vistoriador-spacing-xl);
+  padding: var(--edit-perfil-vistoriador-spacing-md);
+  border: 1px dashed var(--edit-perfil-vistoriador-border-color);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  background-color: #fdfdfd;
+}
+
+.profileImageContainer {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--edit-perfil-vistoriador-accent-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0; /* Cor de fundo para quando não há imagem */
+  position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.noPhotoPlaceholder {
+  position: absolute;
+  color: var(--edit-perfil-vistoriador-text-light);
+  font-size: 0.85rem;
+  text-align: center;
+  user-select: none;
+}
+
+.uploadButton {
+  background-color: var(--edit-perfil-vistoriador-accent-color);
+  color: var(--edit-perfil-vistoriador-header-text);
+  border: none;
+  padding: var(--edit-perfil-vistoriador-spacing-sm) var(--edit-perfil-vistoriador-spacing-lg);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  box-shadow: var(--edit-perfil-vistoriador-shadow-sm);
+}
+
+.uploadButton:hover {
+  background-color: var(--edit-perfil-vistoriador-accent-hover);
+}
+
+.fileName {
+  font-size: 0.85rem;
+  color: var(--edit-perfil-vistoriador-text-light);
+  margin-top: var(--edit-perfil-vistoriador-spacing-xxs);
+}
+
+/*
+ * Estilos do Formulário
+ */
+.editPerfilVistoriadorForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--edit-perfil-vistoriador-spacing-md);
+}
+
+.editPerfilVistoriadorFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--edit-perfil-vistoriador-spacing-sm);
+}
+
+.editPerfilVistoriadorFormGroup label {
+  font-weight: 600;
+  margin-bottom: var(--edit-perfil-vistoriador-spacing-xs);
+  color: var(--edit-perfil-vistoriador-text-dark);
+  font-size: 0.95rem;
+}
+
+.editPerfilVistoriadorFormGroup input[type="text"],
+.editPerfilVistoriadorFormGroup input[type="email"],
+.editPerfilVistoriadorFormGroup input[type="password"],
+.editPerfilVistoriadorFormGroup input[type="tel"],
+.editPerfilVistoriadorFormGroup select {
+  padding: var(--edit-perfil-vistoriador-spacing-sm);
+  border: 1px solid var(--edit-perfil-vistoriador-border-color);
+  border-radius: var(--edit-perfil-vistoriador-input-border-radius);
+  font-size: 1rem;
+  color: var(--edit-perfil-vistoriador-text-dark);
+  background-color: var(--edit-perfil-vistoriador-card-bg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editPerfilVistoriadorFormGroup input:focus,
+.editPerfilVistoriadorFormGroup select:focus {
+  border-color: var(--edit-perfil-vistoriador-accent-color);
+  box-shadow: 0 0 0 3px rgba(106, 13, 173, 0.2); /* Sombra roxa suave no foco */
+  outline: none;
+}
+
+.editPerfilVistoriadorFormGroup input:disabled,
+.editPerfilVistoriadorFormGroup select:disabled {
+  background-color: var(--edit-perfil-vistoriador-input-bg-disabled);
+  color: var(--edit-perfil-vistoriador-text-light);
+  cursor: not-allowed;
+}
+
+/*
+ * Ações do Formulário (Botões de Salvar/Cancelar)
+ */
+.editPerfilVistoriadorFormActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--edit-perfil-vistoriador-spacing-md);
+  margin-top: var(--edit-perfil-vistoriador-spacing-lg);
+  flex-wrap: wrap;
+}
+
+.editPerfilVistoriadorButtonPrimary,
+.editPerfilVistoriadorButtonSecondary {
+  border: none;
+  padding: var(--edit-perfil-vistoriador-spacing-md) var(--edit-perfil-vistoriador-spacing-xl);
+  border-radius: var(--edit-perfil-vistoriador-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: var(--edit-perfil-vistoriador-shadow-sm);
+  min-width: 120px;
+}
+
+.editPerfilVistoriadorButtonPrimary {
+  background-color: var(--edit-perfil-vistoriador-accent-color);
+  color: var(--edit-perfil-vistoriador-header-text); /* Texto branco */
+}
+
+.editPerfilVistoriadorButtonPrimary:hover {
+  background-color: var(--edit-perfil-vistoriador-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--edit-perfil-vistoriador-shadow-md);
+}
+
+.editPerfilVistoriadorButtonSecondary {
+  background-color: var(--edit-perfil-vistoriador-border-color); /* Cor neutra para cancelar */
+  color: var(--edit-perfil-vistoriador-text-dark);
+}
+
+.editPerfilVistoriadorButtonSecondary:hover {
+  background-color: #dbe2ed; /* Um tom mais escuro */
+  transform: translateY(-2px);
+  box-shadow: var(--edit-perfil-vistoriador-shadow-md);
+}
+
+/*
+ * Ajustes Responsivos
+ */
+
+/* Para telas pequenas (mobile) */
+@media (max-width: 599px) {
+  .editPerfilVistoriadorMainContent {
+    padding: var(--edit-perfil-vistoriador-spacing-lg);
+    margin: var(--edit-perfil-vistoriador-spacing-lg) auto;
+  }
+  .editPerfilVistoriadorTitle {
+    font-size: 1.6rem;
+  }
+  .editPerfilVistoriadorFormActions {
+    flex-direction: column;
+    gap: var(--edit-perfil-vistoriador-spacing-sm);
+  }
+  .editPerfilVistoriadorButtonPrimary,
+  .editPerfilVistoriadorButtonSecondary {
+    width: 100%;
+    min-width: auto;
+  }
+}
+
+
+
+/* Para desktops */
+@media (min-width: 1024px) {
+  .editPerfilVistoriadorMainContent {
+    padding: var(--edit-perfil-vistoriador-spacing-2xl);
+  }
+  .editPerfilVistoriadorTitle {
+    font-size: 2rem;
+  }
+}

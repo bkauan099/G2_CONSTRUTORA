@@ -1,0 +1,244 @@
+/*
+ * Arquivo: PerfilVistoriador.module.css
+ * Descrição: Estilos específicos para o componente PerfilVistoriador (Perfil do Vistoriador).
+ * Utiliza CSS Modules para isolamento de escopo.
+ */
+
+
+:root {
+  /* Cores */
+  --perfil-vistoriador-bg-color: #ebf2f7; /* Fundo claro da página */
+  --perfil-vistoriador-card-bg: #ffffff; /* Fundo branco para cards/seções */
+  --perfil-vistoriador-text-dark: #36454f; /* Cor de texto principal escura (azul ardósia) */
+  --perfil-vistoriador-text-light: #8899a6; /* Cor de texto secundária (cinza azulado) */
+  --perfil-vistoriador-border-color: #d1d9e0; /* Cor de borda suave */
+  --perfil-vistoriador-accent-color: #3498db; /* Roxo escuro de destaque (primário) */
+  --perfil-vistoriador-accent-hover: #217dbb; /* Roxo mais escuro hover */
+  --perfil-vistoriador-header-bg: #004080; /* Azul quase preto para o nav */
+  --perfil-vistoriador-header-text: #ffffff; /* Texto branco para o cabeçalho */
+  --perfil-vistoriador-logout-btn-bg: #f44336; /* Vermelho para botão de sair */
+  --perfil-vistoriador-logout-btn-hover: #d32f2f; /* Vermelho mais escuro para hover */
+  --perfil-vistoriador-error-color: #f44336; /* Cor para mensagens de erro */
+
+  /* Espaçamentos (em rem) */
+  --perfil-vistoriador-spacing-xxs: 0.25rem; /* 4px */
+  --perfil-vistoriador-spacing-xs: 0.5rem;   /* 8px */
+  --perfil-vistoriador-spacing-sm: 0.75rem;  /* 12px */
+  --perfil-vistoriador-spacing-md: 1rem;     /* 16px */
+  --perfil-vistoriador-spacing-lg: 1.5rem;   /* 24px */
+  --perfil-vistoriador-spacing-xl: 2rem;     /* 32px */
+  --perfil-vistoriador-spacing-2xl: 3rem;    /* 48px */
+  --perfil-vistoriador-spacing-3xl: 4rem;    /* 64px */
+
+  /* Bordas */
+  --perfil-vistoriador-border-radius: 8px;
+  --perfil-vistoriador-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --perfil-vistoriador-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * Layout Principal da Página
+ */
+.perfilVistoriadorContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--perfil-vistoriador-bg-color);
+  font-family: 'Montserrat', sans-serif; /* Fonte ligeiramente diferente */
+  color: var(--perfil-vistoriador-text-dark);
+}
+
+/*
+ * Estilos do Cabeçalho (Navbar)
+ */
+.perfilVistoriadorNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--perfil-vistoriador-spacing-md) var(--perfil-vistoriador-spacing-lg);
+  background-color: var(--perfil-vistoriador-header-bg);
+  color: var(--perfil-vistoriador-header-text);
+  box-shadow: var(--perfil-vistoriador-shadow-sm);
+}
+
+.perfilVistoriadorLogo {
+  font-size: 1.5rem; /* 24px */
+  font-weight: bold;
+}
+
+.perfilVistoriadorNavLinks {
+  display: flex;
+  gap: var(--perfil-vistoriador-spacing-lg);
+}
+
+.perfilVistoriadorNavLinks a {
+  color: var(--perfil-vistoriador-header-text);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: var(--perfil-vistoriador-spacing-xs) var(--perfil-vistoriador-spacing-sm);
+  border-radius: var(--perfil-vistoriador-border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.perfilVistoriadorNavLinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.perfilVistoriadorLogoutButton {
+  background-color: var(--perfil-vistoriador-logout-btn-bg);
+  color: var(--perfil-vistoriador-header-text);
+  border: none;
+  padding: var(--perfil-vistoriador-spacing-xs) var(--perfil-vistoriador-spacing-md);
+  border-radius: var(--perfil-vistoriador-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.perfilVistoriadorLogoutButton:hover {
+  background-color: var(--perfil-vistoriador-logout-btn-hover);
+}
+
+/*
+ * Conteúdo Principal da Página
+ */
+.perfilVistoriadorMainContent {
+  flex-grow: 1;
+  padding: var(--perfil-vistoriador-spacing-xl);
+  max-width: 900px;
+  margin: var(--perfil-vistoriador-spacing-xl) auto;
+  background-color: var(--perfil-vistoriador-card-bg);
+  border-radius: var(--perfil-vistoriador-border-radius);
+  box-shadow: var(--perfil-vistoriador-shadow-md);
+  display: flex; /* Adicionado para centralizar a imagem */
+  flex-direction: column; /* Adicionado para centralizar a imagem */
+  align-items: center; /* Adicionado para centralizar a imagem */
+}
+
+.perfilVistoriadorTitle {
+  font-size: 2rem; /* 32px */
+  color: var(--perfil-vistoriador-accent-color);
+  margin-bottom: var(--perfil-vistoriador-spacing-xl);
+  text-align: center;
+  border-bottom: 2px solid var(--perfil-vistoriador-border-color);
+  padding-bottom: var(--perfil-vistoriador-spacing-md);
+  width: 100%; /* Ocupar largura total para centralizar o título */
+}
+
+/*
+ * Seção de Imagem de Perfil - Adicionado
+ */
+.profileImageContainer {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: var(--perfil-vistoriador-spacing-xl);
+  border: 3px solid var(--perfil-vistoriador-accent-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e0e0e0; /* Cor de fundo para quando não há imagem */
+  position: relative;
+  box-shadow: var(--perfil-vistoriador-shadow-sm);
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que a imagem preencha o contêiner sem distorcer */
+}
+
+.noPhotoPlaceholder {
+  position: absolute;
+  color: var(--perfil-vistoriador-text-light);
+  font-size: 0.9rem;
+  text-align: center;
+  user-select: none; /* Não permite seleção de texto */
+}
+
+/*
+ * Grid de Informações do Perfil
+ */
+.perfilVistoriadorInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna em mobile */
+  gap: var(--perfil-vistoriador-spacing-lg);
+  margin-bottom: var(--perfil-vistoriador-spacing-xl);
+  width: 100%; /* Adicionado para ocupar a largura total do main content */
+}
+
+.perfilVistoriadorInfoItem {
+  display: flex;
+  flex-direction: column;
+  padding: var(--perfil-vistoriador-spacing-md);
+  background-color: #fcfcfc; /* Um branco mais puro */
+  border: 1px solid var(--perfil-vistoriador-border-color);
+  border-radius: var(--perfil-vistoriador-border-radius);
+}
+
+.perfilVistoriadorInfoLabel {
+  font-weight: 600;
+  color: var(--perfil-vistoriador-text-light);
+  font-size: 0.95rem; /* 15.2px */
+  margin-bottom: var(--perfil-vistoriador-spacing-xs);
+}
+
+.perfilVistoriadorInfoValue {
+  font-size: 1.1rem; /* 17.6px */
+  color: var(--perfil-vistoriador-text-dark);
+  word-wrap: break-word;
+}
+
+/*
+ * Seção de Ações (Botões)
+ */
+.perfilVistoriadorActions {
+  text-align: center;
+  margin-top: var(--perfil-vistoriador-spacing-xl);
+  width: 100%; /* Adicionado para ocupar a largura total do main content */
+}
+
+.perfilVistoriadorButtonPrimary {
+  background-color: var(--perfil-vistoriador-accent-color);
+  color: var(--perfil-vistoriador-header-text);
+  border: none;
+  padding: var(--perfil-vistoriador-spacing-md) var(--perfil-vistoriador-spacing-xl);
+  border-radius: var(--perfil-vistoriador-border-radius);
+  cursor: pointer;
+  font-size: 1.1rem; /* 18px */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.perfilVistoriadorButtonPrimary:hover {
+  background-color: var(--perfil-vistoriador-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * Ajustes Responsivos
+ */
+
+/* Para telas maiores que mobile (tablets e desktops) */
+@media (min-width: 600px) {
+  .perfilVistoriadorInfoGrid {
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets/desktops */
+    gap: var(--perfil-vistoriador-spacing-xl);
+  }
+}
+
+/* Para desktops */
+@media (min-width: 1024px) {
+  .perfilVistoriadorNavbar {
+    padding: var(--perfil-vistoriador-spacing-md) var(--perfil-vistoriador-spacing-3xl);
+  }
+  .perfilVistoriadorMainContent {
+    padding: var(--perfil-vistoriador-spacing-2xl);
+  }
+  .perfilVistoriadorTitle {
+    font-size: 2.5rem; /* 40px */
+  }
+}

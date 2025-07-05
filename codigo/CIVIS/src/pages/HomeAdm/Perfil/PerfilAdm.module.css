@@ -1,0 +1,370 @@
+/*
+ * Arquivo: PerfilAdm.module.css
+ * Descrição: Estilos específicos para o componente PerfilAdm (Perfil do Administrador).
+ * Utiliza CSS Modules para isolamento de escopo.
+ */
+
+
+:root {
+  /* Cores */
+  --perfil-adm-bg-color: #eef2f7; /* Fundo claro para a página de perfil */
+  --perfil-adm-card-bg: #ffffff; /* Fundo branco para cards/seções */
+  --perfil-adm-text-dark: #2c3e50; /* Cor de texto principal escura (azul marinho) */
+  --perfil-adm-text-light: #7f8c8d; /* Cor de texto secundária (cinza) */
+  --perfil-adm-border-color: #dbe2ed; /* Cor de borda suave */
+  --perfil-adm-accent-color: #3498db; /* Azul de destaque primário */
+  --perfil-adm-accent-hover: #217dbb; /* Azul de destaque hover */
+  --perfil-adm-header-bg: #223a5e; /* Azul bem escuro para o cabeçalho */
+  --perfil-adm-header-text: #ffffff; /* Texto branco para o cabeçalho */
+  --perfil-adm-logout-btn-bg: #e74c3c; /* Vermelho para botão de sair */
+  --perfil-adm-logout-btn-hover: #c0392b; /* Vermelho mais escuro para hover */
+  --perfil-adm-error-color: #e74c3c; /* Cor para mensagens de erro */
+
+  /* Espaçamentos (em rem) */
+  --perfil-adm-spacing-xxs: 0.25rem; /* 4px */
+  --perfil-adm-spacing-xs: 0.5rem;   /* 8px */
+  --perfil-adm-spacing-sm: 0.75rem;  /* 12px */
+  --perfil-adm-spacing-md: 1rem;     /* 16px */
+  --perfil-adm-spacing-lg: 1.5rem;   /* 24px */
+  --perfil-adm-spacing-xl: 2rem;     /* 32px */
+  --perfil-adm-spacing-2xl: 3rem;    /* 48px */
+  --perfil-adm-spacing-3xl: 4rem;    /* 64px */
+
+  /* Bordas */
+  --perfil-adm-border-radius: 8px;
+  --perfil-adm-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --perfil-adm-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* src/components/Navbar/Navbar.css */
+/* NOTE: The Navbar.css content should ideally be in its own file or directly in the Navbar component's CSS module.
+   Keeping it here for completeness based on your input, but recommend separating. */
+
+/* Navbar */
+/* These styles might conflict if Navbar is also imported with its own module.
+   Ensure proper import/scoping in your React components. */
+.navbar {
+  background-color: #004080;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  position: relative;
+  z-index: 1000; /* Garante que o navbar fique por cima de outros elementos */
+}
+
+.logo {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #ffcc00;
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout-button:hover {
+  background-color: #cc0000;
+}
+
+.menu-toggle {
+  display: none; /* Escondido por padrão em desktop */
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: white;
+  cursor: pointer;
+}
+
+.mobile-logout {
+  display: none; /* Escondido por padrão em desktop */
+}
+.desktop-logout {
+  display: inline-block; /* Visível por padrão em desktop */
+}
+
+/* RESPONSIVO - MOBILE */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block; /* Visível em mobile */
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 60px; /* Ajuste conforme a altura do seu header */
+    right: 0;
+    background-color: #004080;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 200px;
+    max-height: 0; /* Começa fechado */
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    gap: 10px;
+    padding: 0 15px;
+    z-index: 99; /* Abaixo do navbar, mas acima do conteúdo */
+  }
+
+  .nav-links.open {
+    max-height: 500px; /* Altura suficiente para mostrar todos os links */
+    padding: 15px;
+  }
+
+  .desktop-logout {
+    display: none; /* Escondido em mobile */
+  }
+  .mobile-logout {
+    display: block; /* Visível em mobile */
+    margin-top: 10px;
+  }
+}
+
+
+/*
+ * Layout Principal da Página
+ */
+.perfilAdmContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--perfil-adm-bg-color);
+  font-family: 'Open Sans', sans-serif; /* Fonte ligeiramente diferente */
+  color: var(--perfil-adm-text-dark);
+}
+
+/*
+ * Estilos do Cabeçalho (Navbar)
+ */
+ /* Navbar */
+.navbar {
+  background-color: #004080;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  position: relative;
+}
+
+.perfilAdmLogo {
+  font-size: 1.6rem; /* 25.6px */
+  font-weight: bold;
+}
+
+.perfilAdmNavLinks {
+  display: flex;
+  gap: var(--perfil-adm-spacing-lg); /* 24px */
+}
+
+.perfilAdmNavLinks a {
+  color: var(--perfil-adm-header-text);
+  text-decoration: none;
+  font-size: 1rem; /* 16px */
+  padding: var(--perfil-adm-spacing-xs) var(--perfil-adm-spacing-sm); /* 8px 12px */
+  border-radius: var(--perfil-adm-border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.perfilAdmNavLinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.perfilAdmLogoutButton {
+  background-color: var(--perfil-adm-logout-btn-bg);
+  color: var(--perfil-adm-header-text);
+  border: none;
+  padding: var(--perfil-adm-spacing-xs) var(--perfil-adm-spacing-md); /* 8px 16px */
+  border-radius: var(--perfil-adm-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.perfilAdmLogoutButton:hover {
+  background-color: var(--perfil-adm-logout-btn-hover);
+}
+
+/*
+ * Conteúdo Principal da Página
+ */
+.perfilAdmMainContent {
+  flex-grow: 1; /* Ocupa o espaço restante */
+  padding: var(--perfil-adm-spacing-xl); /* 32px */
+  max-width: 960px; /* Limita a largura do conteúdo para melhor leitura */
+  margin: var(--perfil-adm-spacing-xl) auto; /* Centraliza o conteúdo e adiciona margem vertical */
+  background-color: var(--perfil-adm-card-bg);
+  border-radius: var(--perfil-adm-border-radius);
+  box-shadow: var(--perfil-adm-shadow-md);
+  display: flex; /* Adicionado para centralizar a imagem */
+  flex-direction: column; /* Adicionado para centralizar a imagem */
+  align-items: center; /* Adicionado para centralizar a imagem */
+}
+
+.perfilAdmTitle {
+  font-size: 2.2rem; /* 35.2px */
+  color: var(--perfil-adm-accent-color);
+  margin-bottom: var(--perfil-adm-spacing-xl); /* 32px */
+  text-align: center;
+  border-bottom: 2px solid var(--perfil-adm-border-color);
+  padding-bottom: var(--perfil-adm-spacing-md); /* 16px */
+  width: 100%; /* Garante que o título ocupe a largura total para a borda */
+}
+
+.perfilAdmLoadingText,
+.perfilAdmErrorText {
+  text-align: center;
+  margin-top: var(--perfil-adm-spacing-lg);
+  font-size: 1.1rem;
+}
+
+.perfilAdmErrorText {
+  color: var(--perfil-adm-error-color);
+  font-weight: 600;
+}
+
+/* --- Estilos para a Foto de Perfil --- */
+.profileImageContainer {
+  width: 150px; /* Largura do círculo */
+  height: 150px; /* Altura do círculo */
+  border-radius: 50%; /* Torna a borda redonda */
+  overflow: hidden; /* Garante que a imagem dentro do círculo seja cortada */
+  border: 4px solid var(--perfil-adm-accent-color); /* Borda ao redor da foto, usando variável */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--perfil-adm-border-color); /* Cor de fundo caso a imagem não carregue, usando variável */
+  box-shadow: var(--perfil-adm-shadow-sm); /* Sombra, usando variável */
+  margin-bottom: var(--perfil-adm-spacing-xl); /* Espaço abaixo da foto, usando variável */
+}
+
+.profileImage {
+  width: 100%; /* A imagem preenche o contêiner */
+  height: 100%; /* A imagem preenche o contêiner */
+  object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+}
+/* ------------------------------------ */
+
+/*
+ * Grid de Informações do Perfil
+ */
+.perfilAdmInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna em mobile */
+  gap: var(--perfil-adm-spacing-lg); /* 24px */
+  margin-bottom: var(--perfil-adm-spacing-xl); /* 32px */
+  width: 100%; /* Garante que o grid ocupe a largura total disponível no main content */
+  max-width: 600px; /* Limita a largura do grid de informações */
+}
+
+.perfilAdmInfoItem {
+  display: flex;
+  flex-direction: column;
+  padding: var(--perfil-adm-spacing-md); /* 16px */
+  background-color: #f8f9fa; /* Um branco acinzentado suave */
+  border: 1px solid var(--perfil-adm-border-color);
+  border-radius: var(--perfil-adm-border-radius);
+}
+
+.perfilAdmInfoLabel {
+  font-weight: 600;
+  color: var(--perfil-adm-text-light);
+  font-size: 0.95rem; /* 15.2px */
+  margin-bottom: var(--perfil-adm-spacing-xs); /* 8px */
+}
+
+.perfilAdmInfoValue {
+  font-size: 1.1rem; /* 17.6px */
+  color: var(--perfil-adm-text-dark);
+  word-wrap: break-word; /* Garante que textos longos quebrem a linha */
+}
+
+/*
+ * Seção de Ações (Botões)
+ */
+.perfilAdmActions {
+  text-align: center;
+  margin-top: var(--perfil-adm-spacing-xl); /* Espaçamento acima dos botões */
+  width: 100%; /* Garante que a seção de ações ocupe a largura total */
+}
+
+.perfilAdmButtonPrimary,
+.perfilAdmButtonSecondary {
+  border: none;
+  padding: var(--perfil-adm-spacing-md) var(--perfil-adm-spacing-xl); /* 16px 32px */
+  border-radius: var(--perfil-adm-border-radius);
+  cursor: pointer;
+  font-size: 1.05rem; /* 16.8px */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: var(--perfil-adm-spacing-xxs); /* Pequena margem entre botões */
+}
+
+.perfilAdmButtonPrimary {
+  background-color: var(--perfil-adm-accent-color);
+  color: var(--perfil-adm-header-text);
+}
+
+.perfilAdmButtonPrimary:hover {
+  background-color: var(--perfil-adm-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.perfilAdmButtonSecondary {
+  background-color: var(--perfil-adm-border-color); /* Usar cor neutra como fundo */
+  color: var(--perfil-adm-text-dark);
+}
+
+.perfilAdmButtonSecondary:hover {
+  background-color: #c7d2e2; /* Tom mais escuro para hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+
+/*
+ * Ajustes Responsivos
+ */
+
+/* Para telas maiores que mobile (tablets e desktops) */
+@media (min-width: 600px) {
+  .perfilAdmInfoGrid {
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets/desktops */
+    gap: var(--perfil-adm-spacing-xl); /* 32px */
+  }
+}
+
+/* Para desktops */
+@media (min-width: 1024px) {
+  .perfilAdmNavbar {
+    padding: var(--perfil-adm-spacing-md) var(--perfil-adm-spacing-3xl); /* Mais padding lateral */
+  }
+  .perfilAdmMainContent {
+    padding: var(--perfil-adm-spacing-2xl); /* 48px */
+  }
+  .perfilAdmTitle {
+    font-size: 2.8rem; /* 44.8px */
+  }
+}

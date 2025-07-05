@@ -9,6 +9,9 @@ import HomeCliente from "./pages/HomeCliente/HomeCliente";
 import HomeVistoriador from "./pages/HomeVistoriador/Home"; 
 
 //Componentes específicos do administrador
+//Perfil do Administrador
+import PerfilAdm from "./pages/HomeAdm/Perfil/PerfilAdm";
+import EditarPerfilAdm from "./pages/HomeAdm/Perfil/EditarPerfilAdm";
 //Funcionarios
 import Funcionarios from "./pages/HomeAdm/Funcionarios/Funcionarios";
 import CadastrarFuncionario from "./pages/HomeAdm/Funcionarios/CadastroFuncionario/CadastrarFuncionario";
@@ -32,6 +35,10 @@ import CadastrarCliente from "./pages/HomeAdm/Clientes/CadastrarCliente/Cadastra
 import EditarCliente from "./pages/HomeAdm/Clientes/EditarCliente/EditarCliente";
 
 // Componentes específicos do cliente
+//Perfil do Cliente
+import PerfilCliente from "./pages/HomeCliente/Perfil/PerfilCliente";
+import EditarPerfilCliente from "./pages/HomeCliente/Perfil/EditarPerfilCliente";
+//Visualização de Imóveis e vistorias
 import MeusImoveis from "./pages/HomeCliente/MeuImovel/MeuImovel";
 import ImovelDetalhado from "./pages/HomeCliente/ImovelDetalhado/ImovelDetalhado";
 import MinhasVistorias from "./pages/HomeCliente/MinhasVistorias/MinhasVistorias";
@@ -39,7 +46,11 @@ import AgendarVistoria from "./pages/HomeCliente/AgendarVistoria/AgendarVistoria
 import ValidarVistoria from "./pages/HomeCliente/ValidarVistoria/ValidarVistoria";
 import SolicitarNovaVistoria from "./pages/HomeCliente/SolicitarNovaVistoria/SolicitarNovaVistoria";
 
-//Componentes específicos do Vistoriador
+//Componentes específicos do Vistoriador4
+//Perfil do Vistoriador
+import PerfilVistoriador from "./pages/HomeVistoriador/Perfil/PerfilVistoriador";
+import EditarPerfilVistoriador from "./pages/HomeVistoriador/Perfil/EditarPerfilVistoriador";
+//Páginas de vistorais
 import RealizarVistoriaListPage from "./pages/HomeVistoriador/RealizarVistoria/RealizarVistoriaListPage"; 
 import VistoriaDataEntryPage from "./pages/HomeVistoriador/VistoriaData/VistoriaDataEntryPage"; 
 import ReagendarVistoriaPage from "./pages/HomeVistoriador/ReagendarVistoria/ReagendarVistoriaPage"; 
@@ -135,6 +146,9 @@ function App() {
                 <Route path="/vistorias-agendadas" element={<VistoriasAgendadas />} />
                 <Route path="/nova-vistoria" element={<NovaVistoria />} />
                 <Route path="/vistoria-detalhes/:id" element={<VistoriaDetalhes />} />
+                {/* Perfil */}
+                <Route path="/perfil-adm" element={<PerfilAdm/>}/>
+                <Route path="/editar-perfil-adm/:id" element={<EditarPerfilAdm/>}/>
               </>
             )}
 
@@ -148,6 +162,8 @@ function App() {
                 <Route path="/validar-vistoria" element={<ValidarVistoria />} />
                 <Route path="/cliente/vistoria/:id" element={<VistoriaDataEntryPage />} />
                 <Route path="/reagendar-vistoria" element={<SolicitarNovaVistoria />} />
+                <Route path="/perfil-cliente" element={<PerfilCliente />} />
+                <Route path="/editar-perfil-cliente" element={<EditarPerfilCliente />} />
               </>
             )}
 
@@ -162,6 +178,9 @@ function App() {
                 <Route path="/vistoriador/criar-relatorio" element={<CriarRelatorioPage />} />
                 <Route path="/vistoriador/notificar-cliente" element={<NotificarClientePage />} />
                 <Route path="/vistoriador/reagendar-vistoria/:id" element={<ReagendarVistoriaPage />} />
+
+                <Route path="/vistoriador/perfil-vistoriador/:id" element={<PerfilVistoriador />} />
+                <Route path="/vistoriador/editar-perfil-vistoriador/:id" element={<EditarPerfilVistoriador />} />
               </>
             )}
             {/* Rota padrão para usuários autenticados que acessam um caminho inválido, redireciona para /home */}

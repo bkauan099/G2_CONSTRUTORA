@@ -19,6 +19,7 @@ function Home({ onLogout }) {
           <a href="#" onClick={() => navigate("/clientes")}>Clientes</a>
           <a href="#" onClick={() => navigate("/empreendimentos")}>Empreendimentos</a>
           <a href="#" onClick={() => navigate("/funcionarios")}>Funcionários</a>
+          <a href="#" onClick={() => navigate("/perfil-adm")}>Perfil</a>
           <button className="logout-button mobile-logout" onClick={onLogout}>
             Sair
           </button>

@@ -33,6 +33,11 @@ function Home({ onLogout }) {
         <div className="logo">CIVIS</div>
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home-cliente")}>Home</a>
+          <a href="#" onClick={() => navigate("/meus-Imoveis")}>Meus Imóveis</a>
+          <a href="#" onClick={() => navigate("/minhas-vistorias")}>Minhas Vistorias</a>
+          <a href="#" onClick={() => navigate("/agendar-vistoria")}>Agendar Vistoria</a>
+          <a href="#" onClick={() => navigate("/validar-vistoria")}>Validar Vistoria</a>
+          <a href="#" onClick={() => navigate("/perfil-cliente")}>Perfil</a>
         </nav>
         <button className="logout-button" onClick={onLogout}>Sair</button>
       </header>

@@ -1,0 +1,236 @@
+/*
+ * Arquivo: PerfilCliente.module.css
+ * Descrição: Estilos específicos para o componente PerfilCliente (Perfil do Cliente).
+ * Utiliza CSS Modules para isolamento de escopo; faz com que esses estilos sejam exclusivos para esta página.
+ */
+
+
+:root {
+  /* Cores */
+  --perfil-cliente-bg-color: #f7f9fc; /* Fundo claro da página */
+  --perfil-cliente-card-bg: #ffffff; /* Fundo branco para cards/seções */
+  --perfil-cliente-text-dark: #333333; /* Cor de texto principal escura */
+  --perfil-cliente-text-light: #777777; /* Cor de texto secundária */
+  --perfil-cliente-border-color: #e6eaf0; /* Cor de borda suave */
+  --perfil-cliente-accent-color: #3498db; /* Verde de destaque (primário) */
+  --perfil-cliente-accent-hover: #217dbb; /* Verde de destaque hover */
+  --perfil-cliente-header-bg: #1e3a5f; /* Azul escuro para o cabeçalho */
+  --perfil-cliente-header-text: #ffffff; /* Texto branco para o cabeçalho */
+  --perfil-cliente-logout-btn-bg: #dc3545; /* Vermelho para botão de sair */
+  --perfil-cliente-logout-btn-hover: #c82333; /* Vermelho mais escuro para hover */
+  --perfil-cliente-error-color: #dc3545; /* Cor para mensagens de erro */
+
+  /* Espaçamentos (em rem) */
+  --perfil-cliente-spacing-xxs: 0.25rem; /* 4px */
+  --perfil-cliente-spacing-xs: 0.5rem;   /* 8px */
+  --perfil-cliente-spacing-sm: 0.75rem;  /* 12px */
+  --perfil-cliente-spacing-md: 1rem;     /* 16px */
+  --perfil-cliente-spacing-lg: 1.5rem;   /* 24px */
+  --perfil-cliente-spacing-xl: 2rem;     /* 32px */
+  --perfil-cliente-spacing-2xl: 3rem;    /* 48px */
+  --perfil-cliente-spacing-3xl: 4rem;    /* 64px */
+
+  /* Bordas */
+  --perfil-cliente-border-radius: 8px;
+  --perfil-cliente-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --perfil-cliente-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * Layout Principal da Página
+ */
+.perfilClienteContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--perfil-cliente-bg-color);
+  font-family: 'Roboto', sans-serif;
+  color: var(--perfil-cliente-text-dark);
+}
+
+/*
+ * Estilos do Navbar
+ */
+.perfilClienteNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--perfil-cliente-spacing-md) var(--perfil-cliente-spacing-lg);
+  background-color: var(--perfil-cliente-header-bg);
+  color: var(--perfil-cliente-header-text);
+  box-shadow: var(--perfil-cliente-shadow-sm);
+}
+
+.perfilClienteLogo {
+  font-size: 1.5rem; /* 24px */
+  font-weight: bold;
+}
+
+.perfilClienteNavLinks {
+  display: flex;
+  gap: var(--perfil-cliente-spacing-lg);
+}
+
+.perfilClienteNavLinks a {
+  color: var(--perfil-cliente-header-text);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: var(--perfil-cliente-spacing-xs) var(--perfil-cliente-spacing-sm);
+  border-radius: var(--perfil-cliente-border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.perfilClienteNavLinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.perfilClienteLogoutButton {
+  background-color: var(--perfil-cliente-logout-btn-bg);
+  color: var(--perfil-cliente-header-text);
+  border: none;
+  padding: var(--perfil-cliente-spacing-xs) var(--perfil-cliente-spacing-md);
+  border-radius: var(--perfil-cliente-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.perfilClienteLogoutButton:hover {
+  background-color: var(--perfil-cliente-logout-btn-hover);
+}
+
+/*
+ * Conteúdo Principal da Página
+ */
+.perfilClienteMainContent {
+  flex-grow: 1;
+  padding: var(--perfil-cliente-spacing-xl);
+  max-width: 900px;
+  margin: var(--perfil-cliente-spacing-xl) auto;
+  background-color: var(--perfil-cliente-card-bg);
+  border-radius: var(--perfil-cliente-border-radius);
+  box-shadow: var(--perfil-cliente-shadow-md);
+  display: flex; /* Adicionado para centralizar a imagem e o grid */
+  flex-direction: column; /* Adicionado para organizar os itens em coluna */
+  align-items: center; /* Adicionado para centralizar horizontalmente os itens */
+}
+
+.perfilClienteTitle {
+  font-size: 2rem; /* 32px */
+  color: var(--perfil-cliente-accent-color);
+  margin-bottom: var(--perfil-cliente-spacing-xl);
+  text-align: center;
+  border-bottom: 2px solid var(--perfil-cliente-border-color);
+  padding-bottom: var(--perfil-cliente-spacing-md);
+  width: 100%; /* Garante que o título ocupe a largura total para a borda */
+}
+
+/* --- Estilos para a Foto de Perfil --- */
+.profileImageContainer {
+  width: 150px; /* Largura do círculo */
+  height: 150px; /* Altura do círculo */
+  border-radius: 50%; /* Torna a borda redonda */
+  overflow: hidden; /* Garante que a imagem dentro do círculo seja cortada */
+  border: 4px solid var(--perfil-cliente-accent-color); /* Borda ao redor da foto, usando variável */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--perfil-cliente-border-color); /* Cor de fundo caso a imagem não carregue, usando variável */
+  box-shadow: var(--perfil-cliente-shadow-sm); /* Sombra, usando variável */
+  margin-bottom: var(--perfil-cliente-spacing-xl); /* Espaço abaixo da foto, usando variável */
+}
+
+.profileImage {
+  width: 100%; /* A imagem preenche o contêiner */
+  height: 100%; /* A imagem preenche o contêiner */
+  object-fit: cover; /* Garante que a imagem cubra o espaço sem distorcer */
+}
+/* ------------------------------------ */
+
+
+/*
+ * Grid de Informações do Perfil
+ */
+.perfilClienteInfoGrid {
+  display: grid;
+  grid-template-columns: 1fr; /* Uma coluna em mobile */
+  gap: var(--perfil-cliente-spacing-lg);
+  margin-bottom: var(--perfil-cliente-spacing-xl);
+  width: 100%; /* Garante que o grid ocupe a largura total disponível no main content */
+  max-width: 600px; /* Limita a largura do grid de informações para melhor leitura */
+}
+
+.perfilClienteInfoItem {
+  display: flex;
+  flex-direction: column;
+  padding: var(--perfil-cliente-spacing-md);
+  background-color: #fefefe; /* Um branco mais puro */
+  border: 1px solid var(--perfil-cliente-border-color);
+  border-radius: var(--perfil-cliente-border-radius);
+}
+
+.perfilClienteInfoLabel {
+  font-weight: 600;
+  color: var(--perfil-cliente-text-light);
+  font-size: 0.95rem; /* 15.2px */
+  margin-bottom: var(--perfil-cliente-spacing-xs);
+}
+
+.perfilClienteInfoValue {
+  font-size: 1.1rem; /* 17.6px */
+  color: var(--perfil-cliente-text-dark);
+  word-wrap: break-word; /* Garante que o texto longo quebre a linha */
+}
+
+/*
+ * Seção de Ações (Botões)
+ */
+.perfilClienteActions {
+  text-align: center;
+  margin-top: var(--perfil-cliente-spacing-xl);
+  width: 100%; /* Garante que a seção de ações ocupe a largura total */
+}
+
+.perfilClienteButtonPrimary {
+  background-color: var(--perfil-cliente-accent-color);
+  color: var(--perfil-cliente-header-text);
+  border: none;
+  padding: var(--perfil-cliente-spacing-md) var(--perfil-cliente-spacing-xl);
+  border-radius: var(--perfil-cliente-border-radius);
+  cursor: pointer;
+  font-size: 1.1rem; /* 18px */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.perfilClienteButtonPrimary:hover {
+  background-color: var(--perfil-cliente-accent-hover);
+  transform: translateY(-2px); /* Efeito de levantar o botão no hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/*
+ * Ajustes Responsivos
+ */
+
+/* Para telas maiores que mobile (tablets e desktops) */
+@media (min-width: 600px) {
+  .perfilClienteInfoGrid {
+    grid-template-columns: repeat(2, 1fr); /* Duas colunas em tablets/desktops */
+    gap: var(--perfil-cliente-spacing-xl);
+  }
+}
+
+/* Para desktops */
+@media (min-width: 1024px) {
+  .perfilClienteNavbar {
+    padding: var(--perfil-cliente-spacing-md) var(--perfil-cliente-spacing-3xl);
+  }
+  .perfilClienteMainContent {
+    padding: var(--perfil-cliente-spacing-2xl);
+  }
+  .perfilClienteTitle {
+    font-size: 2.5rem; /* 40px */
+  }
+}

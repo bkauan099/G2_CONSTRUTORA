@@ -1,0 +1,349 @@
+/*
+ * Arquivo: EditarPerfilCliente.module.css
+ * Descrição: Estilos para o componente EditarPerfilCliente (formulário de edição do perfil do cliente).
+ * Utiliza CSS Modules para isolamento de escopo.
+ */
+
+
+:root {
+  /* Cores */
+  --edit-perfil-cliente-bg-color: #f7f9fc; /* Fundo muito claro para a página */
+  --edit-perfil-cliente-card-bg: #ffffff; /* Fundo branco para o formulário */
+  --edit-perfil-cliente-text-dark: #333333; /* Texto escuro */
+  --edit-perfil-cliente-text-light: #777777; /* Texto secundário */
+  --edit-perfil-cliente-border-color: #e6eaf0; /* Cor de borda suave */
+  --edit-perfil-cliente-accent-color: #3498db; /* Verde de destaque (primário) */
+  --edit-perfil-cliente-accent-hover: #217dbb; /* Verde de destaque hover */
+  --edit-perfil-cliente-danger-color: #dc3545; /* Vermelho para ações de perigo/erro */
+  --edit-perfil-cliente-danger-hover: #c82333; /* Vermelho mais escuro hover */
+  --edit-perfil-cliente-header-bg: #1e3a5f; /* Azul escuro para o cabeçalho */
+  --edit-perfil-cliente-header-text: #ffffff; /* Texto branco para o cabeçalho */
+  --edit-perfil-cliente-input-bg-disabled: #f0f0f0; /* Fundo para inputs desabilitados */
+  --edit-perfil-cliente-error-color: #dc3545; /* Cor para mensagens de erro */
+
+  /* Espaçamentos (em rem) */
+  --edit-perfil-cliente-spacing-xxs: 0.25rem; /* 4px */
+  --edit-perfil-cliente-spacing-xs: 0.5rem;   /* 8px */
+  --edit-perfil-cliente-spacing-sm: 0.75rem;  /* 12px */
+  --edit-perfil-cliente-spacing-md: 1rem;     /* 16px */
+  --edit-perfil-cliente-spacing-lg: 1.5rem;   /* 24px */
+  --edit-perfil-cliente-spacing-xl: 2rem;     /* 32px */
+  --edit-perfil-cliente-spacing-2xl: 3rem;    /* 48px */
+  --edit-perfil-cliente-spacing-3xl: 4rem;    /* 64px */
+
+  /* Bordas */
+  --edit-perfil-cliente-border-radius: 8px;
+  --edit-perfil-cliente-input-border-radius: 4px;
+  --edit-perfil-cliente-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --edit-perfil-cliente-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * Layout Principal da Página de Edição
+ */
+.editPerfilClienteContainer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--edit-perfil-cliente-bg-color);
+  font-family: 'Roboto', sans-serif;
+  color: var(--edit-perfil-cliente-text-dark);
+}
+
+/*
+ * Estilos do Cabeçalho (Navbar)
+ */
+.editPerfilClienteNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--edit-perfil-cliente-spacing-md) var(--edit-perfil-cliente-spacing-lg);
+  background-color: var(--edit-perfil-cliente-header-bg);
+  color: var(--edit-perfil-cliente-header-text);
+  box-shadow: var(--edit-perfil-cliente-shadow-sm);
+}
+
+.editPerfilClienteLogo {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.editPerfilClienteNavLinks {
+  display: flex;
+  gap: var(--edit-perfil-cliente-spacing-lg);
+}
+
+.editPerfilClienteNavLinks a {
+  color: var(--edit-perfil-cliente-header-text);
+  text-decoration: none;
+  font-size: 1rem;
+  padding: var(--edit-perfil-cliente-spacing-xs) var(--edit-perfil-cliente-spacing-sm);
+  border-radius: var(--edit-perfil-cliente-border-radius);
+  transition: background-color 0.3s ease;
+}
+
+.editPerfilClienteNavLinks a:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.editPerfilClienteLogoutButton {
+  background-color: var(--edit-perfil-cliente-danger-color);
+  color: var(--edit-perfil-cliente-header-text);
+  border: none;
+  padding: var(--edit-perfil-cliente-spacing-xs) var(--edit-perfil-cliente-spacing-md);
+  border-radius: var(--edit-perfil-cliente-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.editPerfilClienteLogoutButton:hover {
+  background-color: var(--edit-perfil-cliente-danger-hover);
+}
+
+/*
+ * Conteúdo Principal do Formulário
+ */
+.editPerfilClienteMainContent {
+  flex-grow: 1;
+  padding: var(--edit-perfil-cliente-spacing-xl);
+  max-width: 800px;
+  margin: var(--edit-perfil-cliente-spacing-xl) auto;
+  background-color: var(--edit-perfil-cliente-card-bg);
+  border-radius: var(--edit-perfil-cliente-border-radius);
+  box-shadow: var(--edit-perfil-cliente-shadow-md);
+  display: flex; /* Adicionado para centralizar a imagem e o formulário */
+  flex-direction: column; /* Organiza os itens em coluna */
+  align-items: center; /* Centraliza horizontalmente os itens */
+}
+
+.editPerfilClienteTitle {
+  font-size: 2rem;
+  color: var(--edit-perfil-cliente-accent-color);
+  margin-bottom: var(--edit-perfil-cliente-spacing-xl);
+  text-align: center;
+  border-bottom: 1px solid var(--edit-perfil-cliente-border-color);
+  padding-bottom: var(--edit-perfil-cliente-spacing-md);
+  width: 100%; /* Garante que o título ocupe a largura total para a borda */
+}
+
+.editPerfilClienteLoadingText,
+.editPerfilClienteErrorText {
+  text-align: center;
+  margin-top: var(--edit-perfil-cliente-spacing-lg);
+  font-size: 1.1rem;
+}
+
+.editPerfilClienteErrorText {
+  color: var(--edit-perfil-cliente-danger-color);
+  font-weight: 600;
+}
+
+/* Botão de Voltar */
+.editPerfilClienteBackButton {
+  background: none;
+  border: none;
+  color: var(--edit-perfil-cliente-text-light);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: var(--edit-perfil-cliente-spacing-xs) 0;
+  margin-bottom: var(--edit-perfil-cliente-spacing-md);
+  display: flex;
+  align-self: flex-start; /* Alinha o botão à esquerda dentro do flex container */
+  align-items: center;
+  gap: var(--edit-perfil-cliente-spacing-xxs);
+  transition: color 0.2s ease;
+}
+
+.editPerfilClienteBackButton:hover {
+  color: var(--edit-perfil-cliente-text-dark);
+}
+
+/* --- Seção de Upload de Foto de Perfil --- */
+.profileImageUploadSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: var(--edit-perfil-cliente-spacing-2xl); /* Espaço abaixo da seção de upload */
+  gap: var(--edit-perfil-cliente-spacing-md); /* Espaço entre a imagem e o botão */
+  width: 100%; /* Ocupa a largura total para centralização */
+}
+
+.profileImageContainer {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--edit-perfil-cliente-accent-color); /* Usando variável de cor */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--edit-perfil-cliente-input-bg-disabled); /* Cor de fundo caso a imagem não carregue, usando variável */
+  box-shadow: var(--edit-perfil-cliente-shadow-sm); /* Usando variável de sombra */
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Garante que a imagem preencha o contêiner sem distorcer */
+}
+
+.uploadButton {
+  background-color: var(--edit-perfil-cliente-accent-color); /* Usando variável de cor de destaque */
+  color: var(--edit-perfil-cliente-header-text); /* Texto branco */
+  padding: var(--edit-perfil-cliente-spacing-md) var(--edit-perfil-cliente-spacing-xl); /* Padding, usando variáveis */
+  border-radius: var(--edit-perfil-cliente-border-radius); /* Borda, usando variável */
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  text-align: center;
+  box-shadow: var(--edit-perfil-cliente-shadow-sm); /* Sombra suave */
+  /* Remove width: 100% para que o botão não ocupe toda a largura disponível */
+}
+
+.uploadButton:hover {
+  background-color: var(--edit-perfil-cliente-accent-hover); /* Hover, usando variável */
+  transform: translateY(-2px); /* Efeito de levantar o botão no hover */
+  box-shadow: var(--edit-perfil-cliente-shadow-md); /* Sombra no hover */
+}
+
+.fileName {
+  font-size: 0.9rem;
+  color: var(--edit-perfil-cliente-text-light); /* Usando variável de cor de texto secundária */
+  margin-top: var(--edit-perfil-cliente-spacing-xs); /* Margem, usando variável */
+  text-align: center;
+}
+/* ----------------------------------------- */
+
+/*
+ * Estilos do Formulário
+ */
+.editPerfilClienteForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--edit-perfil-cliente-spacing-md);
+  width: 100%; /* Garante que o formulário ocupe a largura total */
+}
+
+.editPerfilClienteFormGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--edit-perfil-cliente-spacing-sm);
+}
+
+.editPerfilClienteFormGroup label {
+  font-weight: 600;
+  margin-bottom: var(--edit-perfil-cliente-spacing-xs);
+  color: var(--edit-perfil-cliente-text-dark);
+  font-size: 0.95rem;
+}
+
+.editPerfilClienteFormGroup input[type="text"],
+.editPerfilClienteFormGroup input[type="email"],
+.editPerfilClienteFormGroup input[type="password"],
+.editPerfilClienteFormGroup input[type="tel"],
+.editPerfilClienteFormGroup select {
+  padding: var(--edit-perfil-cliente-spacing-sm);
+  border: 1px solid var(--edit-perfil-cliente-border-color);
+  border-radius: var(--edit-perfil-cliente-input-border-radius);
+  font-size: 1rem;
+  color: var(--edit-perfil-cliente-text-dark);
+  background-color: var(--edit-perfil-cliente-card-bg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
+  box-sizing: border-box; /* Garante que padding e border sejam incluídos na largura */
+}
+
+.editPerfilClienteFormGroup input:focus,
+.editPerfilClienteFormGroup select:focus {
+  border-color: var(--edit-perfil-cliente-accent-color);
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.2); /* Sombra verde suave no foco */
+  outline: none;
+}
+
+.editPerfilClienteFormGroup input:disabled,
+.editPerfilClienteFormGroup select:disabled {
+  background-color: var(--edit-perfil-cliente-input-bg-disabled);
+  color: var(--edit-perfil-cliente-text-light);
+  cursor: not-allowed;
+}
+
+/*
+ * Ações do Formulário (Botões de Salvar/Cancelar)
+ */
+.editPerfilClienteFormActions {
+  display: flex;
+  justify-content: flex-end; /* Alinha os botões à direita */
+  gap: var(--edit-perfil-cliente-spacing-md);
+  margin-top: var(--edit-perfil-cliente-spacing-lg);
+  flex-wrap: wrap; /* Permite que os botões quebrem a linha em telas menores */
+}
+
+.editPerfilClienteButtonPrimary,
+.editPerfilClienteButtonSecondary {
+  border: none;
+  padding: var(--edit-perfil-cliente-spacing-md) var(--edit-perfil-cliente-spacing-xl);
+  border-radius: var(--edit-perfil-cliente-border-radius);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: var(--edit-perfil-cliente-shadow-sm);
+  min-width: 120px;
+}
+
+.editPerfilClienteButtonPrimary {
+  background-color: var(--edit-perfil-cliente-accent-color);
+  color: var(--edit-perfil-cliente-header-text); /* Texto branco */
+}
+
+.editPerfilClienteButtonPrimary:hover {
+  background-color: var(--edit-perfil-cliente-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--edit-perfil-cliente-shadow-md);
+}
+
+.editPerfilClienteButtonSecondary {
+  background-color: var(--edit-perfil-cliente-border-color); /* Cor neutra para cancelar */
+  color: var(--edit-perfil-cliente-text-dark);
+}
+
+.editPerfilClienteButtonSecondary:hover {
+  background-color: #d8e1ed; /* Um tom mais escuro no hover */
+  transform: translateY(-2px);
+  box-shadow: var(--edit-perfil-cliente-shadow-md);
+}
+
+/*
+ * Ajustes Responsivos
+ */
+
+/* Para telas pequenas (mobile) */
+@media (max-width: 599px) {
+  .editPerfilClienteMainContent {
+    padding: var(--edit-perfil-cliente-spacing-lg);
+    margin: var(--edit-perfil-cliente-spacing-lg) auto;
+  }
+  .editPerfilClienteTitle {
+    font-size: 1.6rem;
+  }
+  .editPerfilClienteFormActions {
+    flex-direction: column; /* Empilha os botões em telas pequenas */
+    gap: var(--edit-perfil-cliente-spacing-sm);
+  }
+  .editPerfilClienteButtonPrimary,
+  .editPerfilClienteButtonSecondary {
+    width: 100%; /* Faz os botões ocuparem 100% da largura */
+    min-width: auto;
+  }
+}
+
+/* Para desktops */
+@media (min-width: 1024px) {
+  .editPerfilClienteMainContent {
+    padding: var(--edit-perfil-cliente-spacing-2xl);
+  }
+  .editPerfilClienteTitle {
+    font-size: 2rem;
+  }
+}

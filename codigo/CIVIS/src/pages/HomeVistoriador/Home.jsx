@@ -27,6 +27,7 @@ function HomeVistoriador({ onLogout }) {
         <nav className="nav-links">
           <a href="#" onClick={() => navigate("/home")}>Home</a>
           <a href="#" onClick={() => navigate("/vistoriador/realizar-vistoria")}>Realizar Vistoria</a>
+          <a href="#" onClick={() => navigate("/vistoriador/perfil-vistoriador/:id")}>Perfil</a>
         </nav>
         <button className="logout-button" onClick={onLogout}>Sair</button>
       </header>
