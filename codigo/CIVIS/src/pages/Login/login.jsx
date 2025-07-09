@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import "./Login.css"; // usa o CSS com grid e responsividade
+import "./Login.css";
 
 function Login({ onLogin }) {
   const navigate = useNavigate();
@@ -10,7 +10,6 @@ function Login({ onLogin }) {
     e.preventDefault();
     const email = e.target.elements[0].value;
     const senha = e.target.elements[1].value;
-
     setLoading(true);
 
     try {
@@ -19,20 +18,19 @@ function Login({ onLogin }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
       });
-
       const data = await response.json();
+      if (!response.ok) throw new Error(data.erro || "Erro desconhecido.");
 
-      if (!response.ok) {
-        throw new Error(data.erro || "Erro desconhecido.");
-      }
+      // salva tipo e id
+    if (data.tipo === "cliente") {
+      localStorage.setItem("idcliente", data.id); // compatível com o que era usado antes
+    } else {
+      localStorage.setItem("usuario", JSON.stringify({ type: data.tipo, id: data.id }));
+    }
 
-      const tipo = data.tipo;
-      if (tipo === "cliente") {
-        localStorage.setItem("idcliente", data.id);
-      }
+      onLogin(data.tipo, data.id);
 
-      alert(`Login de ${tipo} realizado com sucesso!`);
-      onLogin(tipo);
+      alert(`Login de ${data.tipo} realizado com sucesso!`);
       navigate("/home");
     } catch (err) {
       alert(err.message);
@@ -43,44 +41,24 @@ function Login({ onLogin }) {
 
   return (
     <div className="login-page">
-      {/* Área da logo */}
       <div className="login-logo-section">
-        <img
-          src="assets/imagensLogin/logo.png"
-          alt="CIVIS Logo"
-          className="logo-image"
-        />
+        <img src="assets/imagensLogin/logo.png" alt="CIVIS Logo" className="logo-image" />
       </div>
-
-      {/* Área do formulário */}
       <div className="login-content-wrapper">
         <div className="login-container">
-          <button
-            type="button"
-            className="back-arrow"
-            onClick={() => navigate("/")}
-            aria-label="Voltar"
-          >
-            &#8592;
+          <button type="button" className="back-arrow" onClick={() => navigate("/")} aria-label="Voltar">
+            ←
           </button>
-
           <h1 className="login-title">Login</h1>
-
           <form onSubmit={handleLogin} className="login-form">
             <label>Email</label>
             <input type="email" placeholder="Digite seu email" required />
-
             <label>Senha</label>
             <input type="password" placeholder="Digite sua senha" required />
-
             <button type="submit" className="login-button">
               {loading ? "Entrando..." : "Entrar"}
             </button>
-
-            <p
-              className="no-account"
-              onClick={() => navigate("/cadastro-login")}
-            >
+            <p className="no-account" onClick={() => navigate("/cadastro-login")}>
               Não possui cadastro?
             </p>
           </form>

@@ -1,7 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../db');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
+// Configuração do multer para clientes
+const storageCliente = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const dir = path.join(__dirname, '..', 'uploads', 'clientes');
+    fs.mkdirSync(dir, { recursive: true }); // Garante que o diretório exista
+    cb(null, dir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    const filename = `cliente_${Date.now()}${ext}`;
+    cb(null, filename);
+  }
+});
+
+const uploadCliente = multer({ storage: storageCliente });
 
 // POST: Criar novo cliente
 router.post('/', async (req, res) => {
@@ -140,6 +158,57 @@ router.put('/:id', async (req, res) => {
 });
 
 
+//PUT: Cliente edita seus dados (pode adicionar foto)
+router.put('/:id/atualizar-com-imagem', uploadCliente.single('imagemdeperfil'), async (req, res) => {
+  const id = Number(req.params.id);
+  const { nome, cpf, email, telefone, senha } = req.body;
 
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  try {
+    const [clienteExistente] = await db`
+      SELECT * FROM cliente WHERE idcliente = ${id}
+    `;
+
+    if (!clienteExistente) {
+      return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    let imagemdeperfil = clienteExistente.imagemdeperfil;
+
+    // Se foi enviada uma nova imagem, salva e remove a antiga (se existir)
+    if (req.file) {
+      imagemdeperfil = req.file.filename;
+
+      // Remove a imagem anterior, se houver
+      if (clienteExistente.imagemdeperfil) {
+        const caminhoAntigo = path.join(__dirname, '..', 'uploads', 'clientes', clienteExistente.imagemdeperfil);
+        if (fs.existsSync(caminhoAntigo)) {
+          fs.unlinkSync(caminhoAntigo);
+        }
+      }
+    }
+
+    const result = await db`
+      UPDATE cliente SET
+        nome = ${nome || clienteExistente.nome},
+        cpf = ${cpf || clienteExistente.cpf},
+        email = ${email || clienteExistente.email},
+        telefone = ${telefone || clienteExistente.telefone},
+        senha = ${senha || clienteExistente.senha},
+        imagemdeperfil = ${imagemdeperfil}
+      WHERE idcliente = ${id}
+      RETURNING *
+    `;
+
+    res.status(200).json(result[0]);
+
+  } catch (err) {
+    console.error('Erro ao atualizar cliente com imagem:', err);
+    res.status(500).json({ error: 'Erro ao atualizar cliente.', detalhes: err.message });
+  }
+});
 
 module.exports = router;

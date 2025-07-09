@@ -58,10 +58,10 @@ function CriarRelatorioPage() {
 
   const [form, setForm] = useState({
     idVistoria: id || "",
-    nomeVistoriador: "",
-    localizacao: "",
-    dataVistoria: "",
-    horaVistoria: "",
+    NomeVistoriador: "",
+    Localizacao: "",
+    DataVistoria: "",
+    HoraVistoria: "",
     comodos: {
       quartos: {},
       banheiros: {},
@@ -120,7 +120,7 @@ function CriarRelatorioPage() {
         <label>Quantidade de {comodo}:</label>
         <select
           value={form.comodos[comodo].quantidade || ""}
-          onChange={(e) => handleComodoChange(comodo, "quantidade", e.target.value)}
+          onChange={(e) => handleComodoChange(comodo, "Quantidade", e.target.value)}
         >
           <option value="">Selecione</option>
           {[...Array(11)].map((_, i) => (
@@ -128,7 +128,7 @@ function CriarRelatorioPage() {
           ))}
         </select>
       </div>
-      {["estrutura", "pintura", "instalacaoEletrica", "instalacaoHidraulica", "piso", "telhado"].map((campo) => (
+      {["Estrutura", "Pintura", "InstalacaoEletrica", "InstalacaoHidraulica", "Piso", "Telhado"].map((campo) => (
         <div className="form-group" key={campo}>
           <label>{campo.replace(/([A-Z])/g, " $1")}:</label>
           <select
@@ -168,20 +168,20 @@ function CriarRelatorioPage() {
             <>
               <div className="form-group">
                 <label>Nome do Vistoriador:</label>
-                <input type="text" name="nomeVistoriador" value={form.nomeVistoriador} onChange={handleChange} required />
+                <input type="text" name="NomeVistoriador" value={form.nomeVistoriador} onChange={handleChange} required />
               </div>
               <div className="form-group">
                 <label>Localização:</label>
-                <input type="text" name="localizacao" value={form.localizacao} onChange={handleChange} required />
+                <input type="text" name="Localizacao" value={form.localizacao} onChange={handleChange} required />
               </div>
               <div className="form-group double">
                 <div>
                   <label>Data da Vistoria:</label>
-                  <input type="date" name="dataVistoria" value={form.dataVistoria} onChange={handleChange} required />
+                  <input type="date" name="DataVistoria" value={form.dataVistoria} onChange={handleChange} required />
                 </div>
                 <div>
                   <label>Hora da Vistoria:</label>
-                  <input type="time" name="horaVistoria" value={form.horaVistoria} onChange={handleChange} required />
+                  <input type="time" name="HoraVistoria" value={form.horaVistoria} onChange={handleChange} required />
                 </div>
               </div>
             </>

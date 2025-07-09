@@ -22,6 +22,7 @@ app.use(express.json());
 // Servir arquivos estáticos
 app.use('/uploads', express.static('uploads'));
 app.use('/relatorios', express.static('relatorios')); // <-- Adicionado
+app.use('/uploads/funcionarios', express.static('uploads/funcionarios'));
 
 // Rotas
 app.use('/api/funcionarios', funcionariosRoutes);

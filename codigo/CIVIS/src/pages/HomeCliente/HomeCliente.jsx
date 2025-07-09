@@ -4,14 +4,18 @@ import { useEffect, useState } from "react";
 
 function Home({ onLogout }) {
   const navigate = useNavigate();
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const clienteId = usuario?.id;
   const [imoveis, setImoveis] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchImoveis = async () => {
       const idCliente = localStorage.getItem("idcliente");
       if (!idCliente) {
         alert("Cliente não identificado. Faça login novamente.");
-        onLogout(); // opcional: força logout se não achar id
+        onLogout();
         return;
       }
       try {
@@ -31,10 +35,22 @@ function Home({ onLogout }) {
     <div className="home-container">
       <header className="navbar">
         <div className="logo">CIVIS</div>
-        <nav className="nav-links">
+
+        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           <a href="#" onClick={() => navigate("/home-cliente")}>Home</a>
+          <a href="#" onClick={() => navigate("/meus-Imoveis")}>Meus Imóveis</a>
+          <a href="#" onClick={() => navigate("/minhas-vistorias")}>Minhas Vistorias</a>
+          <a href="#" onClick={() => navigate("/agendar-vistoria")}>Agendar Vistoria</a>
+          <a href="#" onClick={() => navigate("/validar-vistoria")}>Validar Vistoria</a>
+          <a href="#" onClick={e => { e.preventDefault(); navigate("/perfil-cliente"); }}>Perfil</a>
+          <button className="logout-button mobile-logout" onClick={onLogout}>Sair</button>
         </nav>
-        <button className="logout-button" onClick={onLogout}>Sair</button>
+
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </button>
+
+        <button className="logout-button desktop-logout" onClick={onLogout}>Sair</button>
       </header>
 
       <main className="main-content">
@@ -111,7 +127,6 @@ function Home({ onLogout }) {
                         hour12: false
                       });
                     })()}
-
                   </>
                 ) : null}
               </p>

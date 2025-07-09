@@ -95,15 +95,21 @@ router.get('/todos', async (req, res) => {
         v.idvistoria, v.status,
         e.anexos
       FROM imovel i
+      LEFT JOIN (
+        SELECT DISTINCT ON (idimovel) *
+        FROM vistoria
+        ORDER BY idimovel, dataagendada DESC
+      ) v ON i.idimovel = v.idimovel
       LEFT JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
-      LEFT JOIN vistoria v ON i.idimovel = v.idimovel
     `;
+
     res.status(200).json(imoveis);
   } catch (error) {
     console.error('Erro ao buscar imóveis:', error);
     res.status(500).json({ error: 'Erro ao buscar imóveis.' });
   }
 });
+
 
 
 // GET - Buscar todas as vistorias dos imóveis de um cliente

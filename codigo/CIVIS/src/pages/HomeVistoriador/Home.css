@@ -9,16 +9,17 @@
   Example:
 */
 .navbar .nav-links a {
-    text-decoration: none;
-    color: #007bff; /* Example: Changed to a distinct blue. Choose your desired color. */
-    font-weight: 500;
-    font-size: 1.1em; /* Adjust as per your design */
-    transition: color 0.3s ease;
+  text-decoration: none;
+  color: white !important; /* cor branca no texto */
+  font-weight: 500;
+  font-size: 1.1em;
+  transition: color 0.3s ease;
 }
 
 .navbar .nav-links a:hover {
-    color: #0056b3; /* Darker shade on hover */
+    color: #0056b3;
 }
+
 
 /* --- Section: Vistorias Disponíveis (New Rules) --- */
 

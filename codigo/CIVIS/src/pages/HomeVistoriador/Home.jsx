@@ -5,11 +5,15 @@ import { useEffect, useState } from "react";
 function HomeVistoriador({ onLogout }) {
   const navigate = useNavigate();
   const [imoveis, setImoveis] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const idFuncionario = usuario?.id;
 
   useEffect(() => {
     const fetchImoveis = async () => {
       try {
-        const res = await fetch('http://localhost:3001/api/imoveis/todos');
+        const res = await fetch("http://localhost:3001/api/imoveis/todos");
         const data = await res.json();
         setImoveis(data);
       } catch (err) {
@@ -22,19 +26,36 @@ function HomeVistoriador({ onLogout }) {
 
   return (
     <div className="home-container">
+      {/* NAVBAR RESPONSIVA */}
       <header className="navbar">
         <div className="logo">CIVIS</div>
-        <nav className="nav-links">
+
+        <nav className={`nav-links ${menuOpen ? "open" : ""}`}>
           <a href="#" onClick={() => navigate("/home")}>Home</a>
-          <a href="#" onClick={() => navigate("/vistoriador/realizar-vistoria")}>Realizar Vistoria</a>
+          <a href="#" onClick={() => navigate(`/vistoriador/historico/${idFuncionario}`)}>Histórico de Vistorias</a>
+          <a href="#" onClick={() => navigate(`/vistoriador/perfil-vistoriador/${idFuncionario}`)}>Perfil</a>
+          <button className="logout-button mobile-logout" onClick={onLogout}>
+            Sair
+          </button>
         </nav>
-        <button className="logout-button" onClick={onLogout}>Sair</button>
+
+        <button className="menu-toggle" onClick={() => setMenuOpen(!menuOpen)}>
+          ☰
+        </button>
+
+        <button className="logout-button desktop-logout" onClick={onLogout}>
+          Sair
+        </button>
       </header>
 
       <main className="main-content">
         <div className="texto">
-          <h1>Bem-vindo ao <br /> <span>CIVIS Vistoriador</span></h1>
-          <p>Gerencie suas vistorias e crie relatórios de forma rápida, prática e eficiente.</p>
+          <h1>
+            Bem-vindo ao <br /> <span>CIVIS Vistoriador</span>
+          </h1>
+          <p>
+            Gerencie suas vistorias e crie relatórios de forma rápida, prática e eficiente.
+          </p>
         </div>
         <div className="imagem">
           <img src="/imagens/vistoria.png" alt="Imagem Vistoria" />
@@ -46,7 +67,11 @@ function HomeVistoriador({ onLogout }) {
           <h2>Vistorias Disponíveis</h2>
           <div className="search-bar-and-add-surveys">
             <div className="search-input-wrapper">
-              <input type="text" placeholder="Pesquisar Vistoria..." className="search-input" />
+              <input
+                type="text"
+                placeholder="Pesquisar Vistoria..."
+                className="search-input"
+              />
               <span className="search-icon">🔍</span>
             </div>
           </div>
@@ -66,23 +91,27 @@ function HomeVistoriador({ onLogout }) {
               <p>
                 Status: {imovel.status} <br />
                 {imovel.dataagendada && (
-                  <p>
+                  <span>
                     Data Agendada:{" "}
-                                        {(() => {
+                    {(() => {
                       const data = new Date(imovel.dataagendada);
-                      return data.toLocaleDateString("pt-BR", {
-                        timeZone: "America/Sao_Paulo",
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric"
-                      }) + ' às ' + data.toLocaleTimeString("pt-BR", {
-                        timeZone: "America/Sao_Paulo",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: false
-                      });
+                      return (
+                        data.toLocaleDateString("pt-BR", {
+                          timeZone: "America/Sao_Paulo",
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        }) +
+                        " às " +
+                        data.toLocaleTimeString("pt-BR", {
+                          timeZone: "America/Sao_Paulo",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })
+                      );
                     })()}
-                  </p>
+                  </span>
                 )}
               </p>
 
@@ -101,7 +130,6 @@ function HomeVistoriador({ onLogout }) {
             </div>
           ))}
         </div>
-
 
         <div className="pagination">
           <a href="#">&lt;</a>
