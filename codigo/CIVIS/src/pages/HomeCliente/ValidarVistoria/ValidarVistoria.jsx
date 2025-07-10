@@ -8,6 +8,7 @@ function ValidarVistoria() {
   const [vistoriaSelecionada, setVistoriaSelecionada] = useState(null);
   const [relatorioUrl, setRelatorioUrl] = useState('');
   const [imoveisPendentes, setImoveisPendentes] = useState([]);
+  const [arquivoAnexo, setArquivoAnexo] = useState(null);
 
   useEffect(() => {
     const fetchImoveisPendentes = async () => {
@@ -40,6 +41,10 @@ function ValidarVistoria() {
     setVistoriaSelecionada(imovel?.idvistoria || null);
   };
 
+  const handleFileChange = (e) => {
+    setArquivoAnexo(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -49,8 +54,14 @@ function ValidarVistoria() {
     }
 
     try {
+      // Caso queira enviar o arquivo anexado no fetch, precisará montar um FormData (exemplo abaixo)
+      // Para agora, só estamos fazendo a validação da vistoria.
+
       const res = await fetch(`http://localhost:3001/api/vistorias/validar/${vistoriaSelecionada}`, {
         method: 'PUT',
+        // Se for enviar arquivo, comente o bloco abaixo e use o fetch com FormData
+        // headers: { 'Content-Type': 'application/json' },
+        // body: JSON.stringify({ ... })
       });
 
       if (!res.ok) {
@@ -160,9 +171,20 @@ function ValidarVistoria() {
             </div>
           )}
 
-          <button 
-          type="submit" className="login-button" 
-          style={{ backgroundColor: '#28a745' }}>
+          {/* Campo para anexar arquivo */}
+          <label htmlFor="arquivoAnexo" style={{ marginBottom: '5px', display: 'block' }}>Anexar arquivo:</label>
+          <input
+            type="file"
+            id="arquivoAnexo" className="file-input"
+            onChange={handleFileChange}
+            style={{ marginBottom: '15px', width: '100%' }}
+          />
+
+          <button
+            type="submit"
+            className="login-button"
+            style={{ backgroundColor: 'white' }}
+          >
             Validar Vistoria
           </button>
           <button
@@ -174,7 +196,6 @@ function ValidarVistoria() {
             Solicitar Nova Vistoria
           </button>
 
-          {/* Botão Rejeitar Vistoria */}
           <button
             type="button"
             className="login-button"
@@ -185,12 +206,12 @@ function ValidarVistoria() {
           </button>
 
           <button
-          type="button"
-          className="login-button"
-          onClick={() => navigate('/home')}
-        >
-          Voltar para Home
-        </button>
+            type="button"
+            className="login-button"
+            onClick={() => navigate('/home')}
+          >
+            Voltar para Home
+          </button>
         </form>
       </main>
     </div>

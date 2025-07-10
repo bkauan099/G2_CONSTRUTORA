@@ -323,7 +323,7 @@ html, body, #root {
   padding: 10px !important;
   border: 1px solid #ccc !important;
   border-radius: 5px !important;
-  background-color: #000 !important; /* fundo preto */
-  color: #fff !important;            /* texto branco */
+  background-color: white !important; /* fundo preto */
+  color: black !important;            /* texto branco */
   font-size: 1rem !important;
 }
