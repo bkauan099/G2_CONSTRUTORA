@@ -104,3 +104,16 @@ input::placeholder,
 textarea::placeholder {
   color: #dbcccc;
 }
+
+.localizacao-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: #f9f9f9;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.localizacao-box h3 {
+  margin-bottom: 12px;
+  color: #3e7cbe;
+}

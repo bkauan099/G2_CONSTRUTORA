@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/pages/HomeAdm/Imoveis/EditarImovel/EditarImovel.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="backend.controllers.relatorio.html">backend.controllers.relatorio</a><ul class='methods'><li data-type='method'><a href="backend.controllers.relatorio.html#.gerarRelatorio">gerarRelatorio</a></li></ul></li><li><a href="backend.controllers.vistoria.html">backend.controllers.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.controllers.vistoria.html#.agendarVistoriaPorCliente">agendarVistoriaPorCliente</a></li><li data-type='method'><a href="backend.controllers.vistoria.html#.criarVistoria">criarVistoria</a></li></ul></li><li><a href="backend.models.administrador.html">backend.models.administrador</a><ul class='methods'><li data-type='method'><a href="backend.models.administrador.html#.DELETE/administrador/:idadministrador">DELETE /administrador/:idadministrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.GET/administrador">GET /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.POST/administrador">POST /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.PUT/administrador/:idadministrador">PUT /administrador/:idadministrador</a></li></ul></li><li><a href="backend.models.cliente.html">backend.models.cliente</a><ul class='methods'><li data-type='method'><a href="backend.models.cliente.html#.DELETE/cliente/:id">DELETE /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente">GET /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente/:id">GET /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.POST/cliente">POST /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.PUT/cliente/:id">PUT /cliente/:id</a></li></ul></li><li><a href="backend.models.empreendimento.html">backend.models.empreendimento</a><ul class='methods'><li data-type='method'><a href="backend.models.empreendimento.html#.DELETE/empreendimento/:id">DELETE /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento">GET /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id">GET /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id/imoveis">GET /empreendimento/:id/imoveis</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.POST/empreendimento">POST /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.PUT/empreendimento/:id">PUT /empreendimento/:id</a></li></ul></li><li><a href="backend.models.funcionario.html">backend.models.funcionario</a><ul class='methods'><li data-type='method'><a href="backend.models.funcionario.html#.DELETE/funcionario/:id">DELETE /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario">GET /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario/:id">GET /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.POST/funcionario">POST /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.PUT/funcionario/:id">PUT /funcionario/:id</a></li></ul></li><li><a href="backend.models.imovel.html">backend.models.imovel</a><ul class='methods'><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel">GET /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente">GET /imovel/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente/disponiveis">GET /imovel/cliente/:idcliente/disponiveis</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/todos">GET /imovel/todos</a></li><li data-type='method'><a href="backend.models.imovel.html#.POST/imovel">POST /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.PUT/imovel/:idimovel">PUT /imovel/:idimovel</a></li></ul></li><li><a href="backend.models.vistoria.html">backend.models.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoria.html#.DELETE/vistoria/:id">DELETE /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/:id">GET /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/cliente/:idcliente/pendentes-validacao">GET /vistoria/cliente/:idcliente/pendentes-validacao</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/pendentes/cliente/:idcliente">GET /vistoria/pendentes/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:id">PUT /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:idvistoria">PUT /vistoria/:idvistoria</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/iniciar/:id">PUT /vistoria/iniciar/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/validar/:idvistoria">PUT /vistoria/validar/:idvistoria</a></li></ul></li><li><a href="backend.models.vistoriador.html">backend.models.vistoriador</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoriador.html#.deleteVistoriador">deleteVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadorPorId">getVistoriadorPorId</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadores">getVistoriadores</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.postVistoriador">postVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.putVistoriador">putVistoriador</a></li></ul></li><li><a href="pages.cadastro.html">cadastro</a><ul class='methods'><li data-type='method'><a href="pages.cadastro.html#.exports.CadastroLogin">exports.CadastroLogin</a></li></ul></li><li><a href="routes.login.html">routes.login</a><ul class='methods'><li data-type='method'><a href="routes.login.html#.POST/login">POST /login</a></li></ul></li><li><a href="routes.relatorio.html">routes.relatorio</a><ul class='methods'><li data-type='method'><a href="routes.relatorio.html#.POST/relatorio/gerar">POST /relatorio/gerar</a></li></ul></li><li><a href="routes.vistoria.html">routes.vistoria</a><ul class='methods'><li data-type='method'><a href="routes.vistoria.html#.POST/vistoria">POST /vistoria</a></li><li data-type='method'><a href="routes.vistoria.html#.PUT/vistoria/agendar/:idimovel">PUT /vistoria/agendar/:idimovel</a></li></ul></li><li><a href="src.app.html">src.app</a><ul class='methods'><li data-type='method'><a href="src.app.html#.App">App</a></li><li data-type='method'><a href="src.app.html#.login">login</a></li><li data-type='method'><a href="src.app.html#.logout">logout</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cadastrarcliente.html">src.pages.homeadm.cliente.cadastrarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cadastrarcliente.html#.CadastrarCliente">CadastrarCliente</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cliente.html">src.pages.homeadm.cliente.cliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.Clientes">Clientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.fetchClientes">fetchClientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.cliente.editarcliente.html">src.pages.homeadm.cliente.editarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.EditarCliente">EditarCliente</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.fetchCliente">fetchCliente</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html">src.pages.homeadm.empreendimento.cadastrarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.CadastrarEmpreendimento">CadastrarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.editarempreendimento.html">src.pages.homeadm.empreendimento.editarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.EditarEmpreendimento">EditarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.empreendimento.html">src.pages.homeadm.empreendimento.empreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.Empreendimentos">Empreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.fetchEmpreendimentos">fetchEmpreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html">src.pages.homeadm.funcionarios.cadastrarfuncionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html#.CadastrarFuncionario">CadastrarFuncionario</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.editarfuncionario.html">src.pages.homeadm.funcionarios.editarfuncionario</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.EditarFuncionario">EditarFuncionario</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.funcionarios.html">src.pages.homeadm.funcionarios.funcionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.Funcionarios">Funcionarios</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.cadastrarimovel.html">src.pages.homeadm.imoveis.cadastrarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.cadastrarimovel.html#.CadastrarImovel">CadastrarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.editarimovel.html">src.pages.homeadm.imoveis.editarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.editarimovel.html#.EditarImovel">EditarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.imoveis.html">src.pages.homeadm.imoveis.imoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.imoveis.html#.ListagemImoveis">ListagemImoveis</a></li></ul></li><li><a href="src.pages.homeadm.perfil.editarperfiladministrador.html">src.pages.homeadm.perfil.editarperfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.editarperfiladministrador.html#.EditarPerfilAdministrador">EditarPerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.perfil.perfiladministrador.html">src.pages.homeadm.perfil.perfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.perfiladministrador.html#.PerfilAdministrador">PerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html">src.pages.homeadm.vistorias.vistoriadetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html#.VistoriaDetalhes">VistoriaDetalhes</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistorias.html">src.pages.homeadm.vistorias.vistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistorias.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html">src.pages.homeadm.vistorias.vistoriasagendadas</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html#.VistoriasAgendadas">VistoriasAgendadas</a></li></ul></li><li><a href="src.pages.homecliente.html">src.pages.homecliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homecliente.agendarvistoria.html">src.pages.homecliente.agendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.agendarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.imoveldetalhes.html">src.pages.homecliente.imoveldetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.imoveldetalhes.html#.ImovelDetalhes">ImovelDetalhes</a></li></ul></li><li><a href="src.pages.homecliente.meusimoveis.html">src.pages.homecliente.meusimoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.meusimoveis.html#.MeusImoveis">MeusImoveis</a></li></ul></li><li><a href="src.pages.homecliente.minhasvistorias.html">src.pages.homecliente.minhasvistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.minhasvistorias.html#.MinhasVistorias">MinhasVistorias</a></li></ul></li><li><a href="src.pages.homecliente.perfil.editarperfilcliente.html">src.pages.homecliente.perfil.editarperfilcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.perfil.editarperfilcliente.html#.EditarPerfilCliente">EditarPerfilCliente</a></li></ul></li><li><a href="src.pages.homecliente.solicitarvistoria.html">src.pages.homecliente.solicitarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.solicitarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.validarvistoria.html">src.pages.homecliente.validarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.validarvistoria.html#.ValidarVistoria">ValidarVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.criarrelatorio.html">src.pages.homevistoriador.criarrelatorio</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.criarrelatorio.html#.CriarRelatorioPage">CriarRelatorioPage</a></li></ul></li><li><a href="src.pages.homevistoriador.iniciarvistoria.html">src.pages.homevistoriador.iniciarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.iniciarvistoria.html#.IniciarVistoriaDetalhesPage">IniciarVistoriaDetalhesPage</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html">src.pages.homevistoriador.perfil.editarperfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html#.EditarPerfilVistoriador">EditarPerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html">src.pages.homevistoriador.perfil.perfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html#.PerfilVistoriador">PerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.reagendarvistoria.html">src.pages.homevistoriador.reagendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.reagendarvistoria.html#.ReagendamentoVistoria">ReagendamentoVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.realizarvistoria.html">src.pages.homevistoriador.realizarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.realizarvistoria.html#.RealizarVistoriaListPage">RealizarVistoriaListPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriadata.html">src.pages.homevistoriador.vistoriadata</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriadata.html#.VistoriaDataEntryPage">VistoriaDataEntryPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriador.html">src.pages.homevistoriador.vistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriador.html#.HomeVistoriador">HomeVistoriador</a></li></ul></li><li><a href="src.pages.inicial.html">src.pages.inicial</a><ul class='methods'><li data-type='method'><a href="src.pages.inicial.html#.Inicial">Inicial</a></li></ul></li><li><a href="src.pages.login.html">src.pages.login</a><ul class='methods'><li data-type='method'><a href="src.pages.login.html#.Login">Login</a></li><li data-type='method'><a href="src.pages.login.html#.handleLogin">handleLogin</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#NotificarClientePage">NotificarClientePage</a></li><li><a href="global.html#Step">Step</a></li><li><a href="global.html#comodos">comodos</a></li><li><a href="global.html#fetchFuncionario">fetchFuncionario</a></li><li><a href="global.html#fetchFuncionarios">fetchFuncionarios</a></li><li><a href="global.html#getStoredId">getStoredId</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleDelete">handleDelete</a></li><li><a href="global.html#handleExcluir">handleExcluir</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUpdate">handleUpdate</a></li><li><a href="global.html#opcoesEstado">opcoesEstado</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#uploadDir">uploadDir</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/pages/HomeAdm/Imoveis/EditarImovel/EditarImovel.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file EditarImovel.jsx
+ * @namespace src.pages.homeadm.imoveis.editarimovel
+ * @description Página administrativa para edição, atualização e exclusão de um imóvel específico.
+ *
+ * @component
+ * @returns {JSX.Element} Formulário para editar imóvel.
+ *
+ * @example
+ * &lt;EditarImovel />
+ * @since v1.0.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import '../../home.css';
+import '../Imoveis.css';
+
+/**
+ * Componente responsável por carregar, editar e salvar os dados de um imóvel,
+ * além de permitir sua exclusão após confirmação.
+ *
+ * @function EditarImovel
+ * @memberof src.pages.homeadm.imoveis.editarimovel
+ * @returns {JSX.Element}
+ */
+function EditarImovel() {
+  const { id } = useParams(); // ID do imóvel da URL
+  const navigate = useNavigate();
+
+  /**
+   * Estado com os dados do imóvel.
+   * @typedef {Object} FormData
+   * @property {number|string} idImovel - ID do imóvel.
+   * @property {string} descricao - Descrição do imóvel.
+   * @property {string} tipo - Tipo do imóvel (Apartamento, Casa, Comercial, Terreno).
+   * @property {string} observacao - Observações adicionais.
+   * @property {string} anexos - URL ou caminho dos anexos.
+   * @property {string} numeroUnidade - Número da unidade.
+   * @property {number|string} idEmpreendimento - ID do empreendimento vinculado.
+   */
+
+  /**
+   * Dados do formulário.
+   * @type {FormData}
+   */
+  const [formData, setFormData] = useState({
+    idImovel: '',
+    descricao: '',
+    tipo: '',
+    observacao: '',
+    anexos: '',
+    numeroUnidade: '',
+    idEmpreendimento: '',
+  });
+
+  /**
+   * Carrega os dados do imóvel armazenados localmente com base no ID da URL.
+   * Caso não encontre, redireciona para a lista de imóveis.
+   */
+  useEffect(() => {
+    const storedImoveis = localStorage.getItem('imoveisMock');
+    const imoveis = storedImoveis ? JSON.parse(storedImoveis) : [];
+    const imovelEncontrado = imoveis.find(imovel => imovel.id === parseInt(id));
+
+    if (imovelEncontrado) {
+      setFormData(imovelEncontrado);
+    } else {
+      alert('Imóvel não encontrado!');
+      navigate('/imoveis');
+    }
+  }, [id, navigate]);
+
+  /**
+   * Atualiza o estado do formulário conforme o usuário edita os campos.
+   *
+   * @param {React.ChangeEvent&lt;HTMLInputElement|HTMLSelectElement|HTMLTextAreaElement>} e - Evento de mudança do input/select/textarea.
+   */
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  /**
+   * Atualiza os dados do imóvel no armazenamento local e redireciona após sucesso.
+   *
+   * @param {React.FormEvent&lt;HTMLFormElement>} e - Evento de envio do formulário.
+   */
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    const storedImoveis = localStorage.getItem('imoveisMock');
+    let imoveis = storedImoveis ? JSON.parse(storedImoveis) : [];
+
+    const updatedImoveis = imoveis.map(imovel =>
+      imovel.id === parseInt(id)
+        ? {
+            ...formData,
+            id: parseInt(id),
+            idImovel: parseInt(formData.idImovel) || parseInt(id),
+            idEmpreendimento: parseInt(formData.idEmpreendimento) || null,
+          }
+        : imovel
+    );
+
+    localStorage.setItem('imoveisMock', JSON.stringify(updatedImoveis));
+
+    alert('Imóvel atualizado com sucesso!');
+    navigate('/imoveis');
+  };
+
+  /**
+   * Exclui o imóvel após confirmação dupla e redireciona para lista de imóveis.
+   */
+  const handleDelete = () => {
+    if (
+      window.confirm(
+        `ATENÇÃO: Tem certeza que deseja EXCLUIR o imóvel "${formData.descricao}" permanentemente? Esta ação não pode ser desfeita.`
+      )
+    ) {
+      const confirmacaoFinal = prompt("Para confirmar a exclusão, digite 'EXCLUIR' no campo abaixo:");
+      if (confirmacaoFinal === 'EXCLUIR') {
+        const storedImoveis = localStorage.getItem('imoveisMock');
+        let imoveis = storedImoveis ? JSON.parse(storedImoveis) : [];
+
+        const updatedImoveis = imoveis.filter(imovel => imovel.id !== parseInt(id));
+        localStorage.setItem('imoveisMock', JSON.stringify(updatedImoveis));
+
+        alert(`Imóvel "${formData.descricao}" excluído(a) com sucesso!`);
+        navigate('/imoveis');
+      } else {
+        alert('Exclusão cancelada ou confirmação incorreta.');
+      }
+    }
+  };
+
+  return (
+    &lt;div className="home-container">
+      &lt;header className="navbar">
+        &lt;div className="logo">CIVIS (Admin)&lt;/div>
+        &lt;nav className="nav-links">
+          &lt;a href="#" onClick={() => navigate('/home')}>Home&lt;/a>
+          &lt;a href="#" onClick={() => navigate('/nova-vistoria')}>Nova Vistoria&lt;/a>
+          &lt;a href="#" onClick={() => navigate('/vistorias-agendadas')}>Vistorias Agendadas&lt;/a>
+          &lt;a href="#" onClick={() => navigate('/clientes')}>Clientes&lt;/a>
+          &lt;a href="#" onClick={() => navigate('/empreendimentos')}>Empreendimentos&lt;/a>
+          &lt;a href="#" onClick={() => navigate('/funcionarios')}>Funcionários&lt;/a>
+        &lt;/nav>
+        &lt;button className="logout-button" onClick={() => navigate('/login')}>
+          Sair
+        &lt;/button>
+      &lt;/header>
+
+      &lt;main className="admin-page-container">
+        &lt;button className="back-arrow" onClick={() => navigate('/imoveis')} style={{ marginBottom: '20px' }}>
+          &amp;#8592; Voltar
+        &lt;/button>
+        &lt;h1 style={{ marginBottom: '30px', color: '#004080' }}>Editar Imóvel: {formData.descricao}&lt;/h1>
+
+        &lt;form onSubmit={handleUpdate} className="form-container">
+          &lt;div className="form-group">
+            &lt;label htmlFor="idImovel">ID do Imóvel:&lt;/label>
+            &lt;input
+              type="number"
+              id="idImovel"
+              name="idImovel"
+              value={formData.idImovel}
+              onChange={handleChange}
+              required
+            />
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="descricao">Descrição:&lt;/label>
+            &lt;input
+              type="text"
+              id="descricao"
+              name="descricao"
+              value={formData.descricao}
+              onChange={handleChange}
+              required
+            />
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="tipo">Tipo:&lt;/label>
+            &lt;select id="tipo" name="tipo" value={formData.tipo} onChange={handleChange} required>
+              &lt;option value="">Selecione o Tipo&lt;/option>
+              &lt;option value="Apartamento">Apartamento&lt;/option>
+              &lt;option value="Casa">Casa&lt;/option>
+              &lt;option value="Comercial">Comercial&lt;/option>
+              &lt;option value="Terreno">Terreno&lt;/option>
+            &lt;/select>
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="observacao">Observação:&lt;/label>
+            &lt;textarea id="observacao" name="observacao" value={formData.observacao} onChange={handleChange} rows="3">&lt;/textarea>
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="anexos">Anexos (URL/Caminho):&lt;/label>
+            &lt;input type="text" id="anexos" name="anexos" value={formData.anexos} onChange={handleChange} />
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="numeroUnidade">Número da Unidade:&lt;/label>
+            &lt;input type="text" id="numeroUnidade" name="numeroUnidade" value={formData.numeroUnidade} onChange={handleChange} />
+          &lt;/div>
+
+          &lt;div className="form-group">
+            &lt;label htmlFor="idEmpreendimento">ID do Empreendimento:&lt;/label>
+            &lt;input type="number" id="idEmpreendimento" name="idEmpreendimento" value={formData.idEmpreendimento} onChange={handleChange} required />
+          &lt;/div>
+
+          &lt;div className="form-actions">
+            &lt;button type="button" className="btn-cancelar" onClick={() => navigate('/imoveis')}>
+              Cancelar
+            &lt;/button>
+            &lt;button type="submit" className="btn-salvar">
+              Atualizar Imóvel
+            &lt;/button>
+            &lt;button type="button" className="btn-excluir-form" onClick={handleDelete}>
+              Excluir Imóvel
+            &lt;/button>
+          &lt;/div>
+        &lt;/form>
+      &lt;/main>
+    &lt;/div>
+  );
+}
+
+export default EditarImovel;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Jul 11 2025 19:04:53 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

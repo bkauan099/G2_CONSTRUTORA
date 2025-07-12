@@ -10,24 +10,49 @@ require("dotenv").config();
 const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
 
 async function gerarRelatorio(req, res) {
-  const {
-    idVistoria,
-    nomeVistoriador,
-    localizacao,
-    dataVistoria,
-    horaVistoria,
-    comodos
-  } = req.body;
+  
+  const { idVistoria, CPFVistoriador } = req.body;
+  const comodos = JSON.parse(req.body.comodos || "{}");
+
+  const data = new Date();
+  const dataVistoria = data.toLocaleDateString("pt-BR");
+  const horaVistoria = data.toLocaleTimeString("pt-BR");
+
+  const imagensPorComodo = {};
+  for (const file of req.files || []) {
+    const match = file.fieldname.match(/^anexos_(.+)$/);
+    if (match) {
+      const comodo = match[1];
+      if (!imagensPorComodo[comodo]) imagensPorComodo[comodo] = [];
+      imagensPorComodo[comodo].push(file);
+    }
+  }
 
   try {
-    // ✅ Gerar texto do relatório via OpenAI
+    // Corrigido: cep está na tabela 'empreendimento'
+    const [detalhes] = await db`
+      SELECT
+        e.cep,
+        e.nome AS nomeempreendimento,
+        i.bloco,
+        i.numero,
+        f.nome AS nomevistoriador
+      FROM vistoria v
+      JOIN imovel i ON v.idimovel = i.idimovel
+      JOIN empreendimento e ON i.idempreendimento = e.idempreendimento
+      JOIN funcionario f ON v.idvistoriador = f.id
+      WHERE v.idvistoria = ${idVistoria}
+    `;
+
+    const localizacaoFormatada = `CEP: ${detalhes.cep}, ${detalhes.nomeempreendimento}, Bloco: ${detalhes.bloco}, N°: ${detalhes.numero}`;
+
     const prompt = `
 Gere um relatório técnico claro e objetivo com base nas informações abaixo:
 
 Informações dos cômodos vistoriados:
 ${JSON.stringify(comodos, null, 2)}
 
-Organize as informações por cômodo, detalhe cada aspecto técnico (estrutura, pintura, instalações, piso, telhado, etc.), enumere e explique objetivamente.
+Organize as informações por cômodo, detalhe cada aspecto técnico (estrutura, pintura, instalações, piso, telhado, etc.), enumere e explique objetivamente (caso o comodo for "0" ou " " ou "N/A" não coloque ele no relatório).
 
 No final, inclua uma conclusão com observações gerais, recomendações técnicas e considerações relevantes com base no estado geral do imóvel.
 
@@ -38,15 +63,14 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
       messages: [
         {
           role: "system",
-          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados."
+          content: "Você é um engenheiro civil que escreve relatórios técnicos claros, objetivos e bem estruturados.",
         },
-        { role: "user", content: prompt }
-      ]
+        { role: "user", content: prompt },
+      ],
     });
 
     const texto = response.choices[0].message.content;
 
-    // ✅ Gerar PDF
     const nomeArquivo = `relatorio_${Date.now()}.pdf`;
     const caminho = path.join(__dirname, "../relatorios", nomeArquivo);
     const assinaturaPath = path.join(__dirname, "../assets/assinatura.png");
@@ -73,23 +97,41 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
     doc.moveDown();
     doc.fontSize(12).text(`Data da Vistoria: ${dataVistoria}`);
     doc.text(`Hora da Vistoria: ${horaVistoria}`);
-    doc.text(`Localização do Imóvel: ${localizacao}`);
-    doc.text(`Responsável Técnico: ${nomeVistoriador}`);
+    doc.text(`Localização do Imóvel: ${localizacaoFormatada}`);
+    doc.text(`Responsável Técnico: ${detalhes.nomevistoriador}`);
     doc.moveDown();
     doc.fontSize(12).text(texto, { align: "left" });
-    doc.moveDown(2);
 
+    for (const [comodo, imagens] of Object.entries(imagensPorComodo)) {
+      doc.addPage();
+      doc.fontSize(14).text(`Imagens do cômodo: ${comodo}`, { align: "center" });
+      doc.moveDown();
+
+      for (const img of imagens) {
+        try {
+          doc.image(img.buffer, {
+            fit: [450, 300],
+            align: "center",
+            valign: "center",
+          });
+          doc.moveDown();
+        } catch (err) {
+          console.error(`Erro ao inserir imagem ${img.originalname}:`, err);
+        }
+      }
+    }
+
+    doc.addPage();
     if (fs.existsSync(assinaturaPath)) {
       doc.image(assinaturaPath, { width: 120 });
     }
-
-    doc.text(nomeVistoriador);
+    doc.text(detalhes.nomevistoriador);
     doc.text("Engenheiro Responsável");
+
     doc.end();
 
     stream.on("finish", async () => {
       try {
-        //  Buscar e-mails reais do banco
         const [dados] = await db`
           SELECT c.email AS email_cliente, f.email AS email_vistoriador
           FROM vistoria v
@@ -98,12 +140,6 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
           WHERE v.idvistoria = ${idVistoria}
         `;
 
-        if (!dados) {
-          console.error("Não encontrou dados de cliente e vistoriador para essa vistoria.");
-          return res.status(404).json({ erro: "Cliente ou vistoriador não encontrados para essa vistoria." });
-        }
-
-        //  Configurar envio de e-mail
         const transporter = nodemailer.createTransport({
           service: "gmail",
           auth: {
@@ -112,7 +148,6 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
           },
         });
 
-        //  Enviar para o cliente
         await transporter.sendMail({
           from: process.env.EMAIL_USER,
           to: dados.email_cliente,
@@ -121,9 +156,6 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
           attachments: [{ filename: nomeArquivo, path: caminho }],
         });
 
-        console.log("Relatório enviado para cliente:", dados.email_cliente);
-
-        //  Enviar para o vistoriador
         await transporter.sendMail({
           from: process.env.EMAIL_USER,
           to: dados.email_vistoriador,
@@ -132,31 +164,26 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
           attachments: [{ filename: nomeArquivo, path: caminho }],
         });
 
-        console.log("Relatório enviado para vistoriador:", dados.email_vistoriador);
-
-        //  Upload para Supabase
-        const storageUrl = 'https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object';
-        const bucketName = 'relatorios';
+        const storageUrl = "https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object";
+        const bucketName = "relatorios";
         const filePath = `relatorios/${nomeArquivo}`;
         const pdfBuffer = fs.readFileSync(caminho);
 
         const uploadResponse = await fetch(`${storageUrl}/${filePath}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/pdf',
-            'Authorization': `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`
+            "Content-Type": "application/pdf",
+            "Authorization": `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
           },
-          body: pdfBuffer
+          body: pdfBuffer,
         });
 
         if (!uploadResponse.ok) {
-          console.error("Erro ao enviar PDF para Supabase:", await uploadResponse.text());
-          return res.status(500).json({ erro: "Erro ao subir PDF para Supabase Storage" });
+          return res.status(500).json({ erro: "Erro ao subir PDF para Supabase" });
         }
 
-        const publicUrl = `https://sictbgrpkhacrukvpopz.supabase.co/storage/v1/object/public/${filePath}`;
+        const publicUrl = `${storageUrl}/public/${filePath}`;
 
-        //  Atualiza banco de dados com a URL do relatório
         await db`
           UPDATE vistoria
           SET relatorio_url = ${publicUrl}, status = 'Aguardando Validação'
@@ -172,17 +199,15 @@ Não inclua assinatura, cabeçalho ou rodapé.`;
         `;
 
         res.json({
-          mensagem: "Relatório gerado, enviado para cliente e vistoriador, salvo e status atualizado com sucesso",
+          mensagem: "Relatório gerado e enviado com sucesso.",
           arquivo: nomeArquivo,
-          url: publicUrl
+          url: publicUrl,
         });
-
       } catch (emailError) {
-        console.error("Erro ao enviar e-mail:", emailError);
+        console.error("Erro no envio de e-mails:", emailError);
         res.status(500).json({ erro: "Erro ao enviar e-mail com o relatório" });
       }
     });
-
   } catch (err) {
     console.error("Erro ao gerar relatório:", err);
     res.status(500).json({ erro: "Erro ao gerar relatório" });

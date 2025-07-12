@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>backend/models/Cliente.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="backend.controllers.relatorio.html">backend.controllers.relatorio</a><ul class='methods'><li data-type='method'><a href="backend.controllers.relatorio.html#.gerarRelatorio">gerarRelatorio</a></li></ul></li><li><a href="backend.controllers.vistoria.html">backend.controllers.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.controllers.vistoria.html#.agendarVistoriaPorCliente">agendarVistoriaPorCliente</a></li><li data-type='method'><a href="backend.controllers.vistoria.html#.criarVistoria">criarVistoria</a></li></ul></li><li><a href="backend.models.administrador.html">backend.models.administrador</a><ul class='methods'><li data-type='method'><a href="backend.models.administrador.html#.DELETE/administrador/:idadministrador">DELETE /administrador/:idadministrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.GET/administrador">GET /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.POST/administrador">POST /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.PUT/administrador/:idadministrador">PUT /administrador/:idadministrador</a></li></ul></li><li><a href="backend.models.cliente.html">backend.models.cliente</a><ul class='methods'><li data-type='method'><a href="backend.models.cliente.html#.DELETE/cliente/:id">DELETE /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente">GET /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente/:id">GET /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.POST/cliente">POST /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.PUT/cliente/:id">PUT /cliente/:id</a></li></ul></li><li><a href="backend.models.empreendimento.html">backend.models.empreendimento</a><ul class='methods'><li data-type='method'><a href="backend.models.empreendimento.html#.DELETE/empreendimento/:id">DELETE /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento">GET /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id">GET /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id/imoveis">GET /empreendimento/:id/imoveis</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.POST/empreendimento">POST /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.PUT/empreendimento/:id">PUT /empreendimento/:id</a></li></ul></li><li><a href="backend.models.funcionario.html">backend.models.funcionario</a><ul class='methods'><li data-type='method'><a href="backend.models.funcionario.html#.DELETE/funcionario/:id">DELETE /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario">GET /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario/:id">GET /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.POST/funcionario">POST /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.PUT/funcionario/:id">PUT /funcionario/:id</a></li></ul></li><li><a href="backend.models.imovel.html">backend.models.imovel</a><ul class='methods'><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel">GET /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente">GET /imovel/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente/disponiveis">GET /imovel/cliente/:idcliente/disponiveis</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/todos">GET /imovel/todos</a></li><li data-type='method'><a href="backend.models.imovel.html#.POST/imovel">POST /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.PUT/imovel/:idimovel">PUT /imovel/:idimovel</a></li></ul></li><li><a href="backend.models.vistoria.html">backend.models.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoria.html#.DELETE/vistoria/:id">DELETE /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/:id">GET /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/cliente/:idcliente/pendentes-validacao">GET /vistoria/cliente/:idcliente/pendentes-validacao</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/pendentes/cliente/:idcliente">GET /vistoria/pendentes/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:id">PUT /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:idvistoria">PUT /vistoria/:idvistoria</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/iniciar/:id">PUT /vistoria/iniciar/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/validar/:idvistoria">PUT /vistoria/validar/:idvistoria</a></li></ul></li><li><a href="backend.models.vistoriador.html">backend.models.vistoriador</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoriador.html#.deleteVistoriador">deleteVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadorPorId">getVistoriadorPorId</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadores">getVistoriadores</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.postVistoriador">postVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.putVistoriador">putVistoriador</a></li></ul></li><li><a href="pages.cadastro.html">cadastro</a><ul class='methods'><li data-type='method'><a href="pages.cadastro.html#.exports.CadastroLogin">exports.CadastroLogin</a></li></ul></li><li><a href="routes.login.html">routes.login</a><ul class='methods'><li data-type='method'><a href="routes.login.html#.POST/login">POST /login</a></li></ul></li><li><a href="routes.relatorio.html">routes.relatorio</a><ul class='methods'><li data-type='method'><a href="routes.relatorio.html#.POST/relatorio/gerar">POST /relatorio/gerar</a></li></ul></li><li><a href="routes.vistoria.html">routes.vistoria</a><ul class='methods'><li data-type='method'><a href="routes.vistoria.html#.POST/vistoria">POST /vistoria</a></li><li data-type='method'><a href="routes.vistoria.html#.PUT/vistoria/agendar/:idimovel">PUT /vistoria/agendar/:idimovel</a></li></ul></li><li><a href="src.app.html">src.app</a><ul class='methods'><li data-type='method'><a href="src.app.html#.App">App</a></li><li data-type='method'><a href="src.app.html#.login">login</a></li><li data-type='method'><a href="src.app.html#.logout">logout</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cadastrarcliente.html">src.pages.homeadm.cliente.cadastrarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cadastrarcliente.html#.CadastrarCliente">CadastrarCliente</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cliente.html">src.pages.homeadm.cliente.cliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.Clientes">Clientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.fetchClientes">fetchClientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.cliente.editarcliente.html">src.pages.homeadm.cliente.editarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.EditarCliente">EditarCliente</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.fetchCliente">fetchCliente</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html">src.pages.homeadm.empreendimento.cadastrarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.CadastrarEmpreendimento">CadastrarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.editarempreendimento.html">src.pages.homeadm.empreendimento.editarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.EditarEmpreendimento">EditarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.empreendimento.html">src.pages.homeadm.empreendimento.empreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.Empreendimentos">Empreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.fetchEmpreendimentos">fetchEmpreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html">src.pages.homeadm.funcionarios.cadastrarfuncionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html#.CadastrarFuncionario">CadastrarFuncionario</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.editarfuncionario.html">src.pages.homeadm.funcionarios.editarfuncionario</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.EditarFuncionario">EditarFuncionario</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.funcionarios.html">src.pages.homeadm.funcionarios.funcionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.Funcionarios">Funcionarios</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.cadastrarimovel.html">src.pages.homeadm.imoveis.cadastrarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.cadastrarimovel.html#.CadastrarImovel">CadastrarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.editarimovel.html">src.pages.homeadm.imoveis.editarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.editarimovel.html#.EditarImovel">EditarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.imoveis.html">src.pages.homeadm.imoveis.imoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.imoveis.html#.ListagemImoveis">ListagemImoveis</a></li></ul></li><li><a href="src.pages.homeadm.perfil.editarperfiladministrador.html">src.pages.homeadm.perfil.editarperfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.editarperfiladministrador.html#.EditarPerfilAdministrador">EditarPerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.perfil.perfiladministrador.html">src.pages.homeadm.perfil.perfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.perfiladministrador.html#.PerfilAdministrador">PerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html">src.pages.homeadm.vistorias.vistoriadetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html#.VistoriaDetalhes">VistoriaDetalhes</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistorias.html">src.pages.homeadm.vistorias.vistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistorias.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html">src.pages.homeadm.vistorias.vistoriasagendadas</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html#.VistoriasAgendadas">VistoriasAgendadas</a></li></ul></li><li><a href="src.pages.homecliente.html">src.pages.homecliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homecliente.agendarvistoria.html">src.pages.homecliente.agendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.agendarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.imoveldetalhes.html">src.pages.homecliente.imoveldetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.imoveldetalhes.html#.ImovelDetalhes">ImovelDetalhes</a></li></ul></li><li><a href="src.pages.homecliente.meusimoveis.html">src.pages.homecliente.meusimoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.meusimoveis.html#.MeusImoveis">MeusImoveis</a></li></ul></li><li><a href="src.pages.homecliente.minhasvistorias.html">src.pages.homecliente.minhasvistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.minhasvistorias.html#.MinhasVistorias">MinhasVistorias</a></li></ul></li><li><a href="src.pages.homecliente.perfil.editarperfilcliente.html">src.pages.homecliente.perfil.editarperfilcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.perfil.editarperfilcliente.html#.EditarPerfilCliente">EditarPerfilCliente</a></li></ul></li><li><a href="src.pages.homecliente.solicitarvistoria.html">src.pages.homecliente.solicitarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.solicitarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.validarvistoria.html">src.pages.homecliente.validarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.validarvistoria.html#.ValidarVistoria">ValidarVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.criarrelatorio.html">src.pages.homevistoriador.criarrelatorio</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.criarrelatorio.html#.CriarRelatorioPage">CriarRelatorioPage</a></li></ul></li><li><a href="src.pages.homevistoriador.iniciarvistoria.html">src.pages.homevistoriador.iniciarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.iniciarvistoria.html#.IniciarVistoriaDetalhesPage">IniciarVistoriaDetalhesPage</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html">src.pages.homevistoriador.perfil.editarperfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html#.EditarPerfilVistoriador">EditarPerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html">src.pages.homevistoriador.perfil.perfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html#.PerfilVistoriador">PerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.reagendarvistoria.html">src.pages.homevistoriador.reagendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.reagendarvistoria.html#.ReagendamentoVistoria">ReagendamentoVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.realizarvistoria.html">src.pages.homevistoriador.realizarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.realizarvistoria.html#.RealizarVistoriaListPage">RealizarVistoriaListPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriadata.html">src.pages.homevistoriador.vistoriadata</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriadata.html#.VistoriaDataEntryPage">VistoriaDataEntryPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriador.html">src.pages.homevistoriador.vistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriador.html#.HomeVistoriador">HomeVistoriador</a></li></ul></li><li><a href="src.pages.inicial.html">src.pages.inicial</a><ul class='methods'><li data-type='method'><a href="src.pages.inicial.html#.Inicial">Inicial</a></li></ul></li><li><a href="src.pages.login.html">src.pages.login</a><ul class='methods'><li data-type='method'><a href="src.pages.login.html#.Login">Login</a></li><li data-type='method'><a href="src.pages.login.html#.handleLogin">handleLogin</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#NotificarClientePage">NotificarClientePage</a></li><li><a href="global.html#Step">Step</a></li><li><a href="global.html#comodos">comodos</a></li><li><a href="global.html#fetchFuncionario">fetchFuncionario</a></li><li><a href="global.html#fetchFuncionarios">fetchFuncionarios</a></li><li><a href="global.html#getStoredId">getStoredId</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleDelete">handleDelete</a></li><li><a href="global.html#handleExcluir">handleExcluir</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUpdate">handleUpdate</a></li><li><a href="global.html#opcoesEstado">opcoesEstado</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#uploadDir">uploadDir</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">backend/models/Cliente.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @file client.js
+ * @namespace backend.models.cliente
+ * @description Rotas para operações CRUD de clientes.
+ */
+
+const express = require('express');
+const router = express.Router();
+const db = require('../db');
+
+/**
+ * Cria um novo cliente.
+ * @memberof backend.models.cliente
+ * @function createCliente
+ * @name POST /cliente
+ * @param {Object} req.body - Dados do cliente
+ * @param {string} req.body.nome - Nome do cliente
+ * @param {string} req.body.cpf - CPF do cliente
+ * @param {string} req.body.email - Email do cliente
+ * @param {string} req.body.senha - Senha do cliente
+ * @param {string} [req.body.telefone] - Telefone do cliente
+ * @returns {Object} 201 - Cliente criado
+ * @throws {400} Campos obrigatórios ausentes
+ * @throws {409} Email já cadastrado
+ * @throws {500} Erro ao cadastrar cliente
+ * @example
+ * fetch('/cliente', {
+ *   method: 'POST',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({ nome, cpf, email, senha, telefone })
+ * })
+ * @since v1.0.0
+ */
+router.post('/', async (req, res) => {
+  const { nome, cpf, email, senha, telefone } = req.body;
+
+  if (!nome || !cpf || !email || !senha) {
+    return res.status(400).json({ error: 'Todos os campos são obrigatórios.' });
+  }
+
+  try {
+    const [usuarioExistente] = await db`
+      SELECT * FROM cliente WHERE email = ${email}
+    `;
+    if (usuarioExistente) {
+      return res.status(409).json({ error: 'Email já cadastrado.' });
+    }
+
+    const telefoneSeguro = telefone || '';
+
+    const [novoCliente] = await db`
+      INSERT INTO cliente (nome, cpf, email, senha, telefone)
+      VALUES (${nome}, ${cpf}, ${email}, ${senha}, ${telefoneSeguro})
+      RETURNING *
+    `;
+    res.status(201).json(novoCliente);
+  } catch (err) {
+    console.error('Erro ao cadastrar cliente:', err);
+    res.status(500).json({ error: 'Erro ao cadastrar cliente.', detalhes: err.message });
+  }
+});
+
+/**
+ * Lista todos os clientes cadastrados.
+ * @memberof backend.models.cliente
+ * @function listClientes
+ * @name GET /cliente
+ * @returns {Array&lt;Object>} 200 - Lista de clientes
+ * @throws {500} Erro ao buscar clientes
+ * @example
+ * fetch('/cliente').then(res => res.json())
+ * @since v1.0.0
+ */
+router.get('/', async (req, res) => {
+  try {
+    const clientes = await db`
+      SELECT * FROM cliente ORDER BY idcliente DESC
+    `;
+    res.status(200).json(clientes);
+  } catch (err) {
+    console.error('Erro ao buscar clientes:', err);
+    res.status(500).json({ error: 'Erro ao buscar clientes.', detalhes: err.message });
+  }
+});
+
+/**
+ * Remove um cliente pelo ID.
+ * @memberof backend.models.cliente
+ * @function deleteCliente
+ * @name DELETE /cliente/:id
+ * @param {number} req.params.id - ID do cliente
+ * @param {string} req.body.confirmacao - Deve conter "SIM" para confirmar exclusão
+ * @returns {Object} 200 - Mensagem de sucesso
+ * @throws {400} ID inválido ou confirmação incorreta
+ * @throws {404} Cliente não encontrado
+ * @throws {500} Erro ao excluir cliente
+ * @example
+ * fetch('/cliente/1', {
+ *   method: 'DELETE',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({ confirmacao: "SIM" })
+ * })
+ * @since v1.0.0
+ */
+router.delete('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const { confirmacao } = req.body;
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  if (confirmacao?.trim().toUpperCase() !== 'SIM') {
+    return res.status(400).json({ error: 'Confirmação de exclusão ausente ou incorreta. Digite "SIM" para confirmar.' });
+  }
+
+  try {
+    const [cliente] = await db`
+      SELECT * FROM cliente WHERE idcliente = ${id}
+    `;
+    if (!cliente) {
+      return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    await db`
+      DELETE FROM cliente WHERE idcliente = ${id}
+    `;
+
+    res.status(200).json({ message: 'Cliente excluído com sucesso.' });
+  } catch (err) {
+    console.error('Erro ao excluir cliente:', err);
+    res.status(500).json({ error: 'Erro ao excluir cliente.', detalhes: err.message });
+  }
+});
+
+/**
+ * Busca um cliente pelo ID.
+ * @memberof backend.models.cliente
+ * @function getClienteById
+ * @name GET /cliente/:id
+ * @param {number} req.params.id - ID do cliente
+ * @returns {Object} 200 - Cliente encontrado
+ * @throws {400} ID inválido
+ * @throws {404} Cliente não encontrado
+ * @throws {500} Erro ao buscar cliente
+ * @example
+ * fetch('/cliente/1').then(res => res.json())
+ * @since v1.0.0
+ */
+router.get('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  try {
+    const [cliente] = await db`
+      SELECT * FROM cliente WHERE idcliente = ${id}
+    `;
+    if (!cliente) {
+      return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    res.status(200).json(cliente);
+  } catch (err) {
+    console.error('Erro ao buscar cliente:', err);
+    res.status(500).json({ error: 'Erro ao buscar cliente.', detalhes: err.message });
+  }
+});
+
+/**
+ * Atualiza os dados de um cliente pelo ID.
+ * @memberof backend.models.cliente
+ * @function updateCliente
+ * @name PUT /cliente/:id
+ * @param {number} req.params.id - ID do cliente
+ * @param {Object} req.body - Novos dados
+ * @param {string} req.body.nome - Nome atualizado
+ * @param {string} req.body.cpf - CPF atualizado
+ * @param {string} req.body.email - Email atualizado
+ * @param {string} req.body.telefone - Telefone atualizado
+ * @returns {Object} 200 - Cliente atualizado
+ * @throws {400} ID inválido
+ * @throws {404} Cliente não encontrado
+ * @throws {500} Erro ao atualizar cliente
+ * @example
+ * fetch('/cliente/1', {
+ *   method: 'PUT',
+ *   headers: { 'Content-Type': 'application/json' },
+ *   body: JSON.stringify({ nome: 'Novo Nome' })
+ * })
+ * @since v1.0.0
+ */
+router.put('/:id', async (req, res) => {
+  const id = Number(req.params.id);
+  const { nome, cpf, email, telefone } = req.body;
+
+  if (isNaN(id)) {
+    return res.status(400).json({ error: 'ID inválido.' });
+  }
+
+  try {
+    const result = await db`
+      UPDATE cliente
+      SET nome = ${nome}, cpf = ${cpf}, email = ${email}, telefone = ${telefone}
+      WHERE idcliente = ${id}
+      RETURNING *
+    `;
+
+    if (result.length === 0) {
+      return res.status(404).json({ error: 'Cliente não encontrado.' });
+    }
+
+    res.status(200).json(result[0]);
+  } catch (err) {
+    console.error('Erro ao atualizar cliente:', err);
+    res.status(500).json({ error: 'Erro ao atualizar cliente.', detalhes: err.message });
+  }
+});
+
+module.exports = router;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Jul 11 2025 19:04:53 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>src/pages/Cadastro/CadastroLogin.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="backend.controllers.relatorio.html">backend.controllers.relatorio</a><ul class='methods'><li data-type='method'><a href="backend.controllers.relatorio.html#.gerarRelatorio">gerarRelatorio</a></li></ul></li><li><a href="backend.controllers.vistoria.html">backend.controllers.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.controllers.vistoria.html#.agendarVistoriaPorCliente">agendarVistoriaPorCliente</a></li><li data-type='method'><a href="backend.controllers.vistoria.html#.criarVistoria">criarVistoria</a></li></ul></li><li><a href="backend.models.administrador.html">backend.models.administrador</a><ul class='methods'><li data-type='method'><a href="backend.models.administrador.html#.DELETE/administrador/:idadministrador">DELETE /administrador/:idadministrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.GET/administrador">GET /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.POST/administrador">POST /administrador</a></li><li data-type='method'><a href="backend.models.administrador.html#.PUT/administrador/:idadministrador">PUT /administrador/:idadministrador</a></li></ul></li><li><a href="backend.models.cliente.html">backend.models.cliente</a><ul class='methods'><li data-type='method'><a href="backend.models.cliente.html#.DELETE/cliente/:id">DELETE /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente">GET /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.GET/cliente/:id">GET /cliente/:id</a></li><li data-type='method'><a href="backend.models.cliente.html#.POST/cliente">POST /cliente</a></li><li data-type='method'><a href="backend.models.cliente.html#.PUT/cliente/:id">PUT /cliente/:id</a></li></ul></li><li><a href="backend.models.empreendimento.html">backend.models.empreendimento</a><ul class='methods'><li data-type='method'><a href="backend.models.empreendimento.html#.DELETE/empreendimento/:id">DELETE /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento">GET /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id">GET /empreendimento/:id</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.GET/empreendimento/:id/imoveis">GET /empreendimento/:id/imoveis</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.POST/empreendimento">POST /empreendimento</a></li><li data-type='method'><a href="backend.models.empreendimento.html#.PUT/empreendimento/:id">PUT /empreendimento/:id</a></li></ul></li><li><a href="backend.models.funcionario.html">backend.models.funcionario</a><ul class='methods'><li data-type='method'><a href="backend.models.funcionario.html#.DELETE/funcionario/:id">DELETE /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario">GET /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.GET/funcionario/:id">GET /funcionario/:id</a></li><li data-type='method'><a href="backend.models.funcionario.html#.POST/funcionario">POST /funcionario</a></li><li data-type='method'><a href="backend.models.funcionario.html#.PUT/funcionario/:id">PUT /funcionario/:id</a></li></ul></li><li><a href="backend.models.imovel.html">backend.models.imovel</a><ul class='methods'><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel">GET /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente">GET /imovel/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/cliente/:idcliente/disponiveis">GET /imovel/cliente/:idcliente/disponiveis</a></li><li data-type='method'><a href="backend.models.imovel.html#.GET/imovel/todos">GET /imovel/todos</a></li><li data-type='method'><a href="backend.models.imovel.html#.POST/imovel">POST /imovel</a></li><li data-type='method'><a href="backend.models.imovel.html#.PUT/imovel/:idimovel">PUT /imovel/:idimovel</a></li></ul></li><li><a href="backend.models.vistoria.html">backend.models.vistoria</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoria.html#.DELETE/vistoria/:id">DELETE /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/:id">GET /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/cliente/:idcliente/pendentes-validacao">GET /vistoria/cliente/:idcliente/pendentes-validacao</a></li><li data-type='method'><a href="backend.models.vistoria.html#.GET/vistoria/pendentes/cliente/:idcliente">GET /vistoria/pendentes/cliente/:idcliente</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:id">PUT /vistoria/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/:idvistoria">PUT /vistoria/:idvistoria</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/iniciar/:id">PUT /vistoria/iniciar/:id</a></li><li data-type='method'><a href="backend.models.vistoria.html#.PUT/vistoria/validar/:idvistoria">PUT /vistoria/validar/:idvistoria</a></li></ul></li><li><a href="backend.models.vistoriador.html">backend.models.vistoriador</a><ul class='methods'><li data-type='method'><a href="backend.models.vistoriador.html#.deleteVistoriador">deleteVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadorPorId">getVistoriadorPorId</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.getVistoriadores">getVistoriadores</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.postVistoriador">postVistoriador</a></li><li data-type='method'><a href="backend.models.vistoriador.html#.putVistoriador">putVistoriador</a></li></ul></li><li><a href="pages.cadastro.html">cadastro</a><ul class='methods'><li data-type='method'><a href="pages.cadastro.html#.exports.CadastroLogin">exports.CadastroLogin</a></li></ul></li><li><a href="routes.login.html">routes.login</a><ul class='methods'><li data-type='method'><a href="routes.login.html#.POST/login">POST /login</a></li></ul></li><li><a href="routes.relatorio.html">routes.relatorio</a><ul class='methods'><li data-type='method'><a href="routes.relatorio.html#.POST/relatorio/gerar">POST /relatorio/gerar</a></li></ul></li><li><a href="routes.vistoria.html">routes.vistoria</a><ul class='methods'><li data-type='method'><a href="routes.vistoria.html#.POST/vistoria">POST /vistoria</a></li><li data-type='method'><a href="routes.vistoria.html#.PUT/vistoria/agendar/:idimovel">PUT /vistoria/agendar/:idimovel</a></li></ul></li><li><a href="src.app.html">src.app</a><ul class='methods'><li data-type='method'><a href="src.app.html#.App">App</a></li><li data-type='method'><a href="src.app.html#.login">login</a></li><li data-type='method'><a href="src.app.html#.logout">logout</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cadastrarcliente.html">src.pages.homeadm.cliente.cadastrarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cadastrarcliente.html#.CadastrarCliente">CadastrarCliente</a></li></ul></li><li><a href="src.pages.homeadm.cliente.cliente.html">src.pages.homeadm.cliente.cliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.Clientes">Clientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.fetchClientes">fetchClientes</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.cliente.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.cliente.editarcliente.html">src.pages.homeadm.cliente.editarcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.EditarCliente">EditarCliente</a></li><li data-type='method'><a href="src.pages.homeadm.cliente.editarcliente.html#.fetchCliente">fetchCliente</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html">src.pages.homeadm.empreendimento.cadastrarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.CadastrarEmpreendimento">CadastrarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.cadastrarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.editarempreendimento.html">src.pages.homeadm.empreendimento.editarempreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.EditarEmpreendimento">EditarEmpreendimento</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.editarempreendimento.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.empreendimento.empreendimento.html">src.pages.homeadm.empreendimento.empreendimento</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.Empreendimentos">Empreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.fetchEmpreendimentos">fetchEmpreendimentos</a></li><li data-type='method'><a href="src.pages.homeadm.empreendimento.empreendimento.html#.handleExcluir">handleExcluir</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html">src.pages.homeadm.funcionarios.cadastrarfuncionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.cadastrarfuncionarios.html#.CadastrarFuncionario">CadastrarFuncionario</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.editarfuncionario.html">src.pages.homeadm.funcionarios.editarfuncionario</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.EditarFuncionario">EditarFuncionario</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.editarfuncionario.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.funcionarios.funcionarios.html">src.pages.homeadm.funcionarios.funcionarios</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.Funcionarios">Funcionarios</a></li><li data-type='method'><a href="src.pages.homeadm.funcionarios.funcionarios.html#.useEffect">useEffect</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.cadastrarimovel.html">src.pages.homeadm.imoveis.cadastrarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.cadastrarimovel.html#.CadastrarImovel">CadastrarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.editarimovel.html">src.pages.homeadm.imoveis.editarimovel</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.editarimovel.html#.EditarImovel">EditarImovel</a></li></ul></li><li><a href="src.pages.homeadm.imoveis.imoveis.html">src.pages.homeadm.imoveis.imoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.imoveis.imoveis.html#.ListagemImoveis">ListagemImoveis</a></li></ul></li><li><a href="src.pages.homeadm.perfil.editarperfiladministrador.html">src.pages.homeadm.perfil.editarperfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.editarperfiladministrador.html#.EditarPerfilAdministrador">EditarPerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.perfil.perfiladministrador.html">src.pages.homeadm.perfil.perfiladministrador</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.perfil.perfiladministrador.html#.PerfilAdministrador">PerfilAdministrador</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html">src.pages.homeadm.vistorias.vistoriadetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriadetalhes.html#.VistoriaDetalhes">VistoriaDetalhes</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistorias.html">src.pages.homeadm.vistorias.vistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistorias.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html">src.pages.homeadm.vistorias.vistoriasagendadas</a><ul class='methods'><li data-type='method'><a href="src.pages.homeadm.vistorias.vistoriasagendadas.html#.VistoriasAgendadas">VistoriasAgendadas</a></li></ul></li><li><a href="src.pages.homecliente.html">src.pages.homecliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.html#.Home">Home</a></li></ul></li><li><a href="src.pages.homecliente.agendarvistoria.html">src.pages.homecliente.agendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.agendarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.imoveldetalhes.html">src.pages.homecliente.imoveldetalhes</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.imoveldetalhes.html#.ImovelDetalhes">ImovelDetalhes</a></li></ul></li><li><a href="src.pages.homecliente.meusimoveis.html">src.pages.homecliente.meusimoveis</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.meusimoveis.html#.MeusImoveis">MeusImoveis</a></li></ul></li><li><a href="src.pages.homecliente.minhasvistorias.html">src.pages.homecliente.minhasvistorias</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.minhasvistorias.html#.MinhasVistorias">MinhasVistorias</a></li></ul></li><li><a href="src.pages.homecliente.perfil.editarperfilcliente.html">src.pages.homecliente.perfil.editarperfilcliente</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.perfil.editarperfilcliente.html#.EditarPerfilCliente">EditarPerfilCliente</a></li></ul></li><li><a href="src.pages.homecliente.solicitarvistoria.html">src.pages.homecliente.solicitarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.solicitarvistoria.html#.AgendarVistoria">AgendarVistoria</a></li></ul></li><li><a href="src.pages.homecliente.validarvistoria.html">src.pages.homecliente.validarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homecliente.validarvistoria.html#.ValidarVistoria">ValidarVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.criarrelatorio.html">src.pages.homevistoriador.criarrelatorio</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.criarrelatorio.html#.CriarRelatorioPage">CriarRelatorioPage</a></li></ul></li><li><a href="src.pages.homevistoriador.iniciarvistoria.html">src.pages.homevistoriador.iniciarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.iniciarvistoria.html#.IniciarVistoriaDetalhesPage">IniciarVistoriaDetalhesPage</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html">src.pages.homevistoriador.perfil.editarperfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.editarperfilvistoriador.html#.EditarPerfilVistoriador">EditarPerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html">src.pages.homevistoriador.perfil.perfilvistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.perfil.perfilvistoriador.html#.PerfilVistoriador">PerfilVistoriador</a></li></ul></li><li><a href="src.pages.homevistoriador.reagendarvistoria.html">src.pages.homevistoriador.reagendarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.reagendarvistoria.html#.ReagendamentoVistoria">ReagendamentoVistoria</a></li></ul></li><li><a href="src.pages.homevistoriador.realizarvistoria.html">src.pages.homevistoriador.realizarvistoria</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.realizarvistoria.html#.RealizarVistoriaListPage">RealizarVistoriaListPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriadata.html">src.pages.homevistoriador.vistoriadata</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriadata.html#.VistoriaDataEntryPage">VistoriaDataEntryPage</a></li></ul></li><li><a href="src.pages.homevistoriador.vistoriador.html">src.pages.homevistoriador.vistoriador</a><ul class='methods'><li data-type='method'><a href="src.pages.homevistoriador.vistoriador.html#.HomeVistoriador">HomeVistoriador</a></li></ul></li><li><a href="src.pages.inicial.html">src.pages.inicial</a><ul class='methods'><li data-type='method'><a href="src.pages.inicial.html#.Inicial">Inicial</a></li></ul></li><li><a href="src.pages.login.html">src.pages.login</a><ul class='methods'><li data-type='method'><a href="src.pages.login.html#.Login">Login</a></li><li data-type='method'><a href="src.pages.login.html#.handleLogin">handleLogin</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#CheckIcon">CheckIcon</a></li><li><a href="global.html#NotificarClientePage">NotificarClientePage</a></li><li><a href="global.html#Step">Step</a></li><li><a href="global.html#comodos">comodos</a></li><li><a href="global.html#fetchFuncionario">fetchFuncionario</a></li><li><a href="global.html#fetchFuncionarios">fetchFuncionarios</a></li><li><a href="global.html#getStoredId">getStoredId</a></li><li><a href="global.html#handleChange">handleChange</a></li><li><a href="global.html#handleDelete">handleDelete</a></li><li><a href="global.html#handleExcluir">handleExcluir</a></li><li><a href="global.html#handleSubmit">handleSubmit</a></li><li><a href="global.html#handleUpdate">handleUpdate</a></li><li><a href="global.html#opcoesEstado">opcoesEstado</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#uploadDir">uploadDir</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/pages/Cadastro/CadastroLogin.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+/**
+ * @namespace pages.cadastro
+ */
+
+/**
+ * Componente de cadastro de usuário.
+ * Permite o preenchimento dos dados pessoais e criação de uma conta,
+ * enviando as informações para o backend via fetch.
+ * 
+ * @component
+ * @memberof pages.cadastro
+ * @returns {JSX.Element} Formulário de cadastro de usuário
+ * @since v1.0.0
+ */
+export function CadastroLogin() {
+  const navigate = useNavigate();
+
+  // Estado para armazenar o nome completo do usuário
+  const [nome, setNome] = useState("");
+
+  // Estado para armazenar o CPF com máscara
+  const [cpf, setCpf] = useState("");
+
+  // Estado para armazenar o email do usuário
+  const [email, setEmail] = useState("");
+
+  // Estado para armazenar a senha
+  const [password, setPassword] = useState("");
+
+  // Estado para armazenar a confirmação de senha
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  /**
+   * Manipula o envio do formulário de cadastro.
+   * Valida as senhas, envia dados para a API e trata respostas e erros.
+   * 
+   * @param {React.FormEvent&lt;HTMLFormElement>} e Evento de submit do formulário
+   * @returns {Promise&lt;void>}
+   */
+  const handleRegister = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("As senhas não coincidem!");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/api/clientes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nome,
+          cpf,
+          email,
+          senha: password,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        alert(`Erro: ${data.error}`);
+        return;
+      }
+
+      alert('Cadastro realizado com sucesso! Agora você pode fazer login.');
+      navigate('/login');
+    } catch (error) {
+      console.error('Erro ao cadastrar:', error);
+      alert('Erro ao cadastrar. Tente novamente mais tarde.');
+    }
+  };
+
+  return (
+    &lt;div className="login-page">
+      &lt;div className="login-logo-section">
+        &lt;img
+          src="src/pages/Login/logo.png"
+          alt="CIVIS Logo"
+          className="logo-image"
+        />
+      &lt;/div>
+
+      &lt;div className="login-content-wrapper">
+        &lt;div className="login-container">
+          &lt;button
+            type="button"
+            className="back-arrow"
+            onClick={() => navigate("/login")}
+            aria-label="Voltar"
+          >
+            &amp;#8592;
+          &lt;/button>
+
+          &lt;h1 className="login-title">Cadastro&lt;/h1>
+
+          &lt;form onSubmit={handleRegister} className="login-form">
+            &lt;label>Nome&lt;/label>
+            &lt;input
+              type="text"
+              placeholder="Digite seu nome completo"
+              value={nome}
+              onChange={(e) => setNome(e.target.value)}
+              required
+            />
+
+            &lt;label>CPF&lt;/label>
+            &lt;input
+              type="text"
+              placeholder="Digite seu CPF"
+              value={cpf}
+              onChange={(e) => {
+                const raw = e.target.value.replace(/\D/g, '');
+                const masked = raw
+                  .replace(/^(\d{3})(\d)/, '$1.$2')
+                  .replace(/^(\d{3})\.(\d{3})(\d)/, '$1.$2.$3')
+                  .replace(/^(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4')
+                  .slice(0, 14); // limita a 14 caracteres
+                setCpf(masked);
+              }}
+              required
+            />
+
+            &lt;label>Email&lt;/label>
+            &lt;input
+              type="email"
+              placeholder="Digite seu email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            &lt;label>Senha&lt;/label>
+            &lt;input
+              type="password"
+              placeholder="Crie sua senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            &lt;label>Confirme a senha&lt;/label>
+            &lt;input
+              type="password"
+              placeholder="Confirme sua senha"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+
+            &lt;button type="submit" className="login-button">
+              Cadastrar
+            &lt;/button>
+
+            &lt;p className="no-account" onClick={() => navigate("/login")}>
+              Já possui cadastro?
+            &lt;/p>
+          &lt;/form>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
+  );
+}
+
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a> on Fri Jul 11 2025 19:04:53 GMT-0300 (Horário Padrão de Brasília) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
