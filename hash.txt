@@ -1,0 +1,9 @@
+Arquivo compactado: G2_CONSTRUTORA.zip  
+Algoritmo de hash: SHA-512  
+
+Hash SHA-512:
+3a94de7639a65b01e3f5442c1949209a96a1cbb58eaf55dd1e98d61f79cc1cc6222e36d4f0fcaba1dadfd3a958a1d215dbac44f18b8db987d909633ed7719c72
+
+Data da geração: 17/07/2025  
+Responsável: Bruno Kauan Rodrigues Silva
+
